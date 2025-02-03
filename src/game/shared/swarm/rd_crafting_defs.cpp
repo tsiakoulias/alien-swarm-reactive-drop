@@ -99,9 +99,202 @@ const RD_Crafting_Material_Rarity_Info g_RD_Crafting_Material_Rarity_Info[] =
 // gets verified on startup in debug builds.
 const CUtlVector<RD_Crafting_Contains_Any_List> g_RD_Crafting_Contains_Any_Lists
 {{
-	{"set_1_strange_weapon", {{2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026}}},
-	{"set_1_strange_equipment", {{3000, 3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010, 3011, 3012, 3013, 3014, 3015, 3016, 3017}}},
-	{"set_1_strange_device", {{5000, 5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008}}},
+	{ "set_1_strange_weapon", {{2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026}} },
+	{ "set_1_strange_equipment", {{3000, 3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010, 3011, 3012, 3013, 3014, 3015, 3016, 3017}} },
+	{ "set_1_strange_device", {{5000, 5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008}} },
+}};
+
+const CUtlVector<RD_Crafting_Recipe> g_RD_Crafting_Recipes
+{{
+	{ "#rd_crafting_recipe_hoiaf_create_stack_participant", {{
+		{48, {{{{{1, 30}}}, {{{1, 30}}}}}},
+	}}, {{47}}, false},
+	{ "#rd_crafting_recipe_hoiaf_add_to_stack_participant", {{
+		{48, {{{{{1, 30}}}, {{{47}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}},
+	}}, {{47}}, true },
+	{ "#rd_crafting_recipe_hoiaf_create_stack_elite", {{
+		{50, {{{{{2, 31}}}, {{{2, 31}}}}}}, // green+green
+		{58, {{{{{2, 31}}}, {{{4, 32}}}}}}, // green+red
+		{60, {{{{{2, 31}}}, {{{5, 33}}}}}}, // green+yellow
+		{62, {{{{{2, 31}}}, {{{6, 34}}}}}}, // green+blue
+		{58, {{{{{4, 32}}}, {{{2, 31}}}}}}, // red+green
+		{52, {{{{{4, 32}}}, {{{4, 32}}}}}}, // red+red
+		{64, {{{{{4, 32}}}, {{{5, 33}}}}}}, // red+yellow
+		{66, {{{{{4, 32}}}, {{{6, 34}}}}}}, // red+blue
+		{60, {{{{{5, 33}}}, {{{2, 31}}}}}}, // yellow+green
+		{64, {{{{{5, 33}}}, {{{4, 32}}}}}}, // yellow+red
+		{54, {{{{{5, 33}}}, {{{5, 33}}}}}}, // yellow+yellow
+		{68, {{{{{5, 33}}}, {{{6, 34}}}}}}, // yellow+blue
+		{62, {{{{{6, 34}}}, {{{2, 31}}}}}}, // blue+green
+		{66, {{{{{6, 34}}}, {{{4, 32}}}}}}, // blue+red
+		{68, {{{{{6, 34}}}, {{{5, 33}}}}}}, // blue+yellow
+		{56, {{{{{6, 34}}}, {{{6, 34}}}}}}, // blue+blue
+	}}, {{49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77}}, false },
+	{ "#rd_crafting_recipe_hoiaf_add_to_stack_elite", {{
+		{50, {{{{{2, 31}}}, {{{49}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green+green
+		{58, {{{{{2, 31}}}, {{{51, 57}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green+red
+		{60, {{{{{2, 31}}}, {{{53, 59}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green+yellow
+		{62, {{{{{2, 31}}}, {{{55, 61}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green+blue
+		{58, {{{{{4, 32}}}, {{{49, 57}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red+green
+		{52, {{{{{4, 32}}}, {{{51}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red+red
+		{64, {{{{{4, 32}}}, {{{53, 63}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red+yellow
+		{66, {{{{{4, 32}}}, {{{55, 65}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red+blue
+		{60, {{{{{5, 33}}}, {{{49, 59}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // yellow+green
+		{64, {{{{{5, 33}}}, {{{51, 63}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // yellow+red
+		{54, {{{{{5, 33}}}, {{{53}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // yellow+yellow
+		{68, {{{{{5, 33}}}, {{{55, 67}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // yellow+blue
+		{62, {{{{{6, 34}}}, {{{49, 61}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // blue+green
+		{66, {{{{{6, 34}}}, {{{51, 65}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // blue+red
+		{68, {{{{{6, 34}}}, {{{53, 67}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // blue+yellow
+		{56, {{{{{6, 34}}}, {{{55}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // blue+blue
+		{70, {{{{{2, 31}}}, {{{63, 69}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green+red/yellow
+		{72, {{{{{2, 31}}}, {{{65, 71}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green+red/blue
+		{74, {{{{{2, 31}}}, {{{67, 73}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green+yellow/blue
+		{70, {{{{{4, 32}}}, {{{59, 69}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red+green/yellow
+		{72, {{{{{4, 32}}}, {{{61, 71}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red+green/blue
+		{76, {{{{{4, 32}}}, {{{67, 75}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red+yellow/blue
+		{70, {{{{{5, 33}}}, {{{57, 69}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // yellow+green/red
+		{74, {{{{{5, 33}}}, {{{61, 73}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // yellow+green/blue
+		{76, {{{{{5, 33}}}, {{{65, 75}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // yellow+red/blue
+		{72, {{{{{6, 34}}}, {{{57, 71}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // blue+green/red
+		{74, {{{{{6, 34}}}, {{{59, 73}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // blue+green/yellow
+		{76, {{{{{6, 34}}}, {{{63, 75}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // blue+red/yellow
+		{78, {{{{{2, 31}}}, {{{75, 77}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green+red/yellow/blue
+		{78, {{{{{4, 32}}}, {{{73, 77}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red+green/yellow/blue
+		{78, {{{{{5, 33}}}, {{{71, 77}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // yellow+green/red/blue
+		{78, {{{{{6, 34}}}, {{{69, 77}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // blue+green/red/yellow
+	}}, {{49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77}}, true },
+	{ "#rd_crafting_recipe_hoiaf_create_stack_top20", {{
+		{80, {{{{{35}}}, {{{35}}}}}}, // emerald+emerald
+		{88, {{{{{35}}}, {{{36}}}}}}, // emerald+ruby
+		{90, {{{{{35}}}, {{{37}}}}}}, // emerald+topaz
+		{92, {{{{{35}}}, {{{38}}}}}}, // emerald+sapphire
+		{88, {{{{{36}}}, {{{35}}}}}}, // ruby+emerald
+		{82, {{{{{36}}}, {{{36}}}}}}, // ruby+ruby
+		{94, {{{{{36}}}, {{{37}}}}}}, // ruby+topaz
+		{96, {{{{{36}}}, {{{38}}}}}}, // ruby+sapphire
+		{90, {{{{{37}}}, {{{35}}}}}}, // topaz+emerald
+		{94, {{{{{37}}}, {{{36}}}}}}, // topaz+ruby
+		{84, {{{{{37}}}, {{{37}}}}}}, // topaz+topaz
+		{98, {{{{{37}}}, {{{38}}}}}}, // topaz+sapphire
+		{92, {{{{{38}}}, {{{35}}}}}}, // sapphire+emerald
+		{96, {{{{{38}}}, {{{36}}}}}}, // sapphire+ruby
+		{98, {{{{{38}}}, {{{37}}}}}}, // sapphire+topaz
+		{86, {{{{{38}}}, {{{38}}}}}}, // sapphire+sapphire
+		{108, {{{{{15}}}, {{{15, 35, 36, 37, 38}}}}}}, // original+...
+		{108, {{{{{35, 36, 37, 38}}}, {{{15}}}}}}, // ...+original
+	}}, {{79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 107}}, false },
+	{ "#rd_crafting_recipe_hoiaf_add_to_stack_top20", {{
+		{80, {{{{{35}}}, {{{79}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald+emerald
+		{88, {{{{{35}}}, {{{81, 87}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald+ruby
+		{90, {{{{{35}}}, {{{83, 89}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald+topaz
+		{92, {{{{{35}}}, {{{85, 91}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald+sapphire
+		{88, {{{{{36}}}, {{{79, 87}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby+emerald
+		{82, {{{{{36}}}, {{{81}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby+ruby
+		{94, {{{{{36}}}, {{{83, 93}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby+topaz
+		{96, {{{{{36}}}, {{{85, 95}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby+sapphire
+		{90, {{{{{37}}}, {{{79, 89}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // topaz+emerald
+		{94, {{{{{37}}}, {{{81, 93}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // topaz+ruby
+		{84, {{{{{37}}}, {{{83}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // topaz+topaz
+		{98, {{{{{37}}}, {{{85, 97}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // topaz+sapphire
+		{92, {{{{{38}}}, {{{79, 91}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // sapphire+emerald
+		{96, {{{{{38}}}, {{{81, 95}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // sapphire+ruby
+		{98, {{{{{38}}}, {{{83, 97}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // sapphire+topaz
+		{86, {{{{{38}}}, {{{85}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // sapphire+sapphire
+		{100, {{{{{35}}}, {{{93, 99}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald+ruby/topaz
+		{102, {{{{{35}}}, {{{95, 101}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald+ruby/sapphire
+		{104, {{{{{35}}}, {{{97, 103}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald+topaz/sapphire
+		{100, {{{{{36}}}, {{{89, 99}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby+emerald/topaz
+		{102, {{{{{36}}}, {{{91, 101}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby+emerald/sapphire
+		{106, {{{{{36}}}, {{{97, 105}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby+topaz/sapphire
+		{100, {{{{{37}}}, {{{87, 99}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // topaz+emerald/ruby
+		{104, {{{{{37}}}, {{{91, 103}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // topaz+emerald/sapphire
+		{106, {{{{{37}}}, {{{95, 105}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // topaz+ruby/sapphire
+		{102, {{{{{38}}}, {{{87, 101}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // sapphire+emerald/ruby
+		{104, {{{{{38}}}, {{{89, 103}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // sapphire+emerald/topaz
+		{106, {{{{{38}}}, {{{93, 105}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // sapphire+ruby/topaz
+		{108, {{{{{35}}}, {{{105, 107}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald+ruby/topaz/sapphire
+		{108, {{{{{36}}}, {{{103, 107}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby+emerald/topaz/sapphire
+		{108, {{{{{37}}}, {{{101, 107}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // topaz+emerald/ruby/sapphire
+		{108, {{{{{38}}}, {{{99, 107}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // sapphire+emerald/ruby/topaz
+		{108, {{{{{15}}}, {{{79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 107}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // original+...
+	}}, {{79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 107}}, true },
+}};
+
+const CUtlVector<RD_Crafting_Recipe_Variant> g_RD_Crafting_Recipes_Auto
+{{
+	{58, {{{{{49}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{51}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green + red = green/red
+	{58, {{{{{49, 51}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{57}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green or red + green/red = green/red
+	{60, {{{{{49}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{53}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green + yellow = green/yellow
+	{60, {{{{{49, 53}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{59}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green or yellow + green/yellow = green/yellow
+	{62, {{{{{49}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{55}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green + blue = green/blue
+	{62, {{{{{49, 55}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{61}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green or blue + green/blue = green/blue
+	{64, {{{{{51}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{53}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red + yellow = red/yellow
+	{64, {{{{{51, 53}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{63}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red or yellow + red/yellow = red/yellow
+	{66, {{{{{51}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{55}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red + blue = red/blue
+	{66, {{{{{51, 55}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{65}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red or blue + red/blue = red/blue
+	{68, {{{{{53}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{55}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // yellow + blue = yellow/blue
+	{68, {{{{{53, 55}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{67}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // yellow or blue + yellow/blue = yellow/blue
+	{70, {{{{{53, 59}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{57}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // yellow or green/yellow + green/red = green/red/yellow
+	{70, {{{{{51, 63}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{59}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red or red/yellow + green/yellow = green/red/yellow
+	{70, {{{{{49, 57}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{63}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green or green/red + red/yellow = green/red/yellow
+	{70, {{{{{49, 51, 53, 57, 59, 63}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{69}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ... + green/red/yellow = green/red/yellow
+	{72, {{{{{55, 61}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{57}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // blue or green/blue + green/red = green/red/blue
+	{72, {{{{{51, 65}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{61}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red or red/blue + green/blue = green/red/blue
+	{72, {{{{{49, 57}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{65}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green or green/red + red/blue = green/red/blue
+	{72, {{{{{49, 51, 55, 57, 61, 65}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{71}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ... + green/red/blue = green/red/blue
+	{74, {{{{{55, 61}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{59}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // blue or green/blue + green/yellow = green/yellow/blue
+	{74, {{{{{53, 67}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{61}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // yellow or yellow/blue + green/blue = green/yellow/blue
+	{74, {{{{{49, 59}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{67}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green or green/yellow + yellow/blue = green/yellow/blue
+	{74, {{{{{49, 53, 55, 59, 61, 67}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{73}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ... + green/yellow/blue = green/yellow/blue
+	{76, {{{{{55, 65}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{63}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // blue or red/blue + red/yellow = red/yellow/blue
+	{76, {{{{{53, 67}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{65}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // yellow or yellow/blue + red/blue = red/yellow/blue
+	{76, {{{{{51, 63}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{67}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red or red/yellow + yellow/blue = red/yellow/blue
+	{76, {{{{{51, 53, 55, 63, 65, 67}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{75}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ... + red/yellow/blue = red/yellow/blue
+	{78, {{{{{55, 61, 65, 67, 71, 73, 75}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{69}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // .../blue + green/red/yellow = green/red/yellow/blue
+	{78, {{{{{53, 59, 63, 67, 73, 75}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{71}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // .../yellow + green/red/blue = green/red/yellow/blue
+	{78, {{{{{51, 57, 63, 65, 75}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{73}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // .../red + green/yellow/blue = green/red/yellow/blue
+	{78, {{{{{49, 57, 59, 61}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{75}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // .../green + red/yellow/blue = green/red/yellow/blue
+	{78, {{{{{57}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{67}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green/red + yellow/blue = green/red/yellow/blue
+	{78, {{{{{59}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{65}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green/yellow + red/blue = green/red/yellow/blue
+	{78, {{{{{61}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{63}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green/blue + red/yellow = green/red/yellow/blue
+	{78, {{{{{49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75}}, RD_CRAFTING_RECIPE_AUTO_SELECT},  {{{77}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ... + green/red/yellow/blue = green/red/yellow/blue
+	{88, {{{{{79}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{81}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald + ruby = emerald/ruby
+	{88, {{{{{79, 81}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{87}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald or ruby + emerald/ruby = emerald/ruby
+	{90, {{{{{79}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{83}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald + topaz = emerald/topaz
+	{90, {{{{{79, 83}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{89}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald or topaz + emerald/topaz = emerald/topaz
+	{92, {{{{{79}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{85}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald + sapphire = emerald/sapphire
+	{92, {{{{{79, 85}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{91}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald or sapphire + emerald/sapphire = emerald/sapphire
+	{94, {{{{{81}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{83}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby + topaz = ruby/topaz
+	{94, {{{{{81, 83}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{93}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby or topaz + ruby/topaz = ruby/topaz
+	{96, {{{{{81}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{85}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby + sapphire = ruby/sapphire
+	{96, {{{{{81, 85}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{95}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby or sapphire + ruby/sapphire = ruby/sapphire
+	{98, {{{{{83}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{85}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // topaz + sapphire = topaz/sapphire
+	{98, {{{{{83, 85}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{97}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // topaz or sapphire + topaz/sapphire = topaz/sapphire
+	{100, {{{{{83, 89}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{87}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // topaz or emerald/topaz + emerald/ruby = emerald/ruby/topaz
+	{100, {{{{{81, 93}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{89}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby or ruby/topaz + emerald/topaz = emerald/ruby/topaz
+	{100, {{{{{79, 87}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{93}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald or emerald/ruby + ruby/topaz = emerald/ruby/topaz
+	{100, {{{{{79, 81, 83, 87, 89, 93}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{99}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ... + emerald/ruby/topaz = emerald/ruby/topaz
+	{102, {{{{{85, 91}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{87}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // sapphire or emerald/sapphire + emerald/ruby = emerald/ruby/sapphire
+	{102, {{{{{81, 95}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{91}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby or ruby/sapphire + emerald/sapphire = emerald/ruby/sapphire
+	{102, {{{{{79, 87}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{95}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald or emerald/ruby + ruby/sapphire = emerald/ruby/sapphire
+	{102, {{{{{79, 81, 85, 87, 91, 95}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{101}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ... + emerald/ruby/sapphire = emerald/ruby/sapphire
+	{104, {{{{{85, 91}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{89}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // sapphire or emerald/sapphire + emerald/topaz = emerald/topaz/sapphire
+	{104, {{{{{83, 97}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{91}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // topaz or topaz/sapphire + emerald/sapphire = emerald/topaz/sapphire
+	{104, {{{{{79, 89}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{97}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald or emerald/topaz + topaz/sapphire = emerald/topaz/sapphire
+	{104, {{{{{79, 83, 85, 89, 91, 97}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{103}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ... + emerald/topaz/sapphire = emerald/topaz/sapphire
+	{106, {{{{{85, 95}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{93}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // sapphire or ruby/sapphire + ruby/topaz = ruby/topaz/sapphire
+	{106, {{{{{83, 97}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{95}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // topaz or topaz/sapphire + ruby/sapphire = ruby/topaz/sapphire
+	{106, {{{{{81, 93}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{97}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ruby or ruby/topaz + topaz/sapphire = ruby/topaz/sapphire
+	{106, {{{{{81, 83, 85, 93, 95, 97}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{105}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ... + ruby/topaz/sapphire = ruby/topaz/sapphire
+	{108, {{{{{85, 91, 95, 97, 101, 103, 105}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{99}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // .../sapphire + emerald/ruby/topaz = emerald/ruby/topaz/sapphire
+	{108, {{{{{83, 89, 93, 97, 103, 105}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{101}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // .../topaz + emerald/ruby/sapphire = emerald/ruby/topaz/sapphire
+	{108, {{{{{81, 87, 93, 95, 105}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{103}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // .../ruby + emerald/topaz/sapphire = emerald/ruby/topaz/sapphire
+	{108, {{{{{79, 87, 89, 91}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{105}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // .../emerald + ruby/topaz/sapphire = emerald/ruby/topaz/sapphire
+	{108, {{{{{87}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{97}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald/ruby + topaz/sapphire = emerald/ruby/topaz/sapphire
+	{108, {{{{{89}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{95}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald/topaz + ruby/sapphire = emerald/ruby/topaz/sapphire
+	{108, {{{{{91}}, RD_CRAFTING_RECIPE_AUTO_SELECT}, {{{93}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald/sapphire + ruby/topaz = emerald/ruby/topaz/sapphire
+	{108, {{{{{79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105}}, RD_CRAFTING_RECIPE_AUTO_SELECT},  {{{107}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // ... + emerald/ruby/topaz/sapphire = emerald/ruby/topaz/sapphire
 }};
 
 #ifdef GAME_DLL
@@ -582,7 +775,7 @@ static int __cdecl CompareItemIDs( const SteamItemDef_t *a, const SteamItemDef_t
 	return 0;
 }
 
-void CheckContainsAnyItemIDLists( const CUtlVector<SteamItemDef_t> &AllItemDefs )
+void ValidateCraftingDefs( const CUtlVector<SteamItemDef_t> &AllItemDefs )
 {
 	ISteamInventory *pInventory = SteamInventory();
 #ifdef GAME_DLL

@@ -190,7 +190,7 @@ void CRD_ItemInstance::FormatDescription( wchar_t *wszBuf, size_t sizeOfBufferIn
 		{
 			if ( !V_strcmp( pDef->CompressedDynamicProps[j], szToken ) )
 			{
-				if ( !bIsSteamCommunityDesc && !V_strcmp( szToken, "style" ) && m_nCounter[j] >= 0 && m_nCounter[j] < pDef->StyleNames.Count() )
+				if ( !bIsSteamCommunityDesc && !V_strcmp( szToken, "style" ) && m_nCounter[j] >= 0 && m_nCounter[j] < pDef->StyleNames.Count() && pDef->StyleIcons[m_nCounter[j]] != NULL )
 				{
 					V_UTF8ToUnicode( pDef->StyleNames[m_nCounter[j]], wszReplacement, sizeof( wszReplacement ) );
 				}

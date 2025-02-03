@@ -497,8 +497,8 @@ public:
 		}
 
 #if defined( DBGFLAG_ASSERT ) && defined( RD_7A_DROPS )
-		extern void CheckContainsAnyItemIDLists( const CUtlVector<SteamItemDef_t> &itemIDs );
-		CheckContainsAnyItemIDLists( ItemDefIDs );
+		extern void ValidateCraftingDefs( const CUtlVector<SteamItemDef_t> &itemIDs );
+		ValidateCraftingDefs( ItemDefIDs );
 #endif
 	}
 
@@ -1557,11 +1557,25 @@ public:
 							Assert( hUpdate != k_SteamInventoryUpdateHandleInvalid );
 						}
 
+						int64_t iDefaultValue = 0;
+						if ( !V_stricmp( pDef->CompressedDynamicProps[j], "style" ) )
+						{
+							// for items with unlockable styles, the default style is the first non-locked style, not always the first style.
+							FOR_EACH_VEC( pDef->StyleIcons, k )
+							{
+								if ( pDef->StyleIcons[k] != NULL )
+								{
+									iDefaultValue = k;
+									break;
+								}
+							}
+						}
+
 						if ( rd_debug_inventory.GetBool() )
-							Msg( "[C] Initializing missing dynamic property '%s' on item %llu (%d %s) to 0.\n", pDef->CompressedDynamicProps[j], instance.ItemID, instance.ItemDefID, pDef->Name.Get() );
+							Msg( "[C] Initializing missing dynamic property '%s' on item %llu (%d %s) to %lld.\n", pDef->CompressedDynamicProps[j], instance.ItemID, instance.ItemDefID, pDef->Name.Get(), iDefaultValue );
 
 						bHeldBack = true;
-						pInventory->SetProperty( hUpdate, instance.ItemID, pDef->CompressedDynamicProps[j], 0ll );
+						pInventory->SetProperty( hUpdate, instance.ItemID, pDef->CompressedDynamicProps[j], iDefaultValue );
 					}
 				}
 
@@ -3128,17 +3142,22 @@ namespace ReactiveDropInventory
 		}
 
 		pItemDef->StyleIcons.SetCount( pItemDef->StyleNames.Count() );
+		bool bFirstStyle = true;
 		for ( int i = 0; i < pItemDef->StyleNames.Count(); i++ )
 		{
 			V_snprintf( szKey, sizeof( szKey ), "icon_url_style_%d", i );
-			pItemDef->StyleIcons[i] = pItemDef->Icon;
+			pItemDef->StyleIcons[i] = NULL;
 			FETCH_PROPERTY( szKey );
 			if ( *szValue )
 			{
 				pItemDef->StyleIcons[i] = GetSteamItemIcon( szValue );
 
-				// first style should always match default icon
-				Assert( i || pItemDef->StyleIcons[i] == pItemDef->Icon );
+				if ( bFirstStyle )
+				{
+					// first unlocked style should always match default icon
+					Assert( pItemDef->StyleIcons[i] == pItemDef->Icon );
+					bFirstStyle = false;
+				}
 			}
 		}
 #endif
@@ -3891,7 +3910,7 @@ vgui::IImage *CRD_ItemInstance::GetIcon() const
 	if ( pDef->StyleIcons.Count() )
 	{
 		Assert( pDef->StyleIcons.IsValidIndex( iStyle ) );
-		if ( pDef->StyleIcons.IsValidIndex( iStyle ) )
+		if ( pDef->StyleIcons.IsValidIndex( iStyle ) && pDef->StyleIcons[iStyle] )
 		{
 			return pDef->StyleIcons[iStyle];
 		}

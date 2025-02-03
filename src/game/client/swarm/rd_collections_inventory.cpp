@@ -969,6 +969,8 @@ void CRD_Collection_Entry_Inventory::ApplyEntry()
 
 			if ( i == iStyle )
 				pModal->AddOption( NULL, "#rd_inventory_verb_style_current", 1, wszStyleName );
+			else if ( pDef->StyleIcons[i] == NULL )
+				pModal->AddOption( NULL, "#rd_inventory_verb_style_locked", 1, wszStyleName );
 			else
 				pModal->AddOption( VarArgs( "SetStyle%d", i ), "#rd_inventory_verb_style", 1, wszStyleName );
 			pModal->SetOptionStyleID( i );

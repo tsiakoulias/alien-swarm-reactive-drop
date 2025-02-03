@@ -150,7 +150,8 @@ vgui::IImage *ReactiveDropInventory::ItemInstance_t::GetIcon() const
 	if ( pDef->StyleIcons.Count() )
 	{
 		Assert( pDef->StyleIcons.IsValidIndex( iStyle ) );
-		if ( pDef->StyleIcons.IsValidIndex( iStyle ) )
+		// NULL in this CUtlVector means the style is locked on this item def.
+		if ( pDef->StyleIcons.IsValidIndex( iStyle ) && pDef->StyleIcons[iStyle] )
 		{
 			return pDef->StyleIcons[iStyle];
 		}
@@ -198,7 +199,7 @@ CON_COMMAND_F( rd_load_all_inventory_defs, "load data and icons for all defined 
 
 			FOR_EACH_VEC( pDef->StyleIcons, j )
 			{
-				if ( pDef->StyleIcons[j]->GetNumFrames() == 0 )
+				if ( pDef->StyleIcons[j] && pDef->StyleIcons[j]->GetNumFrames() == 0 )
 				{
 					iLoading++;
 				}
@@ -241,7 +242,7 @@ CON_COMMAND_F( rd_load_all_inventory_defs, "load data and icons for all defined 
 
 			FOR_EACH_VEC( pDef->StyleIcons, j )
 			{
-				if ( pDef->StyleIcons[j]->GetNumFrames() == 0 )
+				if ( pDef->StyleIcons[j] && pDef->StyleIcons[j]->GetNumFrames() == 0 )
 				{
 					iLoading++;
 				}
@@ -270,7 +271,7 @@ CON_COMMAND_F( rd_load_all_inventory_defs, "load data and icons for all defined 
 
 			FOR_EACH_VEC( pDef->StyleIcons, j )
 			{
-				if ( pDef->StyleIcons[j]->GetNumFrames() == 0 )
+				if ( pDef->StyleIcons[j] && pDef->StyleIcons[j]->GetNumFrames() == 0 )
 				{
 					iLoading++;
 				}

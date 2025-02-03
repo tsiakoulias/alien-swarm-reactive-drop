@@ -91,9 +91,36 @@ struct RD_Crafting_Contains_Any_List
 	CCopyableUtlVector<SteamItemDef_t> m_ItemDefs;
 };
 
+enum RD_Crafting_Recipe_Input_Flags
+{
+	RD_CRAFTING_RECIPE_AUTO_SELECT = 0x00000001,
+};
+
+struct RD_Crafting_Recipe_Input
+{
+	CCopyableUtlVector<SteamItemDef_t> m_AllowedItem;
+	uint32_t m_iFlags = 0;
+};
+
+struct RD_Crafting_Recipe_Variant
+{
+	SteamItemDef_t m_ExchangeItem;
+	CCopyableUtlVector<RD_Crafting_Recipe_Input> m_Inputs;
+};
+
+struct RD_Crafting_Recipe
+{
+	const char* m_szDisplayName;
+	CCopyableUtlVector<RD_Crafting_Recipe_Variant> m_Variants;
+	CCopyableUtlVector<SteamItemDef_t> m_HideIfItem;
+	bool m_bInvertHideIfItem;
+};
+
 extern const RD_Crafting_Material_Info g_RD_Crafting_Material_Info[NUM_RD_CRAFTING_MATERIAL_TYPES];
 extern const RD_Crafting_Material_Rarity_Info g_RD_Crafting_Material_Rarity_Info[NUM_RD_CRAFTING_MATERIAL_RARITIES];
 extern const CUtlVector<RD_Crafting_Contains_Any_List> g_RD_Crafting_Contains_Any_Lists;
+extern const CUtlVector<RD_Crafting_Recipe> g_RD_Crafting_Recipes;
+extern const CUtlVector<RD_Crafting_Recipe_Variant> g_RD_Crafting_Recipes_Auto;
 
 #ifdef GAME_DLL
 void GenerateCraftingMaterialSpawnLocations( CUtlVector<Vector> &spawnLocations );
