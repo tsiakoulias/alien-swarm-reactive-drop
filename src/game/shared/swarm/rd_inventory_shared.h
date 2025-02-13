@@ -234,6 +234,8 @@ namespace ReactiveDropInventory
 		CRAFT_DELETE_SILENT,
 		// updating the "seen" status of notifications. only one of these exist at a time. no notifications. (heh)
 		CRAFT_NOTIFICATION_DYNAMIC_PROPERTY_UPDATE,
+		// automated actions, like upgrading stacks of medals after a player has added a new color to the stack.
+		CRAFT_AUTO_BACKGROUND,
 	};
 	void PerformCraftingAction( CraftItemType_t eCraftType, SteamItemDef_t recipe, std::initializer_list<SteamItemInstanceID_t> ingredient, std::initializer_list<uint32> quantity, SteamItemDef_t iAccessoryDef = 0, SteamItemInstanceID_t iReplaceItemInstance = k_SteamItemInstanceIDInvalid );
 	void RequestFullInventoryRefresh();

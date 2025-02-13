@@ -73,7 +73,7 @@ void TabbedGridDetails::PerformLayout()
 {
 	BaseClass::PerformLayout();
 
-	if ( m_hCurrentTab )
+	if ( m_hCurrentTab && m_hCurrentTab->m_pGrid )
 	{
 		m_hCurrentTab->m_pGrid->SetVisible( !m_hOverridePanel );
 	}
@@ -130,6 +130,11 @@ void TabbedGridDetails::PerformLayout()
 		int totalHeight = 0;
 		FOR_EACH_VEC( m_Tabs, i )
 		{
+			if ( !m_Tabs[i]->m_pGrid )
+			{
+				continue;
+			}
+
 			m_Tabs[i]->m_pGrid->m_iScrollOffset = totalHeight;
 			m_Tabs[i]->m_pGrid->SetPos( 0, yOrigin + totalHeight );
 			totalHeight += m_Tabs[i]->m_pGrid->GetTall();
@@ -609,6 +614,66 @@ void TGD_Tab::InitCombinedGrid( vgui::Panel *pGridParent )
 	m_pGrid->SetVisible( true );
 }
 
+TGD_Tab_Panel::TGD_Tab_Panel( TabbedGridDetails *parent, const char *szLabel )
+	: BaseClass( parent, szLabel )
+{
+	m_pPanel = nullptr;
+}
+
+TGD_Tab_Panel::TGD_Tab_Panel( TabbedGridDetails *parent, const wchar_t *wszLabel )
+	: BaseClass( parent, wszLabel )
+{
+	m_pPanel = nullptr;
+}
+
+TGD_Tab_Panel::~TGD_Tab_Panel()
+{
+	// The panel isn't our child, but it should be removed with us.
+	if ( m_pPanel )
+	{
+		m_pPanel->SetVisible( false );
+		m_pPanel->MarkForDeletion();
+	}
+}
+
+void TGD_Tab_Panel::ApplySchemeSettings( vgui::IScheme *pScheme )
+{
+	if ( !m_pPanel )
+	{
+		m_pPanel = CreatePanel();
+	}
+
+	BaseClass::ApplySchemeSettings( pScheme );
+}
+
+TGD_Grid *TGD_Tab_Panel::CreateGrid()
+{
+	return nullptr;
+}
+TGD_Details *TGD_Tab_Panel::CreateDetails()
+{
+	return nullptr;
+}
+
+void TGD_Tab_Panel::ActivateTab()
+{
+	MakeReadyForUse();
+
+	m_pPanel->SetVisible( true );
+	m_pLabelHighlight->SetVisible( true );
+	m_pHighlight->SetVisible( true );
+
+	m_pPanel->InvalidateLayout();
+}
+void TGD_Tab_Panel::DeactivateTab()
+{
+	MakeReadyForUse();
+
+	m_pPanel->SetVisible( false );
+	m_pLabelHighlight->SetVisible( false );
+	m_pHighlight->SetVisible( false );
+}
+
 TGD_Grid::TGD_Grid( TGD_Tab *pTab )
 	: BaseClass( pTab->m_pParent, "Grid" )
 {
@@ -861,7 +926,10 @@ void TGD_Grid::DisplayEntry( TGD_Entry *pEntry )
 	{
 		if ( m_pParent->m_pParent->m_Tabs[i]->m_pGrid != this )
 		{
-			m_pParent->m_pParent->m_Tabs[i]->m_pDetails->SetVisible( false );
+			if ( m_pParent->m_pParent->m_Tabs[i]->m_pDetails )
+			{
+				m_pParent->m_pParent->m_Tabs[i]->m_pDetails->SetVisible( false );
+			}
 			m_pParent->m_pParent->m_Tabs[i]->m_pHighlight->SetVisible( false );
 			m_pParent->m_pParent->m_Tabs[i]->m_pLabelHighlight->SetVisible( false );
 		}
@@ -1067,7 +1135,9 @@ TGD_Details::~TGD_Details()
 
 void TGD_Details::ApplySchemeSettings( vgui::IScheme *pScheme )
 {
+	bool bVisibleBefore = IsVisible();
 	LoadControlSettings( "Resource/UI/TGD_Details.res" );
+	SetVisible( bVisibleBefore );
 
 	BaseClass::ApplySchemeSettings( pScheme );
 }

@@ -89,6 +89,26 @@ public:
 	int m_iMinWidth;
 };
 
+abstract_class TGD_Tab_Panel : public TGD_Tab
+{
+	DECLARE_CLASS_SIMPLE( TGD_Tab_Panel, TGD_Tab );
+public:
+	TGD_Tab_Panel( TabbedGridDetails *parent, const char *szLabel );
+	TGD_Tab_Panel( TabbedGridDetails *parent, const wchar_t *wszLabel );
+	virtual ~TGD_Tab_Panel();
+
+	virtual void ApplySchemeSettings( vgui::IScheme *pScheme ) override;
+
+	virtual TGD_Grid *CreateGrid() override;
+	virtual TGD_Details *CreateDetails() override;
+	virtual vgui::Panel *CreatePanel() = 0;
+
+	virtual void ActivateTab() override;
+	virtual void DeactivateTab() override;
+
+	vgui::Panel *m_pPanel;
+};
+
 class TGD_Grid : public vgui::EditablePanel
 {
 	DECLARE_CLASS_SIMPLE( TGD_Grid, vgui::EditablePanel );

@@ -110,10 +110,12 @@ struct RD_Crafting_Recipe_Variant
 
 struct RD_Crafting_Recipe
 {
-	const char* m_szDisplayName;
+	const char *m_szDisplayName;
+	const char *m_szFlavorText;
+	const char *m_szWarning;
 	CCopyableUtlVector<RD_Crafting_Recipe_Variant> m_Variants;
 	CCopyableUtlVector<SteamItemDef_t> m_HideIfItem;
-	bool m_bInvertHideIfItem;
+	CCopyableUtlVector<SteamItemDef_t> m_HideUnlessItem;
 };
 
 extern const RD_Crafting_Material_Info g_RD_Crafting_Material_Info[NUM_RD_CRAFTING_MATERIAL_TYPES];

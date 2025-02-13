@@ -1,5 +1,6 @@
 #include "cbase.h"
 #include "rd_collections.h"
+#include "rd_collections_crafting.h"
 #include "rd_swarmopedia.h"
 #include "asw_util_shared.h"
 #include <vgui/IInput.h>
@@ -38,6 +39,7 @@ void LaunchCollectionsFrame()
 	CRD_Collection_Tab_Inventory *pOtherTab = new CRD_Collection_Tab_Inventory( pFrame, "#rd_collection_inventory_other", "medal" );
 	pOtherTab->m_bInvertSlotFilter = true;
 	pFrame->AddTab( pOtherTab );
+	pFrame->AddTab( new CRD_Collection_Tab_Crafting( pFrame, "#rd_collection_inventory_crafting" ) );
 	if ( rd_legacy_ui.GetString()[0] != '\0' )
 	{
 		pFrame->AddTab( new CRD_Collection_Tab_Equipment( pFrame, "#rd_collection_weapons", NULL, ASW_INVENTORY_SLOT_PRIMARY ) );

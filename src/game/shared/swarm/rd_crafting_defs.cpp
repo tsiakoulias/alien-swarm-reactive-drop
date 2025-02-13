@@ -106,13 +106,13 @@ const CUtlVector<RD_Crafting_Contains_Any_List> g_RD_Crafting_Contains_Any_Lists
 
 const CUtlVector<RD_Crafting_Recipe> g_RD_Crafting_Recipes
 {{
-	{ "#rd_crafting_recipe_hoiaf_create_stack_participant", {{
+	{ "#rd_crafting_recipe_hoiaf_create_stack_participant", "#rd_crafting_recipe_hoiaf_stack_flavor", "#rd_crafting_recipe_hoiaf_stack_warning", {{
 		{48, {{{{{1, 30}}}, {{{1, 30}}}}}},
-	}}, {{47}}, false},
-	{ "#rd_crafting_recipe_hoiaf_add_to_stack_participant", {{
+	}}, {{47}}, {} },
+	{ "#rd_crafting_recipe_hoiaf_add_to_stack_participant", "#rd_crafting_recipe_hoiaf_stack_flavor", "#rd_crafting_recipe_hoiaf_stack_warning", {{
 		{48, {{{{{1, 30}}}, {{{47}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}},
-	}}, {{47}}, true },
-	{ "#rd_crafting_recipe_hoiaf_create_stack_elite", {{
+	}}, {}, {{47}} },
+	{ "#rd_crafting_recipe_hoiaf_create_stack_elite", "#rd_crafting_recipe_hoiaf_stack_flavor", "#rd_crafting_recipe_hoiaf_stack_warning", {{
 		{50, {{{{{2, 31}}}, {{{2, 31}}}}}}, // green+green
 		{58, {{{{{2, 31}}}, {{{4, 32}}}}}}, // green+red
 		{60, {{{{{2, 31}}}, {{{5, 33}}}}}}, // green+yellow
@@ -129,8 +129,8 @@ const CUtlVector<RD_Crafting_Recipe> g_RD_Crafting_Recipes
 		{66, {{{{{6, 34}}}, {{{4, 32}}}}}}, // blue+red
 		{68, {{{{{6, 34}}}, {{{5, 33}}}}}}, // blue+yellow
 		{56, {{{{{6, 34}}}, {{{6, 34}}}}}}, // blue+blue
-	}}, {{49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77}}, false },
-	{ "#rd_crafting_recipe_hoiaf_add_to_stack_elite", {{
+	}}, {{49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77}}, {} },
+	{ "#rd_crafting_recipe_hoiaf_add_to_stack_elite", "#rd_crafting_recipe_hoiaf_stack_flavor", "#rd_crafting_recipe_hoiaf_stack_warning", {{
 		{50, {{{{{2, 31}}}, {{{49}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green+green
 		{58, {{{{{2, 31}}}, {{{51, 57}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green+red
 		{60, {{{{{2, 31}}}, {{{53, 59}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // green+yellow
@@ -163,8 +163,8 @@ const CUtlVector<RD_Crafting_Recipe> g_RD_Crafting_Recipes
 		{78, {{{{{4, 32}}}, {{{73, 77}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // red+green/yellow/blue
 		{78, {{{{{5, 33}}}, {{{71, 77}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // yellow+green/red/blue
 		{78, {{{{{6, 34}}}, {{{69, 77}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // blue+green/red/yellow
-	}}, {{49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77}}, true },
-	{ "#rd_crafting_recipe_hoiaf_create_stack_top20", {{
+	}}, {}, {{49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77}} },
+	{ "#rd_crafting_recipe_hoiaf_create_stack_top20", "#rd_crafting_recipe_hoiaf_stack_flavor", "#rd_crafting_recipe_hoiaf_stack_warning", {{
 		{80, {{{{{35}}}, {{{35}}}}}}, // emerald+emerald
 		{88, {{{{{35}}}, {{{36}}}}}}, // emerald+ruby
 		{90, {{{{{35}}}, {{{37}}}}}}, // emerald+topaz
@@ -183,8 +183,8 @@ const CUtlVector<RD_Crafting_Recipe> g_RD_Crafting_Recipes
 		{86, {{{{{38}}}, {{{38}}}}}}, // sapphire+sapphire
 		{108, {{{{{15}}}, {{{15, 35, 36, 37, 38}}}}}}, // original+...
 		{108, {{{{{35, 36, 37, 38}}}, {{{15}}}}}}, // ...+original
-	}}, {{79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 107}}, false },
-	{ "#rd_crafting_recipe_hoiaf_add_to_stack_top20", {{
+	}}, {{79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 107}}, {} },
+	{ "#rd_crafting_recipe_hoiaf_add_to_stack_top20", "#rd_crafting_recipe_hoiaf_stack_flavor", "#rd_crafting_recipe_hoiaf_stack_warning", {{
 		{80, {{{{{35}}}, {{{79}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald+emerald
 		{88, {{{{{35}}}, {{{81, 87}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald+ruby
 		{90, {{{{{35}}}, {{{83, 89}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // emerald+topaz
@@ -218,7 +218,7 @@ const CUtlVector<RD_Crafting_Recipe> g_RD_Crafting_Recipes
 		{108, {{{{{37}}}, {{{101, 107}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // topaz+emerald/ruby/sapphire
 		{108, {{{{{38}}}, {{{99, 107}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // sapphire+emerald/ruby/topaz
 		{108, {{{{{15}}}, {{{79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 107}}, RD_CRAFTING_RECIPE_AUTO_SELECT}}}}, // original+...
-	}}, {{79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 107}}, true },
+	}}, {}, {{79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 107}} },
 }};
 
 const CUtlVector<RD_Crafting_Recipe_Variant> g_RD_Crafting_Recipes_Auto

@@ -442,6 +442,7 @@ if exist ..\..\devtools\bin\postbuild.cmd ..\..\devtools\bin\postbuild.cmd clien
     <ClInclude Include="swarm\gameui\swarm\vgenericchoicelist.h" />
     <ClInclude Include="swarm\gameui\swarm\vpromooptin.h" />
     <ClInclude Include="swarm\gameui\swarm\vreportproblem.h" />
+    <ClInclude Include="swarm\rd_collections_crafting.h" />
     <ClInclude Include="swarm\rd_image_utils.h" />
     <ClInclude Include="swarm\rd_swarmopedia_content_log.h" />
     <ClInclude Include="swarm\vgui\asw_scalable_text.inc">
@@ -2207,6 +2208,7 @@ if exist ..\..\devtools\bin\postbuild.cmd ..\..\devtools\bin\postbuild.cmd clien
     <ClCompile Include="swarm\iasw_fade_list.cpp" />
     <ClCompile Include="swarm\rd_audio_mixers.cpp" />
     <ClCompile Include="swarm\rd_collections.cpp" />
+    <ClCompile Include="swarm\rd_collections_crafting.cpp" />
     <ClCompile Include="swarm\rd_collections_equipment.cpp" />
     <ClCompile Include="swarm\rd_collections_inventory.cpp" />
     <ClCompile Include="swarm\rd_collections_swarmopedia.cpp" />

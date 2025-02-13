@@ -303,7 +303,82 @@ public:
 
 		HoIAF()->RebuildNotificationList();
 
+		if ( rd_debug_inventory.GetBool() )
+		{
+			DevMsg( 3, "Checking %d auto-craft recipes...\n", g_RD_Crafting_Recipes_Auto.Count() );
+		}
+		FOR_EACH_VEC( g_RD_Crafting_Recipes_Auto, i )
+		{
+			if ( TryCraftAuto( pInventory, g_RD_Crafting_Recipes_Auto[i] ) )
+			{
+				if ( rd_debug_inventory.GetBool() )
+				{
+					Msg( "Found match for auto-craft recipe #%d (output itemdefid %d)\n", i, g_RD_Crafting_Recipes_Auto[i].m_ExchangeItem );
+				}
+
+				break;
+			}
+		}
+
 		ThreadExecute( WriteInventoryCacheHelper );
+	}
+
+	bool TryCraftAuto( ISteamInventory *pInventory, const RD_Crafting_Recipe_Variant &recipe )
+	{
+		SteamItemDef_t output[1] = { recipe.m_ExchangeItem };
+		uint32_t outputqty[1] = { 1 };
+		CUtlVector<SteamItemInstanceID_t> input;
+		CUtlVector<uint32_t> inputqty;
+
+		FOR_EACH_VEC( recipe.m_Inputs, i )
+		{
+			Assert( recipe.m_Inputs[i].m_iFlags & RD_CRAFTING_RECIPE_AUTO_SELECT );
+			bool bFound = false;
+			FOR_EACH_VEC( recipe.m_Inputs[i].m_AllowedItem, j )
+			{
+				FOR_EACH_VEC( m_LocalInventoryCache, k )
+				{
+					if ( m_LocalInventoryCache[k].ItemDefID != recipe.m_Inputs[i].m_AllowedItem[j] || m_LocalInventoryCache[k].Quantity <= 0 )
+					{
+						continue;
+					}
+
+					int iExisting = input.Find( m_LocalInventoryCache[k].ItemID );
+					if ( iExisting != input.InvalidIndex() && inputqty[iExisting] >= m_LocalInventoryCache[k].Quantity )
+					{
+						continue;
+					}
+
+					if ( iExisting == input.InvalidIndex() )
+					{
+						input.AddToTail( m_LocalInventoryCache[k].ItemID );
+						inputqty.AddToTail( 1u );
+					}
+					else
+					{
+						inputqty[iExisting]++;
+					}
+
+					bFound = true;
+					break;
+				}
+
+				// simplification: once an item is added to the recipe, it's "locked in" and we will not attempt other possible ingredients for that slot.
+				if ( bFound )
+				{
+					break;
+				}
+			}
+
+			if ( !bFound )
+			{
+				return false;
+			}
+		}
+
+		pInventory->ExchangeItems( AddCraftItemTask( CRAFT_AUTO_BACKGROUND ), output, outputqty, NELEMS( output ), input.Base(), inputqty.Base(), input.Count() );
+
+		return true;
 	}
 
 	void WriteInventoryCache()
@@ -1200,6 +1275,7 @@ public:
 			case CRAFT_DYNAMIC_PROPERTY_UPDATE:
 			case CRAFT_DELETE_SILENT:
 			case CRAFT_NOTIFICATION_DYNAMIC_PROPERTY_UPDATE:
+			case CRAFT_AUTO_BACKGROUND:
 				break;
 			default:
 				Assert( !"unhandled crafting task type" );
@@ -1235,6 +1311,7 @@ public:
 		case CRAFT_DYNAMIC_PROPERTY_UPDATE:
 		case CRAFT_DELETE_SILENT:
 		case CRAFT_NOTIFICATION_DYNAMIC_PROPERTY_UPDATE:
+		case CRAFT_AUTO_BACKGROUND:
 			break;
 		default:
 			Assert( !"unhandled crafting task type" );
@@ -1446,6 +1523,8 @@ public:
 			break;
 		case CRAFT_NOTIFICATION_DYNAMIC_PROPERTY_UPDATE:
 			m_InFlightNotificationSeen.Purge();
+			break;
+		case CRAFT_AUTO_BACKGROUND:
 			break;
 		default:
 			Assert( !"unhandled crafting task type" );
