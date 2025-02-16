@@ -1833,7 +1833,6 @@ void CAlienSwarm::FullReset()
 	m_bObtainedPingLocation = false;
 
 	m_hBriefingCamera = NULL;
-	m_bHadBriefingCamera = false;
 	m_szBriefingVideo.GetForModify()[0] = '\0';
 	m_iCosmeticRandomSeed = std::time( NULL );
 	m_iCosmeticFlags = 0;
@@ -3969,12 +3968,8 @@ void CAlienSwarm::Think()
 		}
 	}
 
-	// If a briefing camera gets deleted, check whether there's another one we can switch to.
-	if ( m_bHadBriefingCamera && !m_hBriefingCamera )
-	{
+	if ( !m_hBriefingCamera )
 		m_hBriefingCamera = gEntList.FindEntityByClassname( NULL, "rd_briefing_camera" );
-		m_bHadBriefingCamera = !!m_hBriefingCamera;
-	}
 
 	ThinkUpdateTimescale();
 	GetVoiceGameMgr()->Update( gpGlobals->frametime );
@@ -9612,7 +9607,6 @@ void CAlienSwarm::LevelInitPostEntity()
 	}
 
 	m_hBriefingCamera = gEntList.FindEntityByClassname( NULL, "rd_briefing_camera" );
-	m_bHadBriefingCamera = !!m_hBriefingCamera;
 
 	if ( IsLobbyMap() )
 	{

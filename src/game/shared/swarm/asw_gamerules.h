@@ -599,9 +599,6 @@ public:
 	CNetworkVar( uint32_t, m_iCosmeticFlags );
 	CNetworkString( m_szBriefingVideo, 64 );
 	CNetworkHandle( CBaseEntity, m_hBriefingCamera );
-#ifdef GAME_DLL
-	bool m_bHadBriefingCamera;
-#endif
 
 	enum
 	{
