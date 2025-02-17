@@ -174,12 +174,9 @@ bool C_ASW_Button_Area::GetUseAction( ASWUseAction &action, C_ASW_Inhabitable_NP
 				action.fProgress = ( ( gpGlobals->curtime - pPlayer->m_flUseKeyDownTime ) - 0.2f ) / ( m_flHoldTime - 0.2f );
 				action.fProgress = clamp<float>( action.fProgress, 0.0f, 1.0f );
 				action.bNoFadeIfSameUseTarget = true;
-				action.bShowUseKey = false;
 			}
-			else
-			{
-				action.bShowHoldButtonUseKey = true;
-			}
+			
+			action.bShowHoldButtonUseKey = true;
 		}
 	}
 
