@@ -829,6 +829,10 @@ asw_pickup_50calmg : "50cal Machine Gun"
 [
 ]
 
+@PointClass base(ASWPickup) studio("models/swarm/ammo/ammorailgun.mdl") = asw_ammo_railgun : "Railgun ammo refill"
+[
+]
+
 @PointClass base(ASWPickup) studio("models/swarm/ammo/ammohvyrifle.mdl") = asw_ammo_heavy_rifle : "Heavy Rifle ammo refill"
 [
 	AddSecondary(choices) : "Add secondary item" : 1 : "If set this pickup adds secondary fire charge" =
