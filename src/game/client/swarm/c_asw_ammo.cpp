@@ -106,6 +106,7 @@ C_ASW_Ammo_Pistol::C_ASW_Ammo_Pistol()
 	Q_snprintf( m_szNoGunText, sizeof( m_szNoGunText ), "#asw_ammo_pistol" );
 	Q_snprintf( m_szAmmoFullText, sizeof( m_szAmmoFullText ), "#asw_ammo_pistol_full" );
 	m_iAmmoIndex = GetAmmoDef()->Index( "ASW_P" );
+	m_iAmmoIndex2 = GetAmmoDef()->Index( "ASW_DEAGLE" );
 }
 
 //------------
@@ -166,6 +167,7 @@ C_ASW_Ammo_PDW::C_ASW_Ammo_PDW()
 	Q_snprintf( m_szNoGunText, sizeof( m_szNoGunText ), "#asw_ammo_pdw" );
 	Q_snprintf( m_szAmmoFullText, sizeof( m_szAmmoFullText ), "#asw_ammo_pdw_full" );
 	m_iAmmoIndex = GetAmmoDef()->Index( "ASW_PDW" );
+	m_iAmmoIndex2 = GetAmmoDef()->Index( "ASW_MEDRIFLE" );
 }
 
 //------------

@@ -31,6 +31,8 @@ extern ConVar asw_ammo_count_rifle_burst;
 extern ConVar asw_ammo_count_shotgun;
 extern ConVar asw_ammo_count_sniper_rifle;
 extern ConVar asw_ammo_count_vindicator;
+extern ConVar asw_ammo_count_deagle;
+extern ConVar asw_ammo_count_medrifle;
 
 //-------------
 // Generic give ammo function
@@ -455,6 +457,7 @@ void CASW_Ammo_Pistol::Spawn( void )
 	SetModel( "models/swarm/Ammo/ammopistol.mdl" );
 	BaseClass::Spawn();
 	m_iAmmoIndex = GetAmmoDef()->Index( "ASW_P" );
+	m_iAmmoIndex2 = GetAmmoDef()->Index( "ASW_DEAGLE" );
 }
 
 
@@ -468,7 +471,20 @@ void CASW_Ammo_Pistol::ActivateUseIcon( CASW_Inhabitable_NPC *pNPC, int nHoldTyp
 	if ( nHoldType == ASW_USE_HOLD_START )
 		return;
 
+	bool bDeagleActive = pNPC->GetActiveWeapon() && pNPC->GetActiveWeapon()->GetPrimaryAmmoType() == GetAmmoDef()->Index( "ASW_DEAGLE" );
+	if ( bDeagleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_deagle.GetInt(), "ASW_DEAGLE", this ) )
+	{
+		UTIL_Remove( this );
+		return;
+	}
+
 	if ( ASW_GiveAmmo( pNPC, asw_ammo_count_pistol.GetInt(), "ASW_P", this ) )
+	{
+		UTIL_Remove( this );
+		return;
+	}
+
+	if ( !bDeagleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_deagle.GetInt(), "ASW_DEAGLE", this ) )
 	{
 		UTIL_Remove( this );
 		return;
@@ -607,6 +623,7 @@ void CASW_Ammo_PDW::Spawn( void )
 	SetModel( "models/swarm/Ammo/ammopdw.mdl" );
 	BaseClass::Spawn();
 	m_iAmmoIndex = GetAmmoDef()->Index( "ASW_PDW" );
+	m_iAmmoIndex2 = GetAmmoDef()->Index( "ASW_MEDRIFLE" );
 }
 
 
@@ -620,7 +637,20 @@ void CASW_Ammo_PDW::ActivateUseIcon( CASW_Inhabitable_NPC *pNPC, int nHoldType )
 	if ( nHoldType == ASW_USE_HOLD_START )
 		return;
 
+	bool bMedRifleActive = pNPC->GetActiveWeapon() && pNPC->GetActiveWeapon()->GetPrimaryAmmoType() == GetAmmoDef()->Index( "ASW_MEDRIFLE" );
+	if ( bMedRifleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_medrifle.GetInt(), "ASW_MEDRIFLE", this ) )
+	{
+		UTIL_Remove( this );
+		return;
+	}
+
 	if ( ASW_GiveAmmo( pNPC, asw_ammo_count_pdw.GetInt(), "ASW_PDW", this) )
+	{
+		UTIL_Remove( this );
+		return;
+	}
+
+	if ( !bMedRifleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_medrifle.GetInt(), "ASW_MEDRIFLE", this ) )
 	{
 		UTIL_Remove( this );
 		return;
