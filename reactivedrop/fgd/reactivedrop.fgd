@@ -37,6 +37,11 @@
 	]
 ]
 
+@PointClass base(Targetname) iconsprite("editor/logic_script.vmt") = asw_challenge_thinker : "Same as logic_script, but supports native function calls like Update(), OnGameplayStart(), etc."
+[
+	vscripts(scriptlist) : "Entity Scripts" : "" : "Name(s) of script files that are executed when the map is spawned."
+]
+
 @PointClass base(Targetname, Parentname, Angles, Studiomodel) studioprop("models/sentry_gun/flame_top.mdl") = asw_sentry_top_flamer
 [
 	TurretRange(float) : "Turret Range" : "375" : "Maximum distance that it will pick targets."
