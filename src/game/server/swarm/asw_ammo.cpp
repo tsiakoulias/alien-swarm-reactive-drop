@@ -472,19 +472,19 @@ void CASW_Ammo_Pistol::ActivateUseIcon( CASW_Inhabitable_NPC *pNPC, int nHoldTyp
 		return;
 
 	bool bDeagleActive = pNPC->GetActiveWeapon() && pNPC->GetActiveWeapon()->GetPrimaryAmmoType() == GetAmmoDef()->Index( "ASW_DEAGLE" );
-	if ( bDeagleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_deagle.GetInt(), "ASW_DEAGLE", this ) )
+	if ( bDeagleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_deagle.GetInt() * 2, "ASW_DEAGLE", this ) )
 	{
 		UTIL_Remove( this );
 		return;
 	}
 
-	if ( ASW_GiveAmmo( pNPC, asw_ammo_count_pistol.GetInt(), "ASW_P", this ) )
+	if ( ASW_GiveAmmo( pNPC, asw_ammo_count_pistol.GetInt() * 2, "ASW_P", this ) )
 	{
 		UTIL_Remove( this );
 		return;
 	}
 
-	if ( !bDeagleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_deagle.GetInt(), "ASW_DEAGLE", this ) )
+	if ( !bDeagleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_deagle.GetInt() * 2, "ASW_DEAGLE", this ) )
 	{
 		UTIL_Remove( this );
 		return;
@@ -638,19 +638,19 @@ void CASW_Ammo_PDW::ActivateUseIcon( CASW_Inhabitable_NPC *pNPC, int nHoldType )
 		return;
 
 	bool bMedRifleActive = pNPC->GetActiveWeapon() && pNPC->GetActiveWeapon()->GetPrimaryAmmoType() == GetAmmoDef()->Index( "ASW_MEDRIFLE" );
-	if ( bMedRifleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_medrifle.GetInt(), "ASW_MEDRIFLE", this ) )
+	if ( bMedRifleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_medrifle.GetInt() * 2, "ASW_MEDRIFLE", this ) )
 	{
 		UTIL_Remove( this );
 		return;
 	}
 
-	if ( ASW_GiveAmmo( pNPC, asw_ammo_count_pdw.GetInt(), "ASW_PDW", this) )
+	if ( ASW_GiveAmmo( pNPC, asw_ammo_count_pdw.GetInt() * 2, "ASW_PDW", this) )
 	{
 		UTIL_Remove( this );
 		return;
 	}
 
-	if ( !bMedRifleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_medrifle.GetInt(), "ASW_MEDRIFLE", this ) )
+	if ( !bMedRifleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_medrifle.GetInt() * 2, "ASW_MEDRIFLE", this ) )
 	{
 		UTIL_Remove( this );
 		return;
