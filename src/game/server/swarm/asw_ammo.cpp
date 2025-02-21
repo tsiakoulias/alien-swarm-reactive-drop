@@ -539,7 +539,7 @@ END_SEND_TABLE()
 BEGIN_DATADESC( CASW_Ammo_Railgun )
 END_DATADESC()
 
-//LINK_ENTITY_TO_CLASS(asw_ammo_railgun, CASW_Ammo_Railgun);
+LINK_ENTITY_TO_CLASS(asw_ammo_railgun, CASW_Ammo_Railgun);
 
 void CASW_Ammo_Railgun::Spawn( void )
 {
@@ -638,19 +638,19 @@ void CASW_Ammo_PDW::ActivateUseIcon( CASW_Inhabitable_NPC *pNPC, int nHoldType )
 		return;
 
 	bool bMedRifleActive = pNPC->GetActiveWeapon() && pNPC->GetActiveWeapon()->GetPrimaryAmmoType() == GetAmmoDef()->Index( "ASW_MEDRIFLE" );
-	if ( bMedRifleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_medrifle.GetInt() * 2, "ASW_MEDRIFLE", this ) )
+	if ( bMedRifleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_medrifle.GetInt(), "ASW_MEDRIFLE", this ) )
 	{
 		UTIL_Remove( this );
 		return;
 	}
 
-	if ( ASW_GiveAmmo( pNPC, asw_ammo_count_pdw.GetInt() * 2, "ASW_PDW", this) )
+	if ( ASW_GiveAmmo( pNPC, asw_ammo_count_pdw.GetInt(), "ASW_PDW", this) )
 	{
 		UTIL_Remove( this );
 		return;
 	}
 
-	if ( !bMedRifleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_medrifle.GetInt() * 2, "ASW_MEDRIFLE", this ) )
+	if ( !bMedRifleActive && ASW_GiveAmmo( pNPC, asw_ammo_count_medrifle.GetInt(), "ASW_MEDRIFLE", this ) )
 	{
 		UTIL_Remove( this );
 		return;
