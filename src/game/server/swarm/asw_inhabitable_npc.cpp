@@ -151,6 +151,7 @@ BEGIN_ENT_SCRIPTDESC( CASW_Inhabitable_NPC, CBaseCombatCharacter, "Alien Swarm I
 	DEFINE_SCRIPTFUNC( SetHealthBarColor, "Sets the health bar color. Cheaper than spawning an asw_health_bar. Set alpha to 0 to disable the health bar." )
 	DEFINE_SCRIPTFUNC( SetHealthBarScale, "Sets the health bar scale. Negative scales hide the health bar if the alien's health is full." )
 	DEFINE_SCRIPTFUNC( SetHealthBarOffset, "Sets the health bar offset in local space." )
+	DEFINE_SCRIPTFUNC( Die, "Simple kill function for aliens and marines." )
 END_SCRIPTDESC()
 
 CASW_Inhabitable_NPC::CASW_Inhabitable_NPC()
@@ -341,6 +342,17 @@ void CASW_Inhabitable_NPC::Suicide()
 	m_iHealth = 1;
 
 	CTakeDamageInfo info( this, this, Vector( 0, 0, 0 ), GetAbsOrigin(), 100, DMG_NEVERGIB );
+	TakeDamage( info );
+}
+
+void CASW_Inhabitable_NPC::Die()
+{
+	if ( !IsAlive() )
+		return;
+	
+	SetHealth( 1 );
+
+	CTakeDamageInfo info( NULL, NULL, 100, DMG_FALL );
 	TakeDamage( info );
 }
 
