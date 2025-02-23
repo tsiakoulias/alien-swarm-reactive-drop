@@ -355,7 +355,7 @@ void CASW_Grenade_Vindicator::Detonate()
 	SetModelIndex( 0 );
 	SetModelName( NULL_STRING );
 	SetTouch( NULL );
-	SetCollisionGroup( COLLISION_GROUP_DEBRIS );
+	SetSolid( SOLID_NONE );
 
 	// give time for m_vecDetonateOrigin to be sent to client so it can simulate the explosion effects
 	SetThink( &CASW_Grenade_Vindicator::SUB_Remove );
