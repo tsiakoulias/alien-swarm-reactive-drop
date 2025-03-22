@@ -2036,13 +2036,9 @@ static const char *LB_whitelist[] =
 	"RD_SpeedRun_2178770089_turbo_asbi_wb_rng2_c2/",
 
 	"RD_SpeedRun_2381921032_asbi2077/",
-
 	"RD_SpeedRun_2461568606_elite/",
-
 	"RD_SpeedRun_2461568606_elite_c2/",
-
 	"RD_SpeedRun_2461568606_asbi_elite/",
-
 	"RD_SpeedRun_2461568606_asbi_elite_c2/",
 
 	"RD_SpeedRun_1940930023_asbi_carnage2_classic/",
@@ -2051,6 +2047,8 @@ static const char *LB_whitelist[] =
 
 	"RD_SpeedRun_2811007850_campaignexecution/",
 	"RD_SpeedRun_2811007850_asbi_campaignexecution/",
+
+	"RD_SpeedRun_3448984702_rdf",
 };
 
 static bool StartsWith( const char *str, const char *pre )
