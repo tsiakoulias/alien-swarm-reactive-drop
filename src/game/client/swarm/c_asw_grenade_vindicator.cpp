@@ -16,15 +16,15 @@ C_ASW_Grenade_Vindicator::C_ASW_Grenade_Vindicator()
 	m_bDetonated = false;
 	m_pSmokeTrail = NULL;
 	m_vecDetonateOrigin = Vector( 0.0, 0.0, 0.0 );
+}
 
-	EmitSound( "ASWGrenade.Alarm" );
+void C_ASW_Grenade_Vindicator::Spawn()
+{
+	CreateSmokeTrail();
 }
 
 void C_ASW_Grenade_Vindicator::OnDataChanged(DataUpdateType_t updateType)
 {
-	if ( updateType == DATA_UPDATE_CREATED )
-		CreateSmokeTrail();
-
 	if ( updateType == DATA_UPDATE_DATATABLE_CHANGED )
 	{
 		if ( !m_bDetonated && m_vecDetonateOrigin != Vector( 0.0, 0.0, 0.0 ) )
@@ -51,7 +51,6 @@ void C_ASW_Grenade_Vindicator::Detonate()
 		m_pSmokeTrail = NULL;
 	}
 
-	StopSound( "ASWGrenade.Alarm" );
 	EmitSound( "ASWGrenade.Incendiary" );
-	DispatchParticleEffect( "vindicator_grenade", m_vecDetonateOrigin, GetLocalAngles() );
+	DispatchParticleEffect( "vindicator_grenade", m_vecDetonateOrigin, vec3_angle );
 }

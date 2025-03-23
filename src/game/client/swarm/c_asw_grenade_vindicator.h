@@ -12,6 +12,7 @@ class C_ASW_Grenade_Vindicator : public C_ASW_Rifle_Grenade
 
 public:
 	C_ASW_Grenade_Vindicator();
+	virtual void Spawn();
 	virtual void OnDataChanged(DataUpdateType_t updateType);
 	virtual void Detonate();
 	void CreateSmokeTrail();

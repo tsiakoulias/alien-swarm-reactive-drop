@@ -109,6 +109,10 @@ void CASW_Grenade_Vindicator::Spawn( void )
 	QAngle vecAngVelocity( random->RandomFloat ( -100, -500 ), 0, 0 );
 	SetLocalAngularVelocity( vecAngVelocity );
 
+	if ( !m_bSilent )
+	{
+		EmitSound( "ASWGrenade.Alarm" );  // 3 second warning sound
+	}
 	SetFuseLength(asw_vindicator_grenade_fuse.GetFloat());
 
 	m_fEarliestTouchDetonationTime = GetEarliestTouchDetonationTime();
@@ -235,6 +239,8 @@ extern ConVar asw_medal_explosive_kills;
 void CASW_Grenade_Vindicator::Detonate()
 {
 	m_takedamage	= DAMAGE_NO;
+
+	StopSound( "ASWGrenade.Alarm" );
 
 	m_vecDetonateOrigin = GetAbsOrigin();
 
