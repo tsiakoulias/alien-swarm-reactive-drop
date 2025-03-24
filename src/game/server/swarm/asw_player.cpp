@@ -221,6 +221,7 @@ IMPLEMENT_SERVERCLASS_ST( CASW_Player, DT_ASW_Player )
 	SendPropQAngles( SENDINFO( m_angEyeAngles ), 10, SPROP_CHANGES_OFTEN, SendProxy_QAngles, SENDPROP_PLAYER_EYE_ANGLES_PRIORITY ),
 	SendPropEHandle( SENDINFO( m_hInhabiting ) ),
 	SendPropEHandle( SENDINFO( m_hSpectating ) ),
+	SendPropInt( SENDINFO( m_iSpectatorIndexes ) ),
 	SendPropFloat( SENDINFO( m_fMarineDeathTime ) ),
 	SendPropEHandle( SENDINFO( m_hOrderingMarine ) ),
 	SendPropEHandle( SENDINFO( m_pCurrentInfoMessage ) ),
@@ -250,6 +251,7 @@ BEGIN_DATADESC( CASW_Player )
 	DEFINE_FIELD( m_vecLastMarineOrigin, FIELD_VECTOR ),
 	DEFINE_FIELD( m_hInhabiting, FIELD_EHANDLE ),
 	DEFINE_FIELD( m_hSpectating, FIELD_EHANDLE ),
+	DEFINE_FIELD( m_iSpectatorIndexes, FIELD_INTEGER ),
 	DEFINE_FIELD( m_vecStoredPosition, FIELD_VECTOR ),
 	DEFINE_FIELD( m_pCurrentInfoMessage, FIELD_EHANDLE ),
 	DEFINE_FIELD( m_iUseEntities, FIELD_INTEGER ),
@@ -441,6 +443,8 @@ CASW_Player::~CASW_Player()
 	m_PlayerAnimState->Release();
 	if ( ASWGameRules() )
 		ASWGameRules()->SetMaxMarines( this );
+
+	SetSpectatingNPC( NULL );
 }
 
 //------------------------------------------------------------------------------
@@ -556,9 +560,9 @@ void CASW_Player::PostThink()
 				if (found_available_marine)
 				{
 					DevMsg(" Riflemod Drop-In. Switching player to marine 0\n");
+					SetSpectatingNPC( NULL );
 					pBotMarine->SetCommander( this );
 					pBotMarine->GetMarineResource()->SetCommander( this );
-					SetSpectatingNPC( NULL );
 					SwitchMarine( 0, false );
 					// reactivedrop: when player took marine under control
 					// delay his primary attack to prevent immediate shooting at
@@ -693,6 +697,7 @@ void CASW_Player::Spawn()
 	m_nChangingSlot = 0;
 	m_bHasAwardedXP = false;
 	m_bSentPromotedMessage = false;
+	m_iSpectatorIndexes = 0;
 
 	m_flLastActiveTime = gpGlobals->curtime;
 
@@ -2213,7 +2218,23 @@ void CASW_Player::SpectateNextMarine()
 
 void CASW_Player::SetSpectatingNPC( CASW_Inhabitable_NPC *pSpectating )
 {
+	int nOwnIndex = pow( 2, GetClientIndex() + 1 );
+	CASW_Inhabitable_NPC *pSpectatingPrevious = GetSpectatingNPC();
+	if ( pSpectatingPrevious && pSpectatingPrevious->GetCommander() )
+	{
+		pSpectatingPrevious->GetCommander()->m_iSpectatorIndexes -= nOwnIndex;
+	}
+	
 	m_hSpectating = pSpectating;
+
+	if ( !pSpectating )
+		return;
+
+	CASW_Player *pPlayer = pSpectating->GetCommander();
+	if ( !pPlayer )
+		return;
+
+	pPlayer->m_iSpectatorIndexes += nOwnIndex;
 }
 
 CASW_Inhabitable_NPC *CASW_Player::GetSpectatingNPC() const
