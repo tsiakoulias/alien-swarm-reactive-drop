@@ -2048,7 +2048,9 @@ static const char *LB_whitelist[] =
 	"RD_SpeedRun_2811007850_campaignexecution/",
 	"RD_SpeedRun_2811007850_asbi_campaignexecution/",
 
-	"RD_SpeedRun_3448984702_rdf",
+	"RD_SpeedRun_3448984702_rdf/",
+	"RD_SpeedRun_3448984702_rdf_topdown/",
+	"RD_SpeedRun_3448984702_rdf_rockets/",
 };
 
 static bool StartsWith( const char *str, const char *pre )
