@@ -353,6 +353,8 @@ void CASW_Inhabitable_NPC::Die()
 	SetHealth( 1 );
 
 	CTakeDamageInfo info( NULL, NULL, 100, DMG_FALL );
+	info.SetCallVScriptHook( false );
+
 	TakeDamage( info );
 }
 

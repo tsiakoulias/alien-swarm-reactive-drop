@@ -83,6 +83,9 @@ public:
 	float			GetRadius() const;
 	void			SetRadius( float fRadius );
 
+	bool			GetCallVScriptHook() const;
+	void			SetCallVScriptHook( bool bCall );
+
 	void			Set( CBaseEntity *pInflictor, CBaseEntity *pAttacker, float flDamage, int bitsDamageType, int iKillType = 0 );
 	void			Set( CBaseEntity *pInflictor, CBaseEntity *pAttacker, CBaseEntity *pWeapon, float flDamage, int bitsDamageType, int iKillType = 0 );
 	void			Set( CBaseEntity *pInflictor, CBaseEntity *pAttacker, const Vector &damageForce, const Vector &damagePosition, float flDamage, int bitsDamageType, int iKillType = 0, Vector *reportedPosition = NULL );
@@ -116,6 +119,7 @@ protected:
 	int				m_iDamageStats;
 	int				m_iAmmoType;			// AmmoType of the weapon used to cause this damage, if any
 	float			m_flRadius;
+	bool			m_bCallVScriptHook;
 
 	DECLARE_SIMPLE_DATADESC();
 };
@@ -342,6 +346,16 @@ inline float CTakeDamageInfo::GetRadius() const
 inline void CTakeDamageInfo::SetRadius( float flRadius )
 {
 	m_flRadius = flRadius;
+}
+
+inline bool CTakeDamageInfo::GetCallVScriptHook() const
+{
+	return m_bCallVScriptHook;
+}
+
+inline void CTakeDamageInfo::SetCallVScriptHook( bool bCall )
+{
+	m_bCallVScriptHook = bCall;
 }
 
 
