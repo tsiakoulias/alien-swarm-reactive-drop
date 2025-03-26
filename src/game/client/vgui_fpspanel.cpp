@@ -537,7 +537,7 @@ void CFPSPanel::Paint()
 			i += 3;
 
 			int nSpecCount = 0;
-			for ( int id = 1; id < 31; id += 1 )
+			for ( int id = 1; id <= 32; id += 1 )
 			{
 				if ( !g_PR->IsConnected( id ) )
 					continue;
@@ -545,11 +545,10 @@ void CFPSPanel::Paint()
 				if ( g_PR->IsFakePlayer( id ) )
 					continue;
 
-				if ( !( pPlayer->m_iSpectatorIndexes.Get() & static_cast<int>( pow( 2, id ) ) ) )
+				if ( !( pPlayer->m_iSpectatorIndexes.Get() & ( 1u << id ) ) )
 					continue;
 
 				nSpecCount++;
-
 				i++;
 
 				char szSpecName[k_cchPersonaNameMax] = { 0 };
@@ -560,7 +559,10 @@ void CFPSPanel::Paint()
 			}
 
 			if ( nSpecCount == 0 )
+			{
+				i -= 3;
 				break;
+			}
 
 			char szName[k_cchPersonaNameMax] = { 0 };
 			Q_strncpy( szName, pPlayer->GetPlayerName(), sizeof( szName ) );

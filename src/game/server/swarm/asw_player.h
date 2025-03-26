@@ -91,7 +91,7 @@ public:
 	CASW_Inhabitable_NPC *GetSpectatingNPC() const;
 	HSCRIPT ScriptGetSpectatingNPC() const;
 	CNetworkHandle( CASW_Inhabitable_NPC, m_hSpectating );
-	CNetworkVar( int, m_iSpectatorIndexes );
+	CNetworkVar( unsigned int, m_iSpectatorIndexes );
 	bool m_bLastAttackButton;	// used to detect left clicks for cycling through marines
 	bool m_bLastAttack2Button;	// used to detect right clicks for cycling through marines
 	bool m_bRequestedSpectator;	// this player requested to be a spectator since the start of a match (won't be considered for leader, campaign votes, etc.)

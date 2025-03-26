@@ -2218,11 +2218,11 @@ void CASW_Player::SpectateNextMarine()
 
 void CASW_Player::SetSpectatingNPC( CASW_Inhabitable_NPC *pSpectating )
 {
-	int nOwnIndex = pow( 2, GetClientIndex() + 1 );
+	unsigned int nOwnIndex = 1u << ( GetClientIndex() + 1 );
 	CASW_Inhabitable_NPC *pSpectatingPrevious = GetSpectatingNPC();
 	if ( pSpectatingPrevious && pSpectatingPrevious->GetCommander() )
 	{
-		pSpectatingPrevious->GetCommander()->m_iSpectatorIndexes -= nOwnIndex;
+		pSpectatingPrevious->GetCommander()->m_iSpectatorIndexes &=~ nOwnIndex;
 	}
 	
 	m_hSpectating = pSpectating;
@@ -2234,7 +2234,7 @@ void CASW_Player::SetSpectatingNPC( CASW_Inhabitable_NPC *pSpectating )
 	if ( !pPlayer )
 		return;
 
-	pPlayer->m_iSpectatorIndexes += nOwnIndex;
+	pPlayer->m_iSpectatorIndexes |= nOwnIndex;
 }
 
 CASW_Inhabitable_NPC *CASW_Player::GetSpectatingNPC() const
