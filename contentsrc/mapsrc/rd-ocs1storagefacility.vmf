@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "50"
+	"mapversion" "51"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -20,7 +20,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "50"
+	"mapversion" "51"
 	"classname" "worldspawn"
 	"comment" "Decompiled by BSPSource v1.3.6 from ocs_1.bsp"
 	"detailmaterial" "detail/detailsprites"
@@ -7079,7 +7079,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "304 -1680 -335.75"
 	editor
 	{
@@ -7110,7 +7110,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "360 -1704 -335.75"
 	editor
 	{
@@ -7141,7 +7141,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "695.342 -1766.23 -335.75"
 	editor
 	{
@@ -7172,7 +7172,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "272 -1680 -336"
 	editor
 	{
@@ -7203,7 +7203,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "288 -1680 -299.34"
 	editor
 	{
@@ -7234,7 +7234,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "500.355 -2015.84 -335.75"
 	editor
 	{
@@ -7265,7 +7265,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "554.972 -2031.3 -335.75"
 	editor
 	{
@@ -7296,7 +7296,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "518.125 -2063.52 -335.75"
 	editor
 	{
@@ -7327,7 +7327,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "615.008 -2062.41 -335.75"
 	editor
 	{
@@ -7415,7 +7415,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "98 -1844 -344"
 	editor
 	{
@@ -8188,7 +8188,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "-24 -856 -367.75"
 	editor
 	{
@@ -8219,7 +8219,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "986.84 -926.76 -367.75"
 	editor
 	{
@@ -8250,7 +8250,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "993.525 -967.324 -367.75"
 	editor
 	{
@@ -8281,7 +8281,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "550.852 -556.516 -424.25"
 	editor
 	{
@@ -8441,7 +8441,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "-56 -436 -314"
 	editor
 	{
@@ -8472,7 +8472,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "-100 -436 -314"
 	editor
 	{
@@ -8503,7 +8503,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "-74 -416 -294"
 	editor
 	{
@@ -8622,7 +8622,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "-418 -422 -431.75"
 	editor
 	{
@@ -8792,7 +8792,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "623.854 -339.155 -367.75"
 	editor
 	{
@@ -8823,7 +8823,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "666.562 -341.123 -367.75"
 	editor
 	{
@@ -8969,7 +8969,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "974.637 232 -360.25"
 	editor
 	{
@@ -9046,7 +9046,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "986.757 -72 -352"
 	editor
 	{
@@ -9125,7 +9125,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "496 797.72 -360.25"
 	editor
 	{
@@ -9179,7 +9179,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "496.094 1005.7 -367.75"
 	editor
 	{
@@ -11038,7 +11038,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "85.84 859.879 -367.75"
 	editor
 	{
@@ -11069,7 +11069,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "-384 608 -335.75"
 	editor
 	{
@@ -11236,7 +11236,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "150 584 -367.75"
 	editor
 	{
@@ -12228,7 +12228,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "1040 1788 -360.25"
 	editor
 	{
@@ -12305,7 +12305,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "925.975 2179.46 -367.75"
 	editor
 	{
@@ -12336,7 +12336,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "963.307 2180.74 -367.75"
 	editor
 	{
@@ -12367,7 +12367,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "2021.59 2486.54 -367.75"
 	editor
 	{
@@ -13922,7 +13922,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "2023.62 2879.68 -367.75"
 	editor
 	{
@@ -13953,7 +13953,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "1817.59 3106.5 -367.75"
 	editor
 	{
@@ -13984,7 +13984,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "1821.08 3059.38 -367.75"
 	editor
 	{
@@ -14357,7 +14357,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "2080 2427.92 -367.75"
 	editor
 	{
@@ -14388,7 +14388,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "2114.68 2432 -367.75"
 	editor
 	{
@@ -14444,7 +14444,7 @@ entity
 	"rendercolor" "255 255 255"
 	"shadowcastdist" "0"
 	"skin" "0"
-	"spawnflags" "4"
+	"spawnflags" "0"
 	"origin" "-215.58 -2712.67 -489.393"
 	editor
 	{
@@ -57131,8 +57131,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[-136.62 -1923.02 59.7774]"
-		"look" "[-135.872 -1770.14 -158.388]"
+		"position" "[-489.708 -3413 41.967]"
+		"look" "[-402.15 -3191.97 -78.2293]"
 	}
 	camera
 	{
