@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "36"
+	"mapversion" "37"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -20,7 +20,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "36"
+	"mapversion" "37"
 	"classname" "worldspawn"
 	"comment" "Decompiled by BSPSource v1.3.6 from ocs_2.bsp"
 	"detailmaterial" "detail/detailsprites"
@@ -11774,7 +11774,7 @@ entity
 		"OnComputerDataDownloaded" "shuttledoor1Open21"
 		"OnComputerActivated" "spwnr1StartSpawning0-1"
 		"OnComputerHackHalfway" "spwnr2StartSpawning0-1"
-		"OnComputerDataDownloaded" "techreqDisableTechMarineReq01"
+		"OnComputerHackCompleted" "techreqDisableTechMarineReq01"
 	}
 	solid
 	{
@@ -16035,6 +16035,7 @@ entity
 	"classname" "asw_jukebox"
 	"FadeInTime" "1.0"
 	"FadeOutTime" "1.0"
+	"InterruptCustomTrack" "1"
 	"origin" "3540.15 -212.181 -15"
 	editor
 	{
@@ -21773,6 +21774,7 @@ entity
 {
 	"id" "867"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "480"
 	"mapwidth" "480"
 	"objectivename" "eggs"
@@ -21791,6 +21793,7 @@ entity
 {
 	"id" "868"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "480"
 	"mapwidth" "480"
 	"objectivename" "eggs"
@@ -21809,6 +21812,7 @@ entity
 {
 	"id" "869"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "480"
 	"mapwidth" "480"
 	"objectivename" "eggs"
@@ -21827,6 +21831,7 @@ entity
 {
 	"id" "870"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "480"
 	"mapwidth" "480"
 	"objectivename" "eggs"
@@ -21845,6 +21850,7 @@ entity
 {
 	"id" "871"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "480"
 	"mapwidth" "480"
 	"objectivename" "eggs"
@@ -21863,6 +21869,7 @@ entity
 {
 	"id" "872"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "480"
 	"mapwidth" "480"
 	"objectivename" "eggs"
@@ -21881,6 +21888,7 @@ entity
 {
 	"id" "873"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "480"
 	"mapwidth" "480"
 	"objectivename" "eggs"
@@ -21899,6 +21907,7 @@ entity
 {
 	"id" "874"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "480"
 	"mapwidth" "480"
 	"objectivename" "eggs"
@@ -21917,6 +21926,7 @@ entity
 {
 	"id" "875"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "480"
 	"mapwidth" "480"
 	"objectivename" "eggs"
@@ -21935,6 +21945,7 @@ entity
 {
 	"id" "876"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "480"
 	"mapwidth" "480"
 	"objectivename" "eggs"
@@ -84036,8 +84047,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[4214.15 -138.404 257.471]"
-		"look" "[3970.33 -195.158 166.356]"
+		"position" "[4274.08 13.0012 309.476]"
+		"look" "[4126.32 -167.679 181.053]"
 	}
 	camera
 	{
