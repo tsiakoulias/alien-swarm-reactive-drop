@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "117"
+	"mapversion" "120"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -14,13 +14,13 @@ viewsettings
 	"bSnapToGrid" "1"
 	"bShowGrid" "1"
 	"bShowLogicalGrid" "0"
-	"nGridSpacing" "4"
+	"nGridSpacing" "1"
 	"bShow3DGrid" "0"
 }
 world
 {
 	"id" "1"
-	"mapversion" "117"
+	"mapversion" "120"
 	"classname" "worldspawn"
 	"comment" "Decompiled by BSPSource v1.3.6 from yanaurus_01.bsp"
 	"detailmaterial" "detail/detailsprites"
@@ -47074,7 +47074,7 @@ entity
 {
 	"id" "1422"
 	"classname" "trigger_asw_door_area"
-	"origin" "7529.5 7131 -23"
+	"origin" "7533 7131 -23"
 	"parentname" "elevator"
 	"playersrequired" "20"
 	"spawnflags" "16"
@@ -47094,7 +47094,7 @@ entity
 		side
 		{
 			"id" "1049"
-			"plane" "(7411 6939 16) (7411 6939 -62) (7411 7323 -62)"
+			"plane" "(7390 6939 16) (7390 6939 -62) (7390 7323 -62)"
 			"material" "TOOLS/TOOLSTRIGGER"
 			"uaxis" "[0 1 0 0] 0.25"
 			"vaxis" "[0 0 -1 0] 0.25"
@@ -47105,7 +47105,7 @@ entity
 		side
 		{
 			"id" "1050"
-			"plane" "(7648 7323 16) (7648 7323 -62) (7648 6939 -62)"
+			"plane" "(7676 7323 16) (7676 7323 -62) (7676 6939 -62)"
 			"material" "TOOLS/TOOLSTRIGGER"
 			"uaxis" "[0 1 0 0] 0.25"
 			"vaxis" "[0 0 -1 0] 0.25"
@@ -47116,7 +47116,7 @@ entity
 		side
 		{
 			"id" "1051"
-			"plane" "(7648 6939 16) (7648 6939 -62) (7411 6939 -62)"
+			"plane" "(7676 6939 16) (7676 6939 -62) (7390 6939 -62)"
 			"material" "TOOLS/TOOLSTRIGGER"
 			"uaxis" "[1 0 0 -48] 0.25"
 			"vaxis" "[0 0 -1 0] 0.25"
@@ -47127,7 +47127,7 @@ entity
 		side
 		{
 			"id" "1052"
-			"plane" "(7411 7323 16) (7411 7323 -62) (7648 7323 -62)"
+			"plane" "(7390 7323 16) (7390 7323 -62) (7676 7323 -62)"
 			"material" "TOOLS/TOOLSTRIGGER"
 			"uaxis" "[1 0 0 -48] 0.25"
 			"vaxis" "[0 0 -1 0] 0.25"
@@ -47138,7 +47138,7 @@ entity
 		side
 		{
 			"id" "1053"
-			"plane" "(7411 7323 -62) (7411 6939 -62) (7648 6939 -62)"
+			"plane" "(7390 7323 -62) (7390 6939 -62) (7676 6939 -62)"
 			"material" "TOOLS/TOOLSTRIGGER"
 			"uaxis" "[1 0 0 -48] 0.25"
 			"vaxis" "[0 -1 0 0] 0.25"
@@ -47149,7 +47149,7 @@ entity
 		side
 		{
 			"id" "1054"
-			"plane" "(7411 6939 16) (7411 7323 16) (7648 7323 16)"
+			"plane" "(7390 6939 16) (7390 7323 16) (7676 7323 16)"
 			"material" "TOOLS/TOOLSTRIGGER"
 			"uaxis" "[1 0 0 -48] 0.25"
 			"vaxis" "[0 -1 0 0] 0.25"
