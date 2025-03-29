@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "891"
+	"mapversion" "892"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -32,7 +32,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "891"
+	"mapversion" "892"
 	"classname" "worldspawn"
 	"chaptertitle" "Wastelands Hell on this Rock"
 	"detailmaterial" "detail/detailsprites"
@@ -113690,6 +113690,7 @@ entity
 	"DefaultMusic" "area9800.WLBattleMusic01"
 	"FadeInTime" "1.0"
 	"FadeOutTime" "5"
+	"InterruptCustomTrack" "1"
 	"targetname" "Area9800_BM_01"
 	"origin" "-352 -168 17"
 	editor
@@ -132921,6 +132922,7 @@ entity
 	{
 		"OnButtonHackCompleted" "SmallBridge_02Open0-1"
 		"OnButtonHackCompleted" "node_link02TurnOn2-1"
+		"OnButtonHackCompleted" "@tech_reqDisableTechMarineReq01"
 	}
 	solid
 	{
@@ -134949,6 +134951,7 @@ entity
 	"id" "886081"
 	"classname" "func_asw_fade"
 	"AllowFade" "0"
+	"CollideWithMarines" "1"
 	"disablereceiveshadows" "0"
 	"disableshadows" "0"
 	"fade_opacity" "0"
@@ -155115,6 +155118,7 @@ entity
 	"id" "1626372"
 	"classname" "func_asw_fade"
 	"AllowFade" "1"
+	"CollideWithMarines" "1"
 	"fade_opacity" "255"
 	"origin" "512 -2192 -384"
 	"renderamt" "255"
@@ -156801,6 +156805,7 @@ entity
 	"id" "1626442"
 	"classname" "func_asw_fade"
 	"AllowFade" "1"
+	"CollideWithMarines" "1"
 	"fade_opacity" "0"
 	"origin" "536 -2216 -384"
 	"renderamt" "255"
@@ -156973,6 +156978,7 @@ entity
 	"id" "1626463"
 	"classname" "func_asw_fade"
 	"AllowFade" "1"
+	"CollideWithMarines" "1"
 	"fade_opacity" "0"
 	"origin" "2128 -2776 -320"
 	"renderamt" "255"
@@ -157935,6 +157941,7 @@ entity
 	"id" "1649934"
 	"classname" "func_asw_fade"
 	"AllowFade" "0"
+	"CollideWithMarines" "1"
 	"fade_opacity" "0"
 	"origin" "2304 1120 -432"
 	"renderamt" "255"
