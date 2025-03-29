@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "678"
+	"mapversion" "679"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -32,7 +32,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "678"
+	"mapversion" "679"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -127155,7 +127155,7 @@ entity
 		"OnComputerDataDownloaded" "hint_computerhackShowHint0-1"
 		"OnComputerDataDownloaded" "hint_improviseShowHint8-1"
 		"OnComputerDataDownloaded" "alarmPlaySound0-1"
-		"OnComputerDataDownloaded" "techDisableTechMarineReq0-1"
+		"OnComputerHackCompleted" "techDisableTechMarineReq01"
 		"OnComputerDataDownloaded" "marker_server_objectiveSetComplete0-1"
 		"OnComputerDataDownloaded" "marker1_escape_objEnable0-1"
 		"OnComputerDataDownloaded" "sprite_main_computerKill0-1"

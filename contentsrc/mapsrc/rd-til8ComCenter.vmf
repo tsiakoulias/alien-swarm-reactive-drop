@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "763"
+	"mapversion" "764"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -44,7 +44,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "763"
+	"mapversion" "764"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -47706,7 +47706,7 @@ entity
 	connections
 	{
 		"OnComputerDataDownloaded" "objective3SetComplete0-1"
-		"OnComputerDataDownloaded" "techreqDisableTechMarineReq01"
+		"OnComputerHackCompleted" "techreqDisableTechMarineReq01"
 		"OnComputerDataDownloaded" "lastdoor2Open2-1"
 		"OnComputerDataDownloaded" "lastdoor1Open2-1"
 		"OnComputerDataDownloaded" "buzzerescapeStartSpawning5-1"
@@ -64687,6 +64687,7 @@ entity
 	"DefaultMusic" "tilarus.CommCenterBattleMusic"
 	"FadeInTime" "1.0"
 	"FadeOutTime" "5"
+	"InterruptCustomTrack" "1"
 	"targetname" "battlemusic"
 	"origin" "3050 6692 -114"
 	editor
@@ -67934,6 +67935,7 @@ entity
 	"DefaultMusic" "tilarus.CommCenterBattleMusic2"
 	"FadeInTime" "1.0"
 	"FadeOutTime" "5"
+	"InterruptCustomTrack" "1"
 	"targetname" "rumble"
 	"origin" "2544 1041.36 320"
 	editor
@@ -76362,6 +76364,7 @@ entity
 {
 	"id" "485693"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "650"
 	"mapwidth" "800"
 	"objectivename" "objective2"
@@ -76424,6 +76427,7 @@ entity
 {
 	"id" "485802"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "1200"
 	"mapwidth" "350"
 	"objectivename" "objective2"
@@ -76464,6 +76468,7 @@ entity
 {
 	"id" "485837"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "256"
 	"mapwidth" "256"
 	"objectivename" "objective2"
@@ -76504,6 +76509,7 @@ entity
 {
 	"id" "485867"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "2048"
 	"mapwidth" "1024"
 	"objectivename" "objective2"
@@ -76522,6 +76528,7 @@ entity
 {
 	"id" "485952"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "256"
 	"mapwidth" "256"
 	"objectivename" "objective3"
@@ -76540,6 +76547,7 @@ entity
 {
 	"id" "485975"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "256"
 	"mapwidth" "256"
 	"objectivename" "objective1"
@@ -76558,6 +76566,7 @@ entity
 {
 	"id" "485996"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "512"
 	"mapwidth" "512"
 	"objectivename" "objective4"
