@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "37"
+	"mapversion" "60"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -20,7 +20,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "37"
+	"mapversion" "60"
 	"classname" "worldspawn"
 	"comment" "Decompiled by BSPSource v1.3.6 from ocs_2.bsp"
 	"detailmaterial" "detail/detailsprites"
@@ -8855,7 +8855,7 @@ entity
 entity
 {
 	"id" "131"
-	"classname" "env_sprite_clientside"
+	"classname" "env_sprite"
 	"framerate" "10.0"
 	"GlowProxySize" "1"
 	"HDRColorScale" "1.0"
@@ -8864,6 +8864,8 @@ entity
 	"rendercolor" "205 73 73"
 	"rendermode" "9"
 	"scale" ".15"
+	"spawnflags" "1"
+	"targetname" "shuttle_lamp_left"
 	"origin" "3853.14 -430.078 86.0487"
 	editor
 	{
@@ -8876,7 +8878,7 @@ entity
 entity
 {
 	"id" "132"
-	"classname" "env_sprite_clientside"
+	"classname" "env_sprite"
 	"framerate" "10.0"
 	"GlowProxySize" "1"
 	"HDRColorScale" "1.0"
@@ -8885,6 +8887,8 @@ entity
 	"rendercolor" "205 73 73"
 	"rendermode" "9"
 	"scale" ".15"
+	"spawnflags" "1"
+	"targetname" "shuttle_lamp_right"
 	"origin" "3835.05 -470.964 86.0487"
 	editor
 	{
@@ -11775,6 +11779,10 @@ entity
 		"OnComputerActivated" "spwnr1StartSpawning0-1"
 		"OnComputerHackHalfway" "spwnr2StartSpawning0-1"
 		"OnComputerHackCompleted" "techreqDisableTechMarineReq01"
+		"OnComputerDataDownloaded" "hint_trigger_exit_warnAdd121"
+		"OnComputerDataDownloaded" "hint_trigger_exit_runAdd121"
+		"OnComputerDataDownloaded" "shuttle_lamp_leftColor73 205 7321"
+		"OnComputerDataDownloaded" "shuttle_lamp_rightColor73 205 7321"
 	}
 	solid
 	{
@@ -16512,6 +16520,10 @@ entity
 	"objectiveimage" "rd_ocs2obj1"
 	"targetname" "eggs"
 	"Visible" "1"
+	connections
+	{
+		"OnObjectiveComplete" "hint_trigger_exit_runAdd101"
+	}
 	"origin" "4480 -320 180"
 	editor
 	{
@@ -21602,6 +21614,10 @@ entity
 	"objectivetitle" "#ocs_landingbay7_1_title"
 	"targetname" "enterbay7"
 	"Visible" "1"
+	connections
+	{
+		"OnObjectiveComplete" "hint_trigger_exit_runAdd101"
+	}
 	"origin" "4480 -280 180"
 	editor
 	{
@@ -84040,6 +84056,145 @@ entity
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 4000]"
+	}
+}
+entity
+{
+	"id" "57991"
+	"classname" "info_target"
+	"angles" "0 0 0"
+	"spawnflags" "2"
+	"targetname" "hint_target_exit_run"
+	"origin" "3734.16 -441.92 76.0288"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 0]"
+	}
+}
+entity
+{
+	"id" "58076"
+	"classname" "env_instructor_hint"
+	"hint_allow_nodraw_target" "1"
+	"hint_alphaoption" "0"
+	"hint_caption" "#ocs_landingbay7_3_title"
+	"hint_color" "255 255 255"
+	"hint_forcecaption" "1"
+	"hint_icon_offscreen" "icon_run"
+	"hint_icon_offset" "0"
+	"hint_icon_onscreen" "icon_run"
+	"hint_local_player_only" "0"
+	"hint_nooffscreen" "0"
+	"hint_pulseoption" "0"
+	"hint_range" "10000"
+	"hint_replace_key" "test"
+	"hint_shakeoption" "0"
+	"hint_static" "0"
+	"hint_target" "hint_target_exit_run"
+	"hint_timeout" "0"
+	"targetname" "hint_exit_run"
+	"origin" "3733.19 -420.813 112.25"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 0]"
+	}
+}
+entity
+{
+	"id" "61771"
+	"classname" "math_counter"
+	"max" "3"
+	"min" "0"
+	"StartDisabled" "0"
+	"startvalue" "0"
+	"targetname" "hint_trigger_exit_run"
+	connections
+	{
+		"OnHitMax" "hint_trigger_exit_warnSetValue-101"
+		"OnHitMax" "hint_exit_runShowHint01"
+	}
+	"origin" "3734 -401 137.75"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 0]"
+	}
+}
+entity
+{
+	"id" "61874"
+	"classname" "env_instructor_hint"
+	"hint_allow_nodraw_target" "1"
+	"hint_alphaoption" "0"
+	"hint_caption" "#asw_complete_objective_first"
+	"hint_color" "255 255 255"
+	"hint_forcecaption" "1"
+	"hint_icon_offscreen" "icon_caution"
+	"hint_icon_offset" "0"
+	"hint_icon_onscreen" "icon_caution"
+	"hint_local_player_only" "0"
+	"hint_nooffscreen" "1"
+	"hint_pulseoption" "0"
+	"hint_range" "10000"
+	"hint_shakeoption" "0"
+	"hint_static" "0"
+	"hint_target" "hint_target_exit_warn"
+	"hint_timeout" "0"
+	"targetname" "hint_exit_warn"
+	"origin" "3754.88 -420.625 112"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 0]"
+	}
+}
+entity
+{
+	"id" "62059"
+	"classname" "math_counter"
+	"max" "1"
+	"min" "-1"
+	"StartDisabled" "0"
+	"startvalue" "0"
+	"targetname" "hint_trigger_exit_warn"
+	connections
+	{
+		"OnHitMax" "hint_exit_warnShowHint01"
+		"OnHitMin" "hint_exit_warnEndHint01"
+	}
+	"origin" "3755 -401 137.672"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 0]"
+	}
+}
+entity
+{
+	"id" "62540"
+	"classname" "info_target"
+	"angles" "0 0 0"
+	"spawnflags" "2"
+	"targetname" "hint_target_exit_warn"
+	"origin" "3730.43 -445.911 76.0304"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 0]"
 	}
 }
 cameras
