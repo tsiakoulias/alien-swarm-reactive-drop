@@ -66,6 +66,7 @@ public:
 
 	void ApplySchemeSettings( vgui::IScheme *pScheme ) override;
 	void NavigateTo() override;
+	void OnCommand( const char *command ) override;
 
 	virtual void Activate() = 0;
 	virtual BaseModUI::BaseModHybridButton *GetButton( BaseModUI::CRD_VGUI_Settings *pSettings ) = 0;

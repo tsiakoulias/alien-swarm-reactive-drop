@@ -152,6 +152,10 @@ void CRD_VGUI_Settings::OnCommand( const char *command )
 	{
 		NavigateToTab( m_pBtnAbout, m_pPnlAbout, "about" );
 	}
+	else if ( !V_stricmp( "Back", command ) )
+	{
+		OnKeyCodePressed( ButtonCodeToJoystickButtonCode( KEY_XBUTTON_B, CBaseModPanel::GetSingleton().GetLastActiveUserId() ) );
+	}
 	else
 	{
 		BaseClass::OnCommand( command );
@@ -213,6 +217,18 @@ void CRD_VGUI_Settings_Panel_Base::NavigateTo()
 	}
 
 	BaseClass::NavigateTo();
+}
+
+void CRD_VGUI_Settings_Panel_Base::OnCommand( const char *command )
+{
+	if ( !V_stricmp( "Back", command ) )
+	{
+		OnKeyCodePressed( ButtonCodeToJoystickButtonCode( KEY_XBUTTON_B, CBaseModPanel::GetSingleton().GetLastActiveUserId() ) );
+	}
+	else
+	{
+		BaseClass::OnCommand( command );
+	}
 }
 
 class CRD_VGUI_Option_Color : public vgui::EditablePanel
