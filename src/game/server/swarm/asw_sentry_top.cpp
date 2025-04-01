@@ -60,6 +60,7 @@ BEGIN_DATADESC( CASW_Sentry_Top )
 	DEFINE_FIELD( m_iSentryAngle, FIELD_INTEGER ),
 	DEFINE_KEYFIELD( m_flShootRange, FIELD_FLOAT, "TurretRange" ),
 	DEFINE_FIELD( m_bLowAmmo, FIELD_BOOLEAN ),	
+	DEFINE_KEYFIELD( m_bFriendlyFire, FIELD_BOOLEAN, "friendlyfire" ),
 END_DATADESC()
 
 BEGIN_ENT_SCRIPTDESC( CASW_Sentry_Top, CBaseCombatCharacter, "sentry top" )
@@ -78,6 +79,7 @@ CASW_Sentry_Top::CASW_Sentry_Top()
 	m_iBaseTurnRate = ASW_SENTRY_TURNRATE / 2;
 	m_iEnemyTurnRate = ASW_SENTRY_TURNRATE;
 	m_iSentryAngle = ASW_SENTRY_ANGLE;
+	m_bFriendlyFire = true;
 
 	m_iPoseParamPitch = -2;
 	m_iPoseParamYaw = -2;

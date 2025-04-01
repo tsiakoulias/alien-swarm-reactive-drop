@@ -12,6 +12,7 @@
 #include "model_types.h"
 #include "gamestringpool.h"
 #include "ammodef.h"
+#include "asw_shareddefs.h"
 #include "takedamageinfo.h"
 #include "shot_manipulator.h"
 #include "ai_debug_shared.h"
@@ -1991,6 +1992,9 @@ void CBaseEntity::FireBullets( const FireBulletsInfo_t &info )
 			{
 				// Damage specified by function parameter
 				CTakeDamageInfo dmgInfo( this, pAttacker, flActualDamage, nActualDamageType );
+				if ( IsSentryClass( Classify() ) )
+					dmgInfo.SetWeapon( this );
+
 				CalculateBulletDamageForce( &dmgInfo, info.m_iAmmoType, vecDir, tr.endpos );
 				dmgInfo.ScaleDamageForce( info.m_flDamageForceScale );
 				dmgInfo.SetAmmoType( info.m_iAmmoType );

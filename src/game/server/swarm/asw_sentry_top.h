@@ -70,6 +70,7 @@ public:
 	int m_iBaseTurnRate; // angles per second
 	int m_iEnemyTurnRate;
 	CNetworkVar( int, m_iSentryAngle );
+	bool m_bFriendlyFire;
 
 	float m_flTimeFirstFired;
 	

@@ -45,6 +45,7 @@
 #include "ammodef.h"
 #include "asw_shareddefs.h"
 #include "asw_sentry_base.h"
+#include "asw_sentry_top.h"
 #include "asw_button_area.h"
 #include "asw_equipment_list.h"
 #include "asw_weapon_parse.h"
@@ -1365,13 +1366,15 @@ int CASW_Marine::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 	CTakeDamageInfo newInfo(info);
 
 	CBaseEntity* pAttacker = newInfo.GetAttacker();
+	CBaseEntity* pWeapon = newInfo.GetWeapon();
 	if ( asw_debug_marine_damage.GetBool() )
 		Msg( "Marine taking premodified damage of %f\n", newInfo.GetDamage() );
 
 	// scale sentry gun damage
-	if ( pAttacker && IsSentryClass( pAttacker->Classify() ) )
+	if ( pWeapon && IsSentryClass( pWeapon->Classify() ) )
 	{
-		if ( asw_sentry_friendly_fire_scale.GetFloat() <= 0 )
+		CASW_Sentry_Top *pSentry = dynamic_cast< CASW_Sentry_Top* >( pWeapon );
+		if ( asw_sentry_friendly_fire_scale.GetFloat() <= 0 || ( pSentry && !pSentry->m_bFriendlyFire ) )
 			return 0;
 
 		newInfo.ScaleDamage( asw_sentry_friendly_fire_scale.GetFloat() );
