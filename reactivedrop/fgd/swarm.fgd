@@ -3824,6 +3824,11 @@
 @PointClass base(Targetname, Parentname, Angles, Studiomodel) studioprop("models/sentry_gun/machinegun_top.mdl") = asw_sentry_top_machinegun
 [
 	TurretRange(float) : "Turret Range" : "525" : "Maximum distance that it will pick targets."
+	friendlyfire(choices) : "Do Friendly Fire" : 1 : "Whether the sentry will inflict friendly fire to marines." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
 ]
 
 @PointClass sphere() iconsprite("editor/env_shake.vmt") base(Targetname, Parentname) = asw_env_shake : 

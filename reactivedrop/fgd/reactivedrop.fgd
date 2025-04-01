@@ -45,6 +45,11 @@
 @PointClass base(Targetname, Parentname, Angles, Studiomodel) studioprop("models/sentry_gun/flame_top.mdl") = asw_sentry_top_flamer
 [
 	TurretRange(float) : "Turret Range" : "375" : "Maximum distance that it will pick targets."
+	friendlyfire(choices) : "Do Friendly Fire" : 1 : "Whether the sentry will inflict friendly fire to marines." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
 ]
 
 @PointClass base(Targetname, Parentname, Angles, Studiomodel) studioprop("models/sentry_gun/freeze_top.mdl") = asw_sentry_top_icer
@@ -56,6 +61,11 @@
 [
 	TurretRange(float) : "Turret Range" : "1000" : "Maximum distance that it will pick targets."
 	FireRate(float) : "Fire Rate" : "1.75" : "Time in seconds between each shot"
+	friendlyfire(choices) : "Do Friendly Fire" : 1 : "Whether the sentry will inflict friendly fire to marines." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
 ]
 
 @SolidClass base(Trigger) = trigger_rd_marine_jumpjet :
