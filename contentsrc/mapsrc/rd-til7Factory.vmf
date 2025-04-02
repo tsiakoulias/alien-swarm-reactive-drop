@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "290"
+	"mapversion" "291"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -44,7 +44,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "290"
+	"mapversion" "291"
 	"classname" "worldspawn"
 	"comment" "Decompiled by BSPSource v1.3.6 from forgotten_factory.bsp"
 	"detailmaterial" "detail/detailsprites"
@@ -17183,6 +17183,7 @@ entity
 	"id" "200321"
 	"classname" "asw_sentry_top_machinegun"
 	"angles" "0 270 0"
+	"friendlyfire" "0"
 	"parentname" "landing_ship"
 	"targetname" "ship_turrets"
 	"TurretRange" "1800"
@@ -17202,6 +17203,7 @@ entity
 	"id" "200324"
 	"classname" "asw_sentry_top_machinegun"
 	"angles" "0 270 0"
+	"friendlyfire" "0"
 	"parentname" "landing_ship"
 	"targetname" "ship_turrets"
 	"TurretRange" "1800"
