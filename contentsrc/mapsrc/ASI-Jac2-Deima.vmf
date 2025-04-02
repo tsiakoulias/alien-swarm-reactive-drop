@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "3312"
+	"mapversion" "3313"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -80,7 +80,7 @@ viewsettings
 world
 {
 	"id" "182379"
-	"mapversion" "3312"
+	"mapversion" "3313"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -139610,6 +139610,7 @@ entity
 	"id" "867349"
 	"classname" "asw_sentry_top_machinegun"
 	"angles" "0 270 0"
+	"friendlyfire" "0"
 	"parentname" "landing_ship"
 	"targetname" "ship_turrets"
 	"TurretRange" "1800"
@@ -139627,6 +139628,7 @@ entity
 	"id" "867352"
 	"classname" "asw_sentry_top_machinegun"
 	"angles" "0 270 0"
+	"friendlyfire" "0"
 	"parentname" "landing_ship"
 	"targetname" "ship_turrets"
 	"TurretRange" "1800"
@@ -172065,8 +172067,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[3030.06 7618.4 782.751]"
-		"look" "[3157.56 7489.44 589.637]"
+		"position" "[2871.41 7751.17 566.21]"
+		"look" "[3088.48 7635.09 468.301]"
 	}
 }
 cordons
