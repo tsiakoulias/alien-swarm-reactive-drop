@@ -189,6 +189,9 @@ void CEntityFlame::AttachToEntity( CBaseEntity *pTarget )
 	// For networking to the client.
 	m_hEntAttached = pTarget;
 
+	if ( !m_hEntAttached )
+		return;
+
 	if( pTarget->IsNPC() )
 	{
 		EmitSound( "General.BurningFlesh" );

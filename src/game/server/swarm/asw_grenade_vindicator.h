@@ -13,9 +13,8 @@ class CASW_Grenade_Vindicator : public CASW_Rifle_Grenade
 public:
 	DECLARE_CLASS( CASW_Grenade_Vindicator, CASW_Rifle_Grenade );
 
-#if !defined( CLIENT_DLL )
+	DECLARE_SERVERCLASS();
 	DECLARE_DATADESC();
-#endif
 					
 	CASW_Grenade_Vindicator();
 	virtual ~CASW_Grenade_Vindicator( void );
@@ -48,6 +47,8 @@ public:
 	bool m_bDamagedByExplosions;
 	bool m_bKicked;
 	bool m_bExplodeOnWorldContact;
+
+	CNetworkVector( m_vecDetonateOrigin );
 
 	CHandle<CSprite>		m_pMainGlow;
 	CHandle<CSpriteTrail>	m_pGlowTrail;

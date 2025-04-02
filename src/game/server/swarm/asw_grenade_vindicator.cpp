@@ -9,6 +9,7 @@
 #include "asw_marine_resource.h"
 #include "te_effect_dispatch.h"
 #include "particle_parse.h"
+#include "EntityFlame.h"
 #include "asw_player.h"
 #include "asw_achievements.h"
 #include "asw_boomer_blob.h"
@@ -51,6 +52,12 @@ BEGIN_DATADESC( CASW_Grenade_Vindicator )
 	DEFINE_OUTPUT(m_OnDamaged, "OnDamaged"),
 END_DATADESC()
 
+IMPLEMENT_NETWORKCLASS_ALIASED( ASW_Grenade_Vindicator, DT_ASW_Grenade_Vindicator )
+
+BEGIN_NETWORK_TABLE( CASW_Grenade_Vindicator, DT_ASW_Grenade_Vindicator )
+	SendPropVector( SENDINFO( m_vecDetonateOrigin ) ),
+END_NETWORK_TABLE()
+
 extern int	g_sModelIndexFireball;			// (in combatweapon.cpp) holds the index for the smoke cloud
 
 CASW_Grenade_Vindicator::CASW_Grenade_Vindicator()
@@ -76,9 +83,11 @@ void CASW_Grenade_Vindicator::Spawn( void )
 	m_DmgRadius		= 220.0f;
 	m_bDamagedByExplosions = rd_vindicator_grenade_pushed_by_explosions.GetBool();
 
-	Ignite(3.0, false, 0, false);
+	Ignite( 3.0, false, 0, false );
 
 	m_takedamage	= DAMAGE_YES;
+
+	m_vecDetonateOrigin = Vector( 0.0, 0.0, 0.0 );
 
 	SetSize( -Vector(4,4,4), Vector(4,4,4) );
 	SetSolid( SOLID_BBOX );
@@ -232,6 +241,9 @@ void CASW_Grenade_Vindicator::Detonate()
 	m_takedamage	= DAMAGE_NO;
 
 	StopSound( "ASWGrenade.Alarm" );
+
+	m_vecDetonateOrigin = GetAbsOrigin();
+
 	CPASFilter filter( GetAbsOrigin() );
 
 	/*
@@ -244,15 +256,6 @@ void CASW_Grenade_Vindicator::Detonate()
 		m_DmgRadius,
 		m_flDamage );
 	*/
-
-	if ( !m_bSilent )
-	{
-		EmitSound( "ASWGrenade.Incendiary" );
-	}
-	// throw out some flames
-	CEffectData	data;			
-	data.m_vOrigin = GetAbsOrigin();
-	DispatchEffect( "ASWFireBurst", data );
 
 	Vector vecForward = GetAbsVelocity();
 	VectorNormalize(vecForward);
@@ -345,7 +348,24 @@ void CASW_Grenade_Vindicator::Detonate()
 		m_iClusters--;
 	}
 
-	UTIL_Remove( this );
+	// hack to remove the burning particles on the grenade itself
+	// theres probably a better way but this has been bothering me for couple hours now
+	CEntityFlame* pEntityFlame = dynamic_cast< CEntityFlame* >( GetEffectEntity() );
+	if ( pEntityFlame )
+	{
+		pEntityFlame->AttachToEntity( NULL );
+		SetEffectEntity( NULL );
+		Extinguish();
+	}
+
+	SetModelIndex( 0 );
+	SetModelName( NULL_STRING );
+	SetTouch( NULL );
+	SetSolid( SOLID_NONE );
+
+	// give time for m_vecDetonateOrigin to be sent to client so it can simulate the explosion effects
+	SetThink( &CASW_Grenade_Vindicator::SUB_Remove );
+	SetNextThink( gpGlobals->curtime + 2.0f );
 }
 
 void CASW_Grenade_Vindicator::Precache()
@@ -360,6 +380,7 @@ void CASW_Grenade_Vindicator::Precache()
 	PrecacheScriptSound("ASWGrenade.Alarm");
 	PrecacheScriptSound("Grenade.ImpactHard");
 	PrecacheParticleSystem( "VindGrenade" );
+	PrecacheParticleSystem( "vindicator_grenade" );
 	PrecacheParticleSystem( "grenade_main_trail" );
 }
 
@@ -370,43 +391,9 @@ void CASW_Grenade_Vindicator::KillEffects()
 
 void CASW_Grenade_Vindicator::CreateEffects()
 {
-	// Start up the eye glow
-	/*
-	m_pMainGlow = CSprite::SpriteCreate( "sprites/redglow1.vmt", GetLocalOrigin(), false );
-
-	int	nAttachment = LookupAttachment( "fuse" );
-
-	if ( m_pMainGlow != NULL )
-	{
-		m_pMainGlow->FollowEntity( this );
-		m_pMainGlow->SetAttachment( this, nAttachment );
-		m_pMainGlow->SetTransparency( kRenderGlow, 255, 255, 255, 200, kRenderFxNoDissipation );
-		m_pMainGlow->SetScale( 0.2f );
-		m_pMainGlow->SetGlowProxySize( 4.0f );
-	}
-
-	// Start up the eye trail
-	m_pGlowTrail	= CSpriteTrail::SpriteTrailCreate( "sprites/bluelaser1.vmt", GetLocalOrigin(), false );
-
-	if ( m_pGlowTrail != NULL )
-	{
-		m_pGlowTrail->FollowEntity( this );
-		m_pGlowTrail->SetAttachment( this, nAttachment );
-		m_pGlowTrail->SetTransparency( kRenderTransAdd, 255, 0, 0, 255, kRenderFxNone );
-		m_pGlowTrail->SetStartWidth( 8.0f );
-		m_pGlowTrail->SetEndWidth( 1.0f );
-		m_pGlowTrail->SetLifeTime( 0.5f );
-	}
-	*/
-
-	CEffectData	data;
-	data.m_vOrigin = GetAbsOrigin();
-	//data.m_vNormal = dir;
-	//data.m_flScale = (float)amount;
-	CPASFilter filter( data.m_vOrigin );
-	filter.SetIgnorePredictionCull(true);
-	DispatchParticleEffect( "rocket_trail_small", PATTACH_ABSORIGIN_FOLLOW, this, "fuse", false, -1, &filter );
+	
 }
+
 
 int	CASW_Grenade_Vindicator::OnTakeDamage_Dying( const CTakeDamageInfo &info )
 {	
