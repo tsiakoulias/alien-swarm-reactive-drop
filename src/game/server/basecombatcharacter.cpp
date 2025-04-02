@@ -2274,7 +2274,7 @@ int CBaseCombatCharacter::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 	float flDamage = info.GetDamage();
 	CBaseEntity* pInflictor = info.GetInflictor();
 #ifdef RD_VSCRIPT_INTERCEPT_ENTITY_DAMAGE
-	if ( m_ScriptScope.IsInitialized() && m_ScriptScope.ValueExists( "OnTakeDamage_Alive" ) )
+	if ( m_ScriptScope.IsInitialized() && m_ScriptScope.ValueExists( "OnTakeDamage_Alive" ) && info.GetCallVScriptHook() )
 	{
 		ScriptVariant_t newDamage;
 		ScriptStatus_t nStatus = m_ScriptScope.Call( "OnTakeDamage_Alive", &newDamage, ToHScript( pInflictor ), ToHScript( info.GetAttacker() ), ToHScript( info.GetWeapon() ), flDamage, info.GetDamageType(), info.GetAmmoName() );
@@ -2287,7 +2287,9 @@ int CBaseCombatCharacter::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 			newDamage.AssignTo( &flDamage );
 		}
 	}
-	if ( CAlienSwarm *pAlienSwarm = ASWGameRules() )
+
+	CAlienSwarm *pAlienSwarm = ASWGameRules();
+	if ( pAlienSwarm && info.GetCallVScriptHook() )
 	{
 		ScriptVariant_t args[7];
 

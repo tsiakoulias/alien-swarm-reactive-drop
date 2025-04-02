@@ -50,6 +50,7 @@ public:
 	char m_szInitialCommanderNetworkID[64]; // ASWNetworkID of the first commander for this marine in this mission
 	const char *GetPlayerName() const;
 	virtual void Suicide();
+	void Die();
 
 	// gun
 	CASW_Weapon *GetASWWeapon( int index ) const;
