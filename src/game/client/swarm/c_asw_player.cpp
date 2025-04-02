@@ -248,6 +248,7 @@ BEGIN_NETWORK_TABLE( C_ASW_Player, DT_ASW_Player )
 	RecvPropQAngles( RECVINFO( m_angEyeAngles ) ),
 	RecvPropEHandle( RECVINFO( m_hInhabiting ) ),
 	RecvPropEHandle( RECVINFO( m_hSpectating ) ),
+	RecvPropInt( RECVINFO( m_iSpectatorIndexes ) ),
 	RecvPropInt( RECVINFO( m_iHealth ) ),
 	RecvPropEHandle( RECVINFO( m_pCurrentInfoMessage ) ),
 	RecvPropFloat( RECVINFO( m_fMarineDeathTime ) ),

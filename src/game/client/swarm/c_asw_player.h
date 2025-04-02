@@ -146,6 +146,7 @@ public:
 	CInterpolatedVar< QAngle >	m_iv_angEyeAngles;
 	CNetworkHandle( C_ASW_Inhabitable_NPC, m_hInhabiting ); // our currently controlled marine
 	CNetworkHandle( C_ASW_Inhabitable_NPC, m_hSpectating ); // the marine we're spectating when dead
+	CNetworkVar( unsigned int, m_iSpectatorIndexes );
 	const Vector& GetCrosshairTracePos() { return m_vecCrosshairTracePos; }
 	void SetCrosshairTracePos( const Vector &vecPos ) { m_vecCrosshairTracePos = vecPos; }
 	Vector m_vecCrosshairTracePos;			// the world location directly beneath the player's crosshair

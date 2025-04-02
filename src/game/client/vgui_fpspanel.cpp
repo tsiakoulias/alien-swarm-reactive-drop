@@ -19,6 +19,7 @@
 #include "../common/xbox/xboxstubs.h"
 #ifdef INFESTED_DLL
 #include "c_asw_player.h"
+#include "c_playerresource.h"
 #include "c_asw_inhabitable_npc.h"
 #endif
 
@@ -27,6 +28,7 @@
 
 static ConVar cl_showfps( "cl_showfps", "0", FCVAR_RELEASE, "Draw fps meter at top of screen (1 = fps, 2 = smooth fps, 3 = server MS, 4 = Show FPS and Log to file )" );
 static ConVar cl_showpos( "cl_showpos", "0", FCVAR_RELEASE, "Draw current position at top of screen (1 = eyes, 2 = feet)" );
+static ConVar cl_showspectators( "cl_showspectators", "0", FCVAR_RELEASE, "Draw a list of spectators" );
 #ifdef INFESTED_DLL
 static ConVar cl_showpos_npc( "cl_showpos_npc", "-1", FCVAR_NONE, "If the player is controlling or spectating an NPC, use the NPC's position, angles, and velocity instead; -1 = 1 if asw_allow_detach is 0, 0 otherwise" );
 extern ConVar asw_allow_detach;
@@ -184,7 +186,8 @@ bool CFPSPanel::ShouldDraw( void )
 	if ( g_bDisplayParticlePerformance )
 		return true;
 	if ( ( !cl_showfps.GetInt() || ( gpGlobals->absoluteframetime <= 0 ) ) &&
-		 ( !cl_showpos.GetInt() ) )
+		 ( !cl_showpos.GetInt() ) &&
+		 ( !cl_showspectators.GetInt() ) )
 	{
 		m_bLastDraw = false;
 		return false;
@@ -278,12 +281,12 @@ void CFPSPanel::Paint()
 
 		float flTotalTime = 0.0f;
 		float flPeakTime = 0.0f;
-		for ( int i = 0; i < SERVER_TIME_HISTORY; ++i )
+		for ( int j = 0; j < SERVER_TIME_HISTORY; ++j )
 		{
-			flTotalTime += m_pServerTimes[i];
-			if ( flPeakTime < m_pServerTimes[i] )
+			flTotalTime += m_pServerTimes[j];
+			if ( flPeakTime < m_pServerTimes[j] )
 			{
-				flPeakTime = m_pServerTimes[i];
+				flPeakTime = m_pServerTimes[j];
 			}
 		}
 		flTotalTime /= SERVER_TIME_HISTORY;
@@ -514,6 +517,59 @@ void CFPSPanel::Paint()
 												  255, 255, 255, 255, 
 												  "vel:  %.2f", 
 												  vel.Length() );
+		}
+	}
+
+	if ( cl_showspectators.GetInt() )
+	{
+		FOR_EACH_VALID_SPLITSCREEN_PLAYER( hh )
+		{
+			C_ASW_Player *pPlayer = C_ASW_Player::GetLocalASWPlayer( hh );
+			if ( !pPlayer )
+				continue;
+
+			C_ASW_Inhabitable_NPC *pSpectating = pPlayer->m_hSpectating;
+			if ( pSpectating && pSpectating->GetCommander() )
+			{
+				pPlayer = pSpectating->GetCommander();
+			}
+
+			i += 3;
+
+			int nSpecCount = 0;
+			for ( int id = 1; id <= 32; id += 1 )
+			{
+				if ( !g_PR->IsConnected( id ) )
+					continue;
+
+				if ( g_PR->IsFakePlayer( id ) )
+					continue;
+
+				if ( !( pPlayer->m_iSpectatorIndexes.Get() & ( 1u << id ) ) )
+					continue;
+
+				nSpecCount++;
+				i++;
+
+				char szSpecName[k_cchPersonaNameMax] = { 0 };
+				Q_strncpy( szSpecName, g_PR->GetPlayerName( id ), sizeof( szSpecName ) );
+				g_pMatSystemSurface->DrawColoredText( m_hFont, x, 2 + i * lineHeight, 
+													255, 255, 255, 255, 
+													"       %s", szSpecName );
+			}
+
+			if ( nSpecCount == 0 )
+			{
+				i -= 3;
+				break;
+			}
+
+			char szName[k_cchPersonaNameMax] = { 0 };
+			Q_strncpy( szName, pPlayer->GetPlayerName(), sizeof( szName ) );
+
+			g_pMatSystemSurface->DrawColoredText( m_hFont, x, 2 + ( i - nSpecCount ) * lineHeight, 
+													255, 255, 255, 255, 
+													"Spectating %s (%d):", szName, nSpecCount );
 		}
 	}
 
