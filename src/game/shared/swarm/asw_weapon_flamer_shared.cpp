@@ -333,7 +333,7 @@ void CASW_Weapon_Flamer::SecondaryAttack( void )
 	// If my clip is empty (and I use clips) start reload
 	if ( !rd_flamer_infinite_extinguisher.GetBool() && UsesClipsForAmmo1() && m_iClip1 < 2 ) 
 	{
-		Reload();
+		m_iClip1 = 0;
 		return;
 	}
 
