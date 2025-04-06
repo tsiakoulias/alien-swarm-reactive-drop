@@ -403,10 +403,10 @@ function Update()
 			g_teamZombie[hMarine][1].__KeyValueFromInt( "rendermode", 10 );
 			hMarine.DropWeapon(1);
 			local offhand = GetSlotWeapon(hMarine, 2);
-			if (offhand && offhand != g_teamZombie[hMarine][2])
+			if (!offhand || (offhand && offhand != g_teamZombie[hMarine][2]))
 			{
 				hMarine.DropWeapon(2);
-				if (g_teamZombie[hMarine][2].IsValid())
+				if (g_teamZombie[hMarine][2] && g_teamZombie[hMarine][2].IsValid())
 				{
 					hMarine.GiveWeapon("asw_weapon_grenades", 2);
 					GetSlotWeapon(hMarine, 2).SetClip1(g_teamZombie[hMarine][2].Clip1());
