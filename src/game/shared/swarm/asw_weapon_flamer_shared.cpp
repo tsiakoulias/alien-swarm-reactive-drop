@@ -333,7 +333,18 @@ void CASW_Weapon_Flamer::SecondaryAttack( void )
 	// If my clip is empty (and I use clips) start reload
 	if ( !rd_flamer_infinite_extinguisher.GetBool() && UsesClipsForAmmo1() && m_iClip1 < 2 ) 
 	{
-		m_iClip1 = 0;
+#ifdef CLIENT_DLL
+		CASW_Player *pPlayer = GetCommander();
+#else
+		CASW_Marine *pMarine = GetMarine();
+		CASW_Player *pPlayer = GetCommander();
+		if ( !pMarine || !pMarine->IsInhabited() )
+			pPlayer = NULL;
+#endif	// CLIENT_DLL
+
+		if ( pPlayer && pPlayer->ShouldAutoReload() )
+			Reload();
+
 		return;
 	}
 
