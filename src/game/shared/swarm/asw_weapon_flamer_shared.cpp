@@ -190,19 +190,22 @@ void CASW_Weapon_Flamer::ItemPostFrame( void )
 	BaseClass::ItemPostFrame();
 
 	bool bAttack1, bAttack2, bReload, bOldReload, bOldAttack1;
+	static bool bOldAttack2 = false;
+
 	GetButtons(bAttack1, bAttack2, bReload, bOldReload, bOldAttack1 );
 
-	if ( !bAttack2 )
+	// we need to check for old attacks otherwise flamer will fire last pellet without sound and particles
+
+	if ( m_iClip1 == 0 && ( bOldAttack1 || bOldAttack2 ) )
 	{
+		ClearIsFiring();
+		return;
+	}
+
+	if ( !bAttack2 || ( m_iClip1 <= 1 && bOldAttack2 ) )
 		m_bIsSecondaryFiring = false;
-	}
-	else
-	{
-		if ( m_iClip1 == 0 )
-		{
-			m_bIsSecondaryFiring = false;
-		}
-	}
+
+	bOldAttack2 = bAttack2;
 }
 
 //-----------------------------------------------------------------------------
@@ -333,7 +336,18 @@ void CASW_Weapon_Flamer::SecondaryAttack( void )
 	// If my clip is empty (and I use clips) start reload
 	if ( !rd_flamer_infinite_extinguisher.GetBool() && UsesClipsForAmmo1() && m_iClip1 < 2 ) 
 	{
-		Reload();
+#ifdef CLIENT_DLL
+		CASW_Player *pPlayer = GetCommander();
+#else
+		CASW_Marine *pMarine = GetMarine();
+		CASW_Player *pPlayer = GetCommander();
+		if ( !pMarine || !pMarine->IsInhabited() )
+			pPlayer = NULL;
+#endif	// CLIENT_DLL
+
+		if ( pPlayer && pPlayer->ShouldAutoReload() )
+			Reload();
+
 		return;
 	}
 

@@ -151,7 +151,7 @@ void CASW_Weapon_Shotgun::PrimaryAttack( void )
 	// If my clip is empty (and I use clips) start reload
 	if ( UsesClipsForAmmo1() && !m_iClip1 )
 	{
-		Reload();
+		//Reload();
 		return;
 	}
 
