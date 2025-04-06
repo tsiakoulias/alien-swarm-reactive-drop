@@ -190,19 +190,22 @@ void CASW_Weapon_Flamer::ItemPostFrame( void )
 	BaseClass::ItemPostFrame();
 
 	bool bAttack1, bAttack2, bReload, bOldReload, bOldAttack1;
+	static bool bOldAttack2 = false;
+
 	GetButtons(bAttack1, bAttack2, bReload, bOldReload, bOldAttack1 );
 
-	if ( !bAttack2 )
+	// we need to check for old attacks otherwise flamer will fire last pellet without sound and particles
+
+	if ( m_iClip1 == 0 && ( bOldAttack1 || bOldAttack2 ) )
 	{
+		ClearIsFiring();
+		return;
+	}
+
+	if ( !bAttack2 || ( m_iClip1 <= 1 && bOldAttack2 ) )
 		m_bIsSecondaryFiring = false;
-	}
-	else
-	{
-		if ( m_iClip1 == 0 )
-		{
-			m_bIsSecondaryFiring = false;
-		}
-	}
+
+	bOldAttack2 = bAttack2;
 }
 
 //-----------------------------------------------------------------------------
