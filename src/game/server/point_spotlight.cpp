@@ -341,6 +341,7 @@ void CPointSpotlight::SpotlightCreate(void)
 	m_hSpotlightTarget->Spawn();
 	m_hSpotlightTarget->SetAbsOrigin( tr.endpos );
 	m_hSpotlightTarget->SetOwnerEntity( this );
+	m_hSpotlightTarget->SetParent( this );
 	m_hSpotlightTarget->m_clrRender = m_clrRender;
 	m_hSpotlightTarget->m_Radius = m_flSpotlightMaxLength;
 
