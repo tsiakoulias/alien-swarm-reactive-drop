@@ -402,10 +402,11 @@ function Update()
 			}
 			g_teamZombie[hMarine][1].__KeyValueFromInt( "rendermode", 10 );
 			hMarine.DropWeapon(1);
-			if (GetSlotWeapon(hMarine, 2) != g_teamZombie[hMarine][2])
+			local offhand = GetSlotWeapon(hMarine, 2);
+			if (!offhand || (offhand && offhand != g_teamZombie[hMarine][2]))
 			{
 				hMarine.DropWeapon(2);
-				if (g_teamZombie[hMarine][2].IsValid())
+				if (g_teamZombie[hMarine][2] && g_teamZombie[hMarine][2].IsValid())
 				{
 					hMarine.GiveWeapon("asw_weapon_grenades", 2);
 					GetSlotWeapon(hMarine, 2).SetClip1(g_teamZombie[hMarine][2].Clip1());
@@ -830,15 +831,15 @@ function StartNewRound()
 	g_matchTimer = g_matchLength + 200;
 	foreach (hMarine, weapons in g_teamZombie)
 	{
-		if (weapons[0].IsValid())
+		if (weapons[0] && weapons[0].IsValid())
 		{
 			weapons[0].Destroy();
 		}
-		if (weapons[1].IsValid())
+		if (weapons[1] && weapons[1].IsValid())
 		{
 			weapons[1].Destroy();
 		}
-		if (weapons[2].IsValid())
+		if (weapons[2] && weapons[2].IsValid())
 		{
 			weapons[2].Destroy();
 		}
@@ -897,15 +898,15 @@ function ResetGame()
 	}
 	foreach (hMarine, weapons in g_teamZombie)
 	{
-		if (weapons[0].IsValid())
+		if (weapons[0] && weapons[0].IsValid())
 		{
 			weapons[0].Destroy();
 		}
-		if (weapons[1].IsValid())
+		if (weapons[1] && weapons[1].IsValid())
 		{
 			weapons[1].Destroy();
 		}
-		if (weapons[2].IsValid())
+		if (weapons[2] && weapons[2].IsValid())
 		{
 			weapons[2].Destroy();
 		}
