@@ -39,7 +39,9 @@ void LaunchCollectionsFrame()
 	CRD_Collection_Tab_Inventory *pOtherTab = new CRD_Collection_Tab_Inventory( pFrame, "#rd_collection_inventory_other", "medal" );
 	pOtherTab->m_bInvertSlotFilter = true;
 	pFrame->AddTab( pOtherTab );
+#ifdef RD_7A_CRAFTING
 	pFrame->AddTab( new CRD_Collection_Tab_Crafting( pFrame, "#rd_collection_inventory_crafting" ) );
+#endif
 	if ( rd_legacy_ui.GetString()[0] != '\0' )
 	{
 		pFrame->AddTab( new CRD_Collection_Tab_Equipment( pFrame, "#rd_collection_weapons", NULL, ASW_INVENTORY_SLOT_PRIMARY ) );
