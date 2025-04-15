@@ -1143,6 +1143,22 @@ static float ScriptTraceLine( const Vector &vecStart, const Vector &vecEnd, HSCR
 	}
 }
 
+static float ScriptTraceLineParams( const Vector &vecStart, const Vector &vecEnd, HSCRIPT entIgnore, int nMask, int nCollisiongroup )
+{
+	// UTIL_TraceLine( vecAbsStart, vecAbsEnd, MASK_BLOCKLOS, pLooker, COLLISION_GROUP_NONE, ptr );
+	trace_t tr;
+	CBaseEntity *pLooker = ToEnt(entIgnore);
+	UTIL_TraceLine( vecStart, vecEnd, ( unsigned int )nMask, pLooker, nCollisiongroup, &tr );
+	if (tr.fractionleftsolid && tr.startsolid)
+	{
+		return 1.0 - tr.fractionleftsolid;
+	}
+	else
+	{
+		return tr.fraction;
+	}
+}
+
 static void ScriptTraceLineTable( HSCRIPT hTable )
 {
 	if ( !hTable )
@@ -1720,6 +1736,7 @@ bool VScriptServerInit()
 				ScriptRegisterFunction( g_pScriptVM, SendToServerConsole, "Send a string to the server console as a command" );
 				ScriptRegisterFunction( g_pScriptVM, GetMapName, "Get the name of the map.");
 				ScriptRegisterFunctionNamed( g_pScriptVM, ScriptTraceLine, "TraceLine", "given 2 points & ent to ignore, return fraction along line that hits world or models" );
+				ScriptRegisterFunctionNamed( g_pScriptVM, ScriptTraceLineParams, "TraceLineParams", "given 2 points, ent to ignore, mask and collision group, return fraction along line that hits world or models" );
 				ScriptRegisterFunctionNamed( g_pScriptVM, ScriptTraceLineTable, "TraceLineTable", "Uses a configuration table to do a raytrace, puts return information into the table for return usage." );
 
 				ScriptRegisterFunction( g_pScriptVM, Time, "Get the current server time" );
