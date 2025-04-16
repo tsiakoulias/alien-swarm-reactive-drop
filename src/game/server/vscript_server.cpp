@@ -1143,23 +1143,7 @@ static float ScriptTraceLine( const Vector &vecStart, const Vector &vecEnd, HSCR
 	}
 }
 
-static float ScriptTraceLineParams( const Vector &vecStart, const Vector &vecEnd, HSCRIPT entIgnore, int nMask, int nCollisiongroup )
-{
-	// UTIL_TraceLine( vecAbsStart, vecAbsEnd, MASK_BLOCKLOS, pLooker, COLLISION_GROUP_NONE, ptr );
-	trace_t tr;
-	CBaseEntity *pLooker = ToEnt(entIgnore);
-	UTIL_TraceLine( vecStart, vecEnd, ( unsigned int )nMask, pLooker, nCollisiongroup, &tr );
-	if (tr.fractionleftsolid && tr.startsolid)
-	{
-		return 1.0 - tr.fractionleftsolid;
-	}
-	else
-	{
-		return tr.fraction;
-	}
-}
-
-static void ScriptTraceLineTable( HSCRIPT hTable )
+static void ScriptTraceLineTable( HSCRIPT hTable, const Vector &vecStart, const Vector &vecEnd, const Vector &vecMins, const Vector &vecMaxs )
 {
 	if ( !hTable )
 		return;
@@ -1168,26 +1152,22 @@ static void ScriptTraceLineTable( HSCRIPT hTable )
 		return;
 
 	trace_t tr;
-	ScriptVariant_t start, end, mask, ignore, collisiongroup, mins, maxs;
-	mask = MASK_VISIBLE_AND_NPCS;
-	collisiongroup = COLLISION_GROUP_NONE;
-	mins = vec3_origin;
-	maxs = vec3_origin;
-	g_pScriptVM->GetValue( hTable, "start", &start );
-	g_pScriptVM->GetValue( hTable, "end", &end );
-	g_pScriptVM->GetValue( hTable, "mask", &mask );
-	g_pScriptVM->GetValue( hTable, "ignore", &ignore );
-	g_pScriptVM->GetValue( hTable, "collisiongroup", &collisiongroup );
-	g_pScriptVM->GetValue( hTable, "mins", &mins );
-	g_pScriptVM->GetValue( hTable, "maxs", &maxs );
-	const Vector vecStart = start;
-	const Vector vecEnd = end;
-	const Vector vecMins = mins;
-	const Vector vecMaxs = maxs;
+	ScriptVariant_t rval;
+	int nMask = MASK_VISIBLE_AND_NPCS;
+	int nCollisionGroup = COLLISION_GROUP_NONE;
+	CBaseEntity *pIgnore = NULL;
+
+	if ( g_pScriptVM->GetValue( hTable, "mask", &rval ) )
+		nMask = ( int )rval;
+	if ( g_pScriptVM->GetValue( hTable, "ignore", &rval ) )
+		pIgnore = ToEnt( ( HSCRIPT )rval );
+	if ( g_pScriptVM->GetValue( hTable, "collisiongroup", &rval ) )
+		nCollisionGroup = ( int )rval;
+
 	if ( vecMins == vecMaxs )
-		UTIL_TraceLine( vecStart, vecEnd, ( int )mask, ToEnt( ignore ), ( int )collisiongroup, &tr );
+		UTIL_TraceLine( vecStart, vecEnd, ( unsigned int )nMask, pIgnore, nCollisionGroup, &tr );
 	else
-		UTIL_TraceHull( vecStart, vecEnd, vecMins, vecMaxs, ( int )mask, ToEnt( ignore ), ( int )collisiongroup, &tr );
+		UTIL_TraceHull( vecStart, vecEnd, vecMins, vecMaxs, ( unsigned int )nMask, pIgnore, nCollisionGroup, &tr );
 
 	g_pScriptVM->SetValue( hTable, "pos", tr.endpos );
 	g_pScriptVM->SetValue( hTable, "fraction", tr.fraction );
@@ -1736,8 +1716,7 @@ bool VScriptServerInit()
 				ScriptRegisterFunction( g_pScriptVM, SendToServerConsole, "Send a string to the server console as a command" );
 				ScriptRegisterFunction( g_pScriptVM, GetMapName, "Get the name of the map.");
 				ScriptRegisterFunctionNamed( g_pScriptVM, ScriptTraceLine, "TraceLine", "given 2 points & ent to ignore, return fraction along line that hits world or models" );
-				ScriptRegisterFunctionNamed( g_pScriptVM, ScriptTraceLineParams, "TraceLineParams", "given 2 points, ent to ignore, mask and collision group, return fraction along line that hits world or models" );
-				ScriptRegisterFunctionNamed( g_pScriptVM, ScriptTraceLineTable, "TraceLineTable", "Uses a configuration table to do a raytrace, puts return information into the table for return usage." );
+				ScriptRegisterFunction( g_pScriptVM, ScriptTraceLineTable, "Uses a configuration table to do a raytrace, puts return information into the table for return usage." );
 
 				ScriptRegisterFunction( g_pScriptVM, Time, "Get the current server time" );
 				ScriptRegisterFunction( g_pScriptVM, FrameTime, "Get the time spent on the server in the last frame" );

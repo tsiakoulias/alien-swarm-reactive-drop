@@ -272,3 +272,22 @@ function ClientPrint( player, target, message, param1 = "", param2 = "", param3 
 {
 	DoClientPrint( player, target, message, param1.tostring(), param2.tostring(), param3.tostring(), param4.tostring() );
 }
+
+function TraceLineTable( table )
+{
+	local vecStart = Vector( 0.0, 0.0, 0.0 );
+	local vecEnd = Vector( 0.0, 0.0, 0.0 );
+	local vecMins = Vector( 0.0, 0.0, 0.0 );
+	local vecMaxs = Vector( 0.0, 0.0, 0.0 );
+
+	if ( "start" in table )
+		vecStart = table[ "start" ];
+	if ( "end" in table )
+		vecEnd = table[ "end" ];
+	if ( "mins" in table )
+		vecMins = table[ "mins" ];
+	if ( "maxs" in table )
+		vecMaxs = table[ "maxs" ];
+
+	ScriptTraceLineTable( table, vecStart, vecEnd, vecMins, vecMaxs );
+}
