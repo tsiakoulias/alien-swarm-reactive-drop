@@ -6,6 +6,7 @@
 #include <vgui/ISurface.h>
 #include "vpklib/packedstore.h"
 #include "fmtstr.h"
+#include "tier2/fileutils.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -90,29 +91,19 @@ void CRD_PNG_Texture::CleanLocalCachedTextures(const char* szDirectory)
 	if (CommandLine()->FindParm("-override_vpk"))
 		return;
 
-	static char szGameRootPath[MAX_PATH];
-	static bool bPathInitialized = false;
+	static char pak01Path[ MAX_PATH ];
+	static char pak02Path[ MAX_PATH ];
+	static bool bPathsInitialized = false;
 
-	if (!bPathInitialized)
+	if ( !bPathsInitialized )
 	{
-		const char* szGameInfoPath = "gameinfo.txt";
-		if (g_pFullFileSystem->FileExists(szGameInfoPath, "MOD"))
-		{
-			char szFullPath[MAX_PATH];
-			g_pFullFileSystem->RelativePathToFullPath(szGameInfoPath, "MOD", szFullPath, sizeof(szFullPath));
-			V_ExtractFilePath(szFullPath, szGameRootPath, sizeof(szGameRootPath));
-			V_FixSlashes(szGameRootPath);
-			V_AppendSlash(szGameRootPath, sizeof(szGameRootPath));
-			bPathInitialized = true;
-		}
-		else
-		{
-			return;
-		}
+		GetModSubdirectory( "pak01", pak01Path, sizeof( pak01Path ) );
+		GetModSubdirectory( "pak02", pak02Path, sizeof( pak02Path ) );
+		bPathsInitialized = true;
 	}
 
-	static CPackedStore s_pak01(CFmtStr("%spak01", szGameRootPath), g_pFullFileSystem);
-	static CPackedStore s_pak02(CFmtStr("%spak02", szGameRootPath), g_pFullFileSystem);
+	static CPackedStore s_pak01( pak01Path, g_pFullFileSystem );
+	static CPackedStore s_pak02( pak02Path, g_pFullFileSystem );
 
 	struct CleanupRule {
 		std::initializer_list<const char*> extensions;
