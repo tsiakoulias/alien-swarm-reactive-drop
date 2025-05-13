@@ -80,6 +80,11 @@ ConVar asw_hear_fixed("asw_hear_fixed", "0", FCVAR_NONE, "If set, hearing audio 
 
 Vector g_asw_vec_fixed_cam(-276.03076, -530.74951, -196.65625);
 QAngle g_asw_ang_fixed_cam(42.610226, 90.289375, 0);
+extern ConVar sensitivity;
+ConVar asw_fix_cam( "asw_fix_cam", "-1", FCVAR_CHEAT, "Set to 1 to fix the camera in place." );
+ConVar asw_fix_cam_speed_fast( "asw_fix_cam_speed_fast", "300", FCVAR_NONE, "Speed of camera in fix cam." );
+ConVar asw_fix_cam_speed_slow( "asw_fix_cam_speed_slow", "100", FCVAR_NONE, "Speed of camera in fix cam while holding shift." );
+
 extern ConVar asw_vehicle_cam_height;
 extern ConVar asw_vehicle_cam_pitch;
 extern ConVar asw_vehicle_cam_dist;
@@ -479,31 +484,31 @@ void ASW_Handle_Fixed_Input( bool active )
 		float u = 0.0f;
 
 		bool shiftdown = vgui::input()->IsKeyDown( KEY_LSHIFT ) || vgui::input()->IsKeyDown( KEY_RSHIFT );
-		float movespeed = shiftdown ? 40.0f : 400.0f;
+		float movespeed = shiftdown ? asw_fix_cam_speed_slow.GetFloat() : asw_fix_cam_speed_fast.GetFloat();
 
 		if ( vgui::input()->IsKeyDown( KEY_W ) )
 		{
-			f = movespeed * gpGlobals->frametime;
+			f = movespeed * 0.015f;
 		}
 		if ( vgui::input()->IsKeyDown( KEY_S ) )
 		{
-			f = -movespeed * gpGlobals->frametime;
+			f = -movespeed * 0.015f;
 		}
 		if ( vgui::input()->IsKeyDown( KEY_A ) )
 		{
-			s = -movespeed * gpGlobals->frametime;
+			s = -movespeed * 0.015f;
 		}
 		if ( vgui::input()->IsKeyDown( KEY_D ) )
 		{
-			s = movespeed * gpGlobals->frametime;
+			s = movespeed * 0.015f;
 		}
 		if ( vgui::input()->IsKeyDown( KEY_X ) )
 		{
-			u = movespeed * gpGlobals->frametime;
+			u = movespeed * 0.015f;
 		}
 		if ( vgui::input()->IsKeyDown( KEY_Z ) )
 		{
-			u = -movespeed * gpGlobals->frametime;
+			u = -movespeed * 0.015f;
 		}
 
 		int mx, my;
@@ -518,15 +523,15 @@ void ASW_Handle_Fixed_Input( bool active )
 
 		// Convert to pitch/yaw
 
-		float pitch = (float)dy * 0.22f;
-		float yaw = -(float)dx * 0.22;
+		float pitch = clamp( (float)dy, -500.0f, 500.0f );
+		float yaw = clamp( -(float)dx, -500.0f, 500.0f );
 
 		// Apply mouse
-		g_asw_ang_fixed_cam.x += pitch;
+		g_asw_ang_fixed_cam.x += pitch * sensitivity.GetFloat() / 1000.0f;
 
 		g_asw_ang_fixed_cam.x = clamp( g_asw_ang_fixed_cam.x, -89.0f, 89.0f );
 
-		g_asw_ang_fixed_cam.y += yaw;
+		g_asw_ang_fixed_cam.y += yaw * sensitivity.GetFloat() / 1000.0f;
 		if ( g_asw_ang_fixed_cam.y > 180.0f )
 		{
 			g_asw_ang_fixed_cam.y -= 360.0f;
@@ -558,8 +563,6 @@ void ASW_Handle_Fixed_Input( bool active )
 
 	s_bFixedInputActive = active;
 }
-
-ConVar asw_fix_cam( "asw_fix_cam", "-1", FCVAR_CHEAT, "Set to 1 to fix the camera in place." );
 
 void ClientModeASW::OverrideView( CViewSetup *pSetup )
 {
@@ -609,7 +612,7 @@ void ClientModeASW::OverrideView( CViewSetup *pSetup )
 		pSetup->origin = g_asw_vec_fixed_cam;
 		pSetup->angles = g_asw_ang_fixed_cam;
 
-		ASW_Handle_Fixed_Input( vgui::input()->IsKeyDown( KEY_LSHIFT ) && vgui::input()->IsMouseDown( MOUSE_LEFT ) );
+		ASW_Handle_Fixed_Input( !vgui::input()->IsMouseDown( MOUSE_LEFT ) );
 	}
 }
 
