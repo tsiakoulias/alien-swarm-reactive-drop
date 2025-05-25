@@ -36,11 +36,15 @@ extern ConVar asw_hud_alpha;
 extern ConVar rd_respawn_time;
 extern ConVar rd_hud_hide_clips;
 
+extern bool g_ultra_wide_screen;
+extern Rect_t g_clamp_area;
+
 ConVar rd_draw_avatars_with_frags( "rd_draw_avatars_with_frags", "1",  FCVAR_ARCHIVE, "If 1 In PvP modes a panel with avatars and frags will be shown at top of the screen");
 ConVar rd_draw_portraits( "rd_draw_portraits", "1", FCVAR_NONE );
 ConVar rd_draw_timer( "rd_draw_timer", "0", FCVAR_ARCHIVE, "Display the current mission time at the top of the screen" );
 ConVar rd_draw_timer_color( "rd_draw_timer_color", "255 255 255 255", FCVAR_ARCHIVE, "The color of the current mission time" );
 ConVar rd_draw_marine_health_counter( "rd_draw_marine_health_counter", "0", FCVAR_ARCHIVE, "Display a numeric counter for marine health on the HUD" );
+ConVar rd_draw_restricted_borders( "rd_draw_restricted_borders", "1", FCVAR_ARCHIVE, "Display the restricted cursor area when using ultra-wide resolution" );
 
 using namespace vgui;
 
@@ -249,6 +253,11 @@ void CASW_Hud_Master::OnThink()
 	else
 	{
 		m_pLblTimer->SetVisible( false );
+	}
+
+	if (rd_draw_restricted_borders.GetBool() && g_ultra_wide_screen) {
+		surface()->DrawSetColor(Color(255, 255, 255, 192));
+		surface()->DrawLine(g_clamp_area.x, g_clamp_area.y, g_clamp_area.width, g_clamp_area.height);
 	}
 
 	// gather squad mate data
