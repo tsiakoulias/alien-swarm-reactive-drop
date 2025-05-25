@@ -85,6 +85,32 @@ void CASWInput::ApplyMouse( int nSlot, QAngle& viewangles, CUserCmd *cmd, float 
 	int current_posx, current_posy;
 	GetMousePos(current_posx, current_posy);
 
+	// restrict cursor to 16:9 area to prevent ultra-wide fov cheat
+	C_BasePlayer* player = C_BasePlayer::GetLocalPlayer();
+	if (player && !player->IsObserver()) {
+		int screen_w = ScreenWidth();
+		int screen_h = ScreenHeight();
+		float aspect = static_cast<float>(screen_w) / screen_h;
+
+		constexpr float ratio169 = 16.0f / 9.0f;
+
+		if (aspect > ratio169) {
+			int target_h = screen_h;
+			int target_w = static_cast<int>(screen_h * ratio169);
+
+			int left = (screen_w - target_w) / 2;
+			int top = 0;
+
+			int clamp_rect_left = left;
+			int clamp_rect_top = top;
+			int clamp_rect_right = left + target_w;
+			int clamp_rect_bottom = top + target_h;
+
+			current_posx = clamp(current_posx, clamp_rect_left, clamp_rect_right);
+			current_posy = clamp(current_posy, clamp_rect_top, clamp_rect_bottom);
+		}
+	}
+
 	if ( ASWInput()->ControllerModeActiveMouse() )
 		return;
 
