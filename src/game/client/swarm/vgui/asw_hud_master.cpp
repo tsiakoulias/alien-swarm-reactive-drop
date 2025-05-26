@@ -489,8 +489,8 @@ void CASW_Hud_Master::Paint( void )
 		// draw restricted borders for ultra-wide screen
 		if (rd_draw_restricted_borders.GetBool() && g_ultra_wide_screen && !pPlayer->IsObserver()) {
 			//	(x,y)-----------(w,y)
-			//	  |				  |
-			//	  |				  |
+			//	  |               |
+			//	  |               |
 			//	(x,h)-----------(w,h)
 			surface()->DrawSetColor(rd_draw_restricted_borders_color.GetColor());
 			surface()->DrawLine(g_clamp_area.x, g_clamp_area.y, g_clamp_area.x, g_clamp_area.height);
