@@ -44,7 +44,9 @@ ConVar rd_draw_portraits( "rd_draw_portraits", "1", FCVAR_NONE );
 ConVar rd_draw_timer( "rd_draw_timer", "0", FCVAR_ARCHIVE, "Display the current mission time at the top of the screen" );
 ConVar rd_draw_timer_color( "rd_draw_timer_color", "255 255 255 255", FCVAR_ARCHIVE, "The color of the current mission time" );
 ConVar rd_draw_marine_health_counter( "rd_draw_marine_health_counter", "0", FCVAR_ARCHIVE, "Display a numeric counter for marine health on the HUD" );
+
 ConVar rd_draw_restricted_borders( "rd_draw_restricted_borders", "1", FCVAR_ARCHIVE, "Display the restricted cursor area when using ultra-wide resolution" );
+ConVar rd_draw_restricted_borders_color("rd_draw_restricted_borders_color", "128 128 128 128", 0, "Color of the restricted cursor area borders");
 
 using namespace vgui;
 
@@ -253,11 +255,6 @@ void CASW_Hud_Master::OnThink()
 	else
 	{
 		m_pLblTimer->SetVisible( false );
-	}
-
-	if (rd_draw_restricted_borders.GetBool() && g_ultra_wide_screen) {
-		surface()->DrawSetColor(Color(255, 255, 255, 192));
-		surface()->DrawLine(g_clamp_area.x, g_clamp_area.y, g_clamp_area.width, g_clamp_area.height);
 	}
 
 	// gather squad mate data
@@ -489,6 +486,17 @@ void CASW_Hud_Master::Paint( void )
 
 	if ( m_pLocalMarineResource )
 	{
+		// draw restricted borders for ultra-wide screen
+		if (rd_draw_restricted_borders.GetBool() && g_ultra_wide_screen && !pPlayer->IsObserver()) {
+			//	(x,y)-----------(w,y)
+			//	  |				  |
+			//	  |				  |
+			//	(x,h)-----------(w,h)
+			surface()->DrawSetColor(rd_draw_restricted_borders_color.GetColor());
+			surface()->DrawLine(g_clamp_area.x, g_clamp_area.y, g_clamp_area.x, g_clamp_area.height);
+			surface()->DrawLine(g_clamp_area.width, g_clamp_area.y, g_clamp_area.width, g_clamp_area.height);
+		}
+
 		C_ASW_Marine_Resource *pMR = m_pLocalMarineResource;
 
 		float flTimeToFade = 2.0f;
