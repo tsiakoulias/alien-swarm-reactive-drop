@@ -90,9 +90,9 @@ void CASWInput::ApplyMouse( int nSlot, QAngle& viewangles, CUserCmd *cmd, float 
 
 	// restrict cursor to 16:9 area to prevent ultra-wide fov cheat
 	g_ultra_wide_screen = false;
-	C_BasePlayer* player = C_BasePlayer::GetLocalPlayer();
+	C_ASW_Player* asw_player = C_ASW_Player::GetLocalASWPlayer();
 
-	if (player && !player->IsObserver()) {
+	if (asw_player && !asw_player->GetSpectatingNPC()) {
 		int screen_w = ScreenWidth();
 		int screen_h = ScreenHeight();
 		float aspect = static_cast<float>(screen_w) / screen_h;

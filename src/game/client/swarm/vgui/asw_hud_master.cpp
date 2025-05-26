@@ -487,7 +487,7 @@ void CASW_Hud_Master::Paint( void )
 	if ( m_pLocalMarineResource )
 	{
 		// draw restricted borders for ultra-wide screen
-		if (rd_draw_restricted_borders.GetBool() && g_ultra_wide_screen && !pPlayer->IsObserver()) {
+		if (rd_draw_restricted_borders.GetBool() && g_ultra_wide_screen && !pPlayer->GetSpectatingNPC()) {
 			//	(x,y)-----------(w,y)
 			//	  |               |
 			//	  |               |
