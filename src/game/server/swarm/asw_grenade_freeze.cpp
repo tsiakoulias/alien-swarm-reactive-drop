@@ -21,6 +21,10 @@ BEGIN_DATADESC( CASW_Grenade_Freeze )
 	DEFINE_FIELD( m_flFreezeAmount, FIELD_FLOAT ),
 END_DATADESC()
 
+IMPLEMENT_SERVERCLASS_ST( CASW_Grenade_Freeze, DT_ASW_Grenade_Freeze )
+	
+END_SEND_TABLE();
+
 CASW_Grenade_Freeze::CASW_Grenade_Freeze()
 {
 	m_flFreezeAmount = 1.0f + MarineSkills()->GetSkillBasedValue( NULL, ASW_MARINE_SKILL_GRENADES, ASW_MARINE_SUBSKILL_GRENADE_FREEZE_DURATION, 0 );
@@ -84,11 +88,7 @@ CASW_Grenade_Freeze* CASW_Grenade_Freeze::Freeze_Grenade_Create( float flDamage,
 
 void CASW_Grenade_Freeze::CreateEffects()
 {
-	CEffectData	data;
-	data.m_vOrigin = GetAbsOrigin();
-	CPASFilter filter( data.m_vOrigin );
-	filter.SetIgnorePredictionCull( true );
-	DispatchParticleEffect( "grenade_freeze_main_trail", PATTACH_ABSORIGIN_FOLLOW, this, "fuse", false, -1, &filter );
+	
 }
 
 // this function is required since we added CASW_Grenade_Cluster::GetEarliestTouchDetonationTime() and rd_grenade_launcher_arm_time would also affect freeze grenades

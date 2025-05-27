@@ -17,6 +17,7 @@ public:
 
 #if !defined( CLIENT_DLL )
 	DECLARE_DATADESC();
+	DECLARE_SERVERCLASS();
 #endif
 
 	static CASW_Mortar_Round *Mortar_Round_Create( float flDamage, float fRadius, int iClusters, const Vector &position, const QAngle &angles, const Vector &velocity, 

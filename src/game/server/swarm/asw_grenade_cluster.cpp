@@ -76,6 +76,10 @@ BEGIN_ENT_SCRIPTDESC(CASW_Grenade_Cluster, CBaseCombatCharacter, "Cluster grenad
 	DEFINE_SCRIPTFUNC(ReflectRandomly, "Reflect grenade to random porition")
 END_SCRIPTDESC();
 
+IMPLEMENT_SERVERCLASS_ST( CASW_Grenade_Cluster, DT_ASW_Grenade_Cluster )
+	
+END_SEND_TABLE();
+
 void CASW_Grenade_Cluster::Spawn( void )
 {
 	Precache();

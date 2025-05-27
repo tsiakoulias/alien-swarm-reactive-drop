@@ -44,6 +44,10 @@ BEGIN_DATADESC( CASW_Boomer_Blob )
 	DEFINE_INPUTFUNC( FIELD_VOID, "CreateEffects", InputCreateEffects ),
 END_DATADESC()
 
+IMPLEMENT_SERVERCLASS_ST( CASW_Boomer_Blob, DT_ASW_Boomer_Blob )
+	
+END_SEND_TABLE();
+
 extern int	g_sModelIndexFireball;			// (in combatweapon.cpp) holds the index for the smoke cloud
 
 CASW_Boomer_Blob::CASW_Boomer_Blob()
