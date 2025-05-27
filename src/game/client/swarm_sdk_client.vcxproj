@@ -3190,7 +3190,7 @@ if exist ..\..\devtools\bin\postbuild.cmd ..\..\devtools\bin\postbuild.cmd clien
     <ClInclude Include="swarm\c_asw_meatbug.h" />
     <ClInclude Include="swarm\c_asw_mesh_emitter_entity.h" />
     <ClInclude Include="swarm\c_asw_mine.h" />
-    <ClCompile Include="swarm\c_asw_mortar_round.h" />
+    <ClInclude Include="swarm\c_asw_mortar_round.h" />
     <ClInclude Include="swarm\c_asw_objective.h" />
     <ClInclude Include="swarm\c_asw_objective_countdown.h" />
     <ClInclude Include="swarm\c_asw_objective_kill_aliens.h" />
