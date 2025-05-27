@@ -2,8 +2,6 @@
 	"name"	"#challenge_traitors_name"
 	"description"	"#challenge_traitors_description"
 	"allowed_mode" "coop"
-	// adding this line causes clients to download your addon, allowing you to package models/textures/sounds/particles with it.
-	"required_on_client" "1"
 	"convars" {
 		"rd_player_bots_allowed" "0"
 		

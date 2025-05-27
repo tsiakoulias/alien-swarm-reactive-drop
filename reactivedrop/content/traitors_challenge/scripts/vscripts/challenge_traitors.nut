@@ -10,21 +10,20 @@ g_bool_TechKill <- false; // Not actually being used 没有实际用处
 IncludeScript("challenge_traitors_enums.nut"); // Enum types 枚举类型
 IncludeScript("challenge_traitors_random.nut"); // Random number lib 随机数相关函数
 IncludeScript("challenge_traitors_localize.nut"); // Localization related 本地化函数
-IncludeScript("..\\..\\..\\..\\resource\\traitors_challenge_translations_all.nut"); // Localization strings 翻译文本
-//IncludeScript("traitors_challenge_translations_all.nut"); // Localization strings 翻译文本
-IncludeScript("client_shared.nut"); // Shared functions for client side UI UI公用函数
+IncludeScript("traitors_challenge_translations_all.nut"); // Localization strings 翻译文本
+IncludeScript("traitors_client_shared.nut"); // Shared functions for client side UI UI公用函数
 IncludeScript("challenge_traitors_map_handler.nut"); // Handles edge cases of different maps处理地图的特殊情况
 //Events 事件
-IncludeScript("events\\ongameevent_heal_beacon_placed.nut");
-IncludeScript("events\\ongameevent_entity_killed.nut");
-IncludeScript("events\\ongameevent_flare_placed.nut");
-IncludeScript("events\\ongameevent_marine_selected.nut");
-IncludeScript("events\\ongameevent_mission_success_or_fail.nut");
-IncludeScript("events\\ongameevent_player_fullyjoined.nut");
-IncludeScript("events\\ongameevent_weapon_fire.nut");
-IncludeScript("events\\ongameevent_weapon_reload.nut");
-IncludeScript("events\\OnReceivedTextMessage.nut");
-IncludeScript("events\\OnTakeDamage_Alive_Any.nut");
+IncludeScript("traitors_events/ongameevent_heal_beacon_placed.nut");
+IncludeScript("traitors_events/ongameevent_entity_killed.nut");
+IncludeScript("traitors_events/ongameevent_flare_placed.nut");
+IncludeScript("traitors_events/ongameevent_marine_selected.nut");
+IncludeScript("traitors_events/ongameevent_mission_success_or_fail.nut");
+IncludeScript("traitors_events/ongameevent_player_fullyjoined.nut");
+IncludeScript("traitors_events/ongameevent_weapon_fire.nut");
+IncludeScript("traitors_events/ongameevent_weapon_reload.nut");
+IncludeScript("traitors_events/OnReceivedTextMessage.nut");
+IncludeScript("traitors_events/OnTakeDamage_Alive_Any.nut");
 
 
 //Role variables / arrays / tables 角色相关的变量等
@@ -413,7 +412,7 @@ function RefreshMenu(hMarine) {
 			hVGuiRefresh.Destroy();
 		}
 		hVGuiRefresh = Entities.CreateByClassname("rd_vgui_vscript");
-		hVGuiRefresh.__KeyValueFromString("client_vscript", "client_refresh_menu.nut");
+		hVGuiRefresh.__KeyValueFromString("client_vscript", "traitors_client_refresh_menu.nut");
 		hVGuiRefresh.ValidateScriptScope();
 		hVGuiRefresh.GetScriptScope().Input <- Input;
 		hVGuiRefresh.Spawn();
@@ -877,8 +876,8 @@ function PlayMissionEndSound(strWinner) {
 	local hPlayer = null;
 	local music;
 	local voice;
-	music = MISSION_END_SOUND[strWinner].MUSIC[RandIntUniformDistribution(0, 1)];
-	voice = MISSION_END_SOUND[strWinner].VOICE[RandIntUniformDistribution(0, 1)];
+	music = MISSION_END_SOUND[strWinner].MUSIC;
+	voice = MISSION_END_SOUND[strWinner].VOICE;
 	while (hPlayer = Entities.FindByClassname(hPlayer, "player")) {
 		hPlayer.PrecacheSoundScript(music);
 		hPlayer.PrecacheSoundScript(voice);
@@ -1430,7 +1429,7 @@ function CreatePlayerHud(hPlayer) {
 	local strLanguage = GetClientLanguage(hPlayer.entindex());
 	local hHud1 = Entities.CreateByClassname("rd_hud_vscript");
 	g_ent_HudAndVGui.append(hHud1);
-	hHud1.__KeyValueFromString("client_vscript", "player_info.nut");
+	hHud1.__KeyValueFromString("client_vscript", "traitors_player_info.nut");
 	hHud1.Spawn();
 	hHud1.Activate();
 	hHud1.SetEntity(0, hPlayer);
@@ -1457,7 +1456,7 @@ function CreatePlayerHud(hPlayer) {
 	// Hud1 Hud2 Hud4 用于显示团队信息，如果是观战，则显示简要的游戏规则
 	local hHud2 = Entities.CreateByClassname("rd_hud_vscript");
 	g_ent_HudAndVGui.append(hHud2);
-	hHud2.__KeyValueFromString("client_vscript", "player_info.nut");
+	hHud2.__KeyValueFromString("client_vscript", "traitors_player_info.nut");
 	hHud2.Spawn();
 	hHud2.Activate();
 	hHud2.SetEntity(0, hPlayer);
@@ -1485,7 +1484,7 @@ function CreatePlayerHud(hPlayer) {
 	// Hud1 Hud2 Hud4 用于显示团队信息，如果是观战，则显示简要的游戏规则
 	local hHud4 = Entities.CreateByClassname("rd_hud_vscript");
 	g_ent_HudAndVGui.append(hHud4);
-	hHud4.__KeyValueFromString("client_vscript", "player_info.nut");
+	hHud4.__KeyValueFromString("client_vscript", "traitors_player_info.nut");
 	hHud4.Spawn();
 	hHud4.Activate();
 	hHud4.SetEntity(0, hPlayer);
@@ -1512,7 +1511,7 @@ function CreatePlayerHud(hPlayer) {
 	// hHud3 用于内鬼团队显示一些特殊提示以及投票信息
 	local hHud3 = Entities.CreateByClassname("rd_hud_vscript");
 	g_ent_HudAndVGui.append(hHud3);
-	hHud3.__KeyValueFromString("client_vscript", "player_info.nut");
+	hHud3.__KeyValueFromString("client_vscript", "traitors_player_info.nut");
 	hHud3.Spawn();
 	hHud3.Activate();
 	hHud3.SetEntity(0, hPlayer);
@@ -1562,7 +1561,7 @@ function CreateMarineHudAndVGuiEntities() {
 function CreateMarineFlashbangHud(hMarine) {
 	local hHud = Entities.CreateByClassname("rd_hud_vscript");
 	g_ent_HudAndVGui.append(hHud);
-	hHud.__KeyValueFromString("client_vscript", "flashbang.nut");
+	hHud.__KeyValueFromString("client_vscript", "traitors_flashbang.nut");
 	hHud.Spawn();
 	hHud.Activate();
 	hHud.SetEntity(0, hMarine);
@@ -1588,7 +1587,7 @@ function CreateScannerVGui(hMarine) {
 	local strLanguage = GetClientLanguage(hMarine.GetCommander().entindex());
 	local hVGuiBackground = Entities.CreateByClassname("rd_vgui_vscript");
 	g_ent_HudAndVGui.append(hVGuiBackground);
-	hVGuiBackground.__KeyValueFromString("client_vscript", "client_scanner_background.nut");
+	hVGuiBackground.__KeyValueFromString("client_vscript", "traitors_client_scanner_background.nut");
 	hVGuiBackground.ValidateScriptScope();
 	hVGuiBackground.GetScriptScope().Input <- Input;
 	hVGuiBackground.Spawn();
@@ -1615,7 +1614,7 @@ function CreateScannerVGui(hMarine) {
 	foreach(tempMarine in g_marine_Total_Unshuffled) {
 		local hVGuiButton = Entities.CreateByClassname("rd_vgui_vscript");
 		g_ent_HudAndVGui.append(hVGuiButton);
-		hVGuiButton.__KeyValueFromString("client_vscript", "client_scanner_button.nut");
+		hVGuiButton.__KeyValueFromString("client_vscript", "traitors_client_scanner_button.nut");
 		hVGuiButton.ValidateScriptScope();
 		hVGuiButton.GetScriptScope().Input <- Input;
 		hVGuiButton.Spawn();
@@ -1659,7 +1658,7 @@ function CreateSilencerVGui(hMarine) {
 	local strLanguage = GetClientLanguage(hMarine.GetCommander().entindex());
 	local hVGuiBackground = Entities.CreateByClassname("rd_vgui_vscript");
 	g_ent_HudAndVGui.append(hVGuiBackground);
-	hVGuiBackground.__KeyValueFromString("client_vscript", "client_silencer_background.nut");
+	hVGuiBackground.__KeyValueFromString("client_vscript", "traitors_client_silencer_background.nut");
 	hVGuiBackground.ValidateScriptScope();
 	hVGuiBackground.GetScriptScope().Input <- Input;
 	hVGuiBackground.Spawn();
@@ -1685,7 +1684,7 @@ function CreateSilencerVGui(hMarine) {
 	foreach(tempMarine in g_marine_Total_Unshuffled) {
 		local hVGuiButton = Entities.CreateByClassname("rd_vgui_vscript");
 		g_ent_HudAndVGui.append(hVGuiButton);
-		hVGuiButton.__KeyValueFromString("client_vscript", "client_silencer_button.nut");
+		hVGuiButton.__KeyValueFromString("client_vscript", "traitors_client_silencer_button.nut");
 		hVGuiButton.ValidateScriptScope();
 		hVGuiButton.GetScriptScope().Input <- Input;
 		hVGuiButton.Spawn();
@@ -1727,7 +1726,7 @@ function CreateShieldVGui(hMarine) {
 	local strLanguage = GetClientLanguage(hMarine.GetCommander().entindex());
 	local hVGuiBackground = Entities.CreateByClassname("rd_vgui_vscript");
 	g_ent_HudAndVGui.append(hVGuiBackground);
-	hVGuiBackground.__KeyValueFromString("client_vscript", "client_shield_background.nut");
+	hVGuiBackground.__KeyValueFromString("client_vscript", "traitors_client_shield_background.nut");
 	hVGuiBackground.ValidateScriptScope();
 	hVGuiBackground.GetScriptScope().Input <- Input;
 	hVGuiBackground.Spawn();
@@ -1753,7 +1752,7 @@ function CreateShieldVGui(hMarine) {
 	foreach(tempMarine in g_marine_Total_Unshuffled) {
 		local hVGuiButton = Entities.CreateByClassname("rd_vgui_vscript");
 		g_ent_HudAndVGui.append(hVGuiButton);
-		hVGuiButton.__KeyValueFromString("client_vscript", "client_shield_button.nut");
+		hVGuiButton.__KeyValueFromString("client_vscript", "traitors_client_shield_button.nut");
 		hVGuiButton.ValidateScriptScope();
 		hVGuiButton.GetScriptScope().Input <- Input;
 		hVGuiButton.Spawn();
@@ -1796,7 +1795,7 @@ function CreateBiochemistVGui(hMarine) {
 	local strLanguage = GetClientLanguage(hMarine.GetCommander().entindex());
 	local hVGuiBackground = Entities.CreateByClassname("rd_vgui_vscript");
 	g_ent_HudAndVGui.append(hVGuiBackground);
-	hVGuiBackground.__KeyValueFromString("client_vscript", "client_biochemist_background.nut");
+	hVGuiBackground.__KeyValueFromString("client_vscript", "traitors_client_biochemist_background.nut");
 	hVGuiBackground.ValidateScriptScope();
 	hVGuiBackground.GetScriptScope().Input <- Input;
 	hVGuiBackground.Spawn();
@@ -1824,7 +1823,7 @@ function CreateBiochemistVGui(hMarine) {
 	foreach(tempMarine in g_marine_Total_Unshuffled) {
 		local hVGuiButton = Entities.CreateByClassname("rd_vgui_vscript");
 		g_ent_HudAndVGui.append(hVGuiButton);
-		hVGuiButton.__KeyValueFromString("client_vscript", "client_biochemist_button.nut");
+		hVGuiButton.__KeyValueFromString("client_vscript", "traitors_client_biochemist_button.nut");
 		hVGuiButton.ValidateScriptScope();
 		hVGuiButton.GetScriptScope().Input <- Input;
 		hVGuiButton.Spawn();
@@ -1866,7 +1865,7 @@ function CreateInfectorVGui(hMarine) {
 	local strLanguage = GetClientLanguage(hMarine.GetCommander().entindex());
 	local hVGuiBackground = Entities.CreateByClassname("rd_vgui_vscript");
 	g_ent_HudAndVGui.append(hVGuiBackground);
-	hVGuiBackground.__KeyValueFromString("client_vscript", "client_infector_background.nut");
+	hVGuiBackground.__KeyValueFromString("client_vscript", "traitors_client_infector_background.nut");
 	hVGuiBackground.ValidateScriptScope();
 	hVGuiBackground.GetScriptScope().Input <- Input;
 	hVGuiBackground.Spawn();
@@ -1897,7 +1896,7 @@ function CreateInfectorVGui(hMarine) {
 		}
 		local hVGuiButton = Entities.CreateByClassname("rd_vgui_vscript");
 		g_ent_HudAndVGui.append(hVGuiButton);
-		hVGuiButton.__KeyValueFromString("client_vscript", "client_infector_button.nut");
+		hVGuiButton.__KeyValueFromString("client_vscript", "traitors_client_infector_button.nut");
 		hVGuiButton.ValidateScriptScope();
 		hVGuiButton.GetScriptScope().Input <- Input;
 		hVGuiButton.Spawn();

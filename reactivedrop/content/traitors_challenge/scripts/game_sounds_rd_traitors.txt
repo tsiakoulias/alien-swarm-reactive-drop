@@ -1,0 +1,153 @@
+"Traitors.Boomer_Alert"
+{
+	"channel"	"CHAN_AUTO"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"wave"	"mvm/mvm_cpoint_klaxon.wav"
+}
+
+"Traitors.Boomer_Explode"
+{
+	"channel"	"CHAN_AUTO"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SNDLVL_130dB"
+
+	"wave"	"mvm/sentrybuster/mvm_sentrybuster_explode.wav"
+}
+
+"Traitors.Boomer_CountDown_0"
+{
+	"channel"	"CHAN_AUTO"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SND_130dB"
+
+	"wave"	"mvm/sentrybuster/traitors_sentrybuster_explode_delay0.wav"
+}
+"Traitors.Boomer_CountDown_1"
+{
+	"channel"	"CHAN_AUTO"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SND_130dB"
+
+	"wave"	"mvm/sentrybuster/traitors_sentrybuster_explode_delay1.wav"
+}
+"Traitors.Boomer_CountDown_2"
+{
+	"channel"	"CHAN_AUTO"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SND_130dB"
+
+	"wave"	"mvm/sentrybuster/traitors_sentrybuster_explode_delay2.wav"
+}
+"Traitors.Boomer_CountDown_3"
+{
+	"channel"	"CHAN_AUTO"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SND_130dB"
+
+	"wave"	"mvm/sentrybuster/traitors_sentrybuster_explode_delay3.wav"
+}
+"Traitors.Boomer_CountDown_4"
+{
+	"channel"	"CHAN_AUTO"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SND_130dB"
+
+	"wave"	"mvm/sentrybuster/traitors_sentrybuster_explode_delay4.wav"
+}
+"Traitors.Boomer_CountDown_5"
+{
+	"channel"	"CHAN_AUTO"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SND_130dB"
+
+	"wave"	"mvm/sentrybuster/traitors_sentrybuster_explode_delay5.wav"
+}
+
+"Traitors.Flashbang"
+{
+	"channel"	"CHAN_AUTO"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SNDLVL_130dB"
+
+	"wave"	"explosions/t7501.wav"
+}
+
+"Traitors.Music_IAF_Win"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SNDLVL_NONE"
+
+	"rndwave"
+	{
+		"wave"	"*#music/cossack_sandvich.wav"
+		"wave"	"*#music/fortress_reel.wav"
+	}
+}
+
+"Traitors.Music_Traitor_Win"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SNDLVL_NONE"
+
+	"rndwave"
+	{
+		"wave"	"*#music/mvm_lost_wave.wav"
+		"wave"	"*#music/trombonetauntv2.mp3"
+	}
+}
+
+"Traitors.Announcer_IAF_Win"
+{
+	"channel"	"CHAN_VOICE"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SNDLVL_NONE"
+
+	"rndwave"
+	{
+		"wave"	"*#vo/traitors_challenge_command/announcer_victory.wav"
+		"wave"	"*#vo/traitors_challenge_command/announcer_we_succeeded.wav"
+	}
+}
+
+"Traitors.Announcer_Traitor_Win"
+{
+	"channel"	"CHAN_VOICE"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SNDLVL_NONE"
+
+	"rndwave"
+	{
+		"wave"	"*#vo/traitors_challenge_command/announcer_you_failed.wav"
+		"wave"	"*#vo/traitors_challenge_command/announcer_traitors_won.wav"
+	}
+}

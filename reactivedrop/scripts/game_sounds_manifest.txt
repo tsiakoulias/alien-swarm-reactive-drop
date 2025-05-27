@@ -42,6 +42,7 @@ game_sounds_manifest
 	// Reactive Drop sounds
 	"precache_file"		"scripts/rd_deathmatch.txt"
 	"precache_file"		"scripts/rd_music.txt"
+	"precache_file"		"scripts/game_sounds_rd_traitors.txt"
 
 	// episodic // Episode 1
 	"precache_file"		"scripts/npc_sounds_antlion_episodic.txt"

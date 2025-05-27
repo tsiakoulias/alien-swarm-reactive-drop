@@ -66,25 +66,25 @@ MENU_IDX_INT <- {
 };
 
 BOOMER_SOUND <- {
-	ALERT = "alert\\mvm_cpoint_klaxon.wav",
+	ALERT = "Traitors.Boomer_Alert",
 	COUNT_DOWN = [
-		"explosions\\mvm_sentrybuster_explode_remix0.wav",
-		"explosions\\mvm_sentrybuster_explode_remix1.wav",
-		"explosions\\mvm_sentrybuster_explode_remix2.wav",
-		"explosions\\mvm_sentrybuster_explode_remix3.wav",
-		"explosions\\mvm_sentrybuster_explode_remix4.wav",
-		"explosions\\mvm_sentrybuster_explode_remix5.wav",
+		"Traitors.Boomer_CountDown_0",
+		"Traitors.Boomer_CountDown_1",
+		"Traitors.Boomer_CountDown_2",
+		"Traitors.Boomer_CountDown_3",
+		"Traitors.Boomer_CountDown_4",
+		"Traitors.Boomer_CountDown_5",
 	],
 }
 
 MISSION_END_SOUND <- {
 	IAF = {
-		MUSIC = ["win\\cossack_sandvich.wav", "win\\fortress_reel.wav"],
-		VOICE = ["win\\announcer_we_succeeded.wav", "win\\announcer_victory.wav"],
+		MUSIC = "Traitors.Music_IAF_Win",
+		VOICE = "Traitors.Announcer_IAF_Win",
 	},
 	TRAITOR = {
-		MUSIC = ["fail\\mvm_lost_wave.wav", "fail\\trombonetauntv2.wav"],
-		VOICE = ["fail\\announcer_you_failed.wav", "fail\\announcer_you_failed.wav"],
+		MUSIC = "Traitors.Music_Traitor_Win",
+		VOICE = "Traitors.Announcer_Traitor_Win",
 	},
 };
 
