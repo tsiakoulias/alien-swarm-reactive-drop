@@ -1,0 +1,140 @@
+/*参数说明
+	int	 0  - 士兵的角色
+	int	 1  - 除了起点外，信息需要在屏幕上经过的点
+	int	 2  - 行号
+	int	 3  - 投降，当前人数
+	int	 4  - 投降，总人数
+	int	 63 - 标识，1和2代表显示的是内鬼提示1和提示2。3代表显示的是内鬼开始投票，4代表投票中，5代表投票停止
+
+	float   0  - HUD信息显示的起始时间
+	float   1  - 信息显示的起始位置在屏幕上的相对位置X，范围0-1
+	float   2  - 信息显示的起始位置在屏幕上的相对位置Y，范围0-1
+	float   3  - HUD信息移动到下个坐标的时间
+	float   4  - 信息显示的终止位置在屏幕上的相对位置X，范围0-1
+	float   5  - 信息显示的终止位置在屏幕上的相对位置Y，范围0-1
+	...
+	float   30 - Hud起始时间
+	float   31 - HUD信息消失的时间
+
+
+	entity 0 - marine
+
+	DefaultVerySmall
+	DefaultVerySmallBlur
+	DefaultSmall
+	DefaultSmallBlur
+	DefaultSmallOutline
+	Default
+	DefaultBlur
+	DefaultShadowed
+	DefaultUnderline
+	DefaultMedium
+	DefaultMediumBlur
+	DefaultLarge
+	DefaultLargeBlur
+	DefaultBold
+	DefaultBoldBlur
+	DefaultExtraLarge
+	DefaultExtraLargeBlur
+	Countdown
+	CountdownBlur
+	CRD_VGui_VScript
+*/
+
+IncludeScript("challenge_traitors_enums.nut");
+
+FONT_DEFAULTLARGE <- self.LookupFont("DefaultMedium");
+
+xMargin <- 0;
+yMargin <- 0;
+
+function Paint() {
+	//如果正在控制士兵，显示信息。
+	if (self.GetEntity(0) == GetLocalPlayer()) {
+		local message = self.GetString(0);
+		if (message == "") {
+			return;
+		}
+		//根据时间和坐标显示信息。
+		local time = Time() - self.GetFloat(30);
+		local i = 0;
+		local int1 = self.GetInt(1);
+		local point = [0.0, 0.0];
+		local role = self.GetInt(0);
+		for (; i < int1; i++) {
+			if (time > self.GetFloat(0 + 3 * i) && time <= self.GetFloat(3 + 3 * i)) {
+				point = interp(i, time);
+				PaintMsg(point, role, FONT_DEFAULTLARGE, message);
+			}
+		}
+		if (time > self.GetFloat(0 + 3 * int1) && time <= self.GetFloat(31)) {
+			if (self.GetInt(63) == 4) {
+				message = message + " " + self.GetInt(3) + "/" + self.GetInt(4) + " (" + (self.GetFloat(31) - time).tointeger() + "s)";
+			}
+			point = [ScreenPosX(self.GetFloat(1 + 3 * int1)), ScreenPosY(self.GetFloat(2 + 3 * int1))];
+			PaintMsg(point, role, FONT_DEFAULTLARGE, message);
+		}
+	}
+}
+
+function PaintMsg(point, role, font, message) {
+	local line = self.GetInt(2);
+	local textHalfWidth = 0.5 * self.GetTextWide(font, message);
+	SetMargin();
+	local alpha = 255;
+	if (xMargin != 0) {
+		self.PaintRectangle(0, 0, xMargin, ScreenHeight() * 0.91, 0, 0, 0, alpha);
+		self.PaintRectangle(ScreenHeight() * 0.315, ScreenHeight() * 0.91, xMargin, ScreenHeight(), 0, 0, 0, alpha);
+		self.PaintRectangle(ScreenWidth() - xMargin, 0, ScreenWidth(), ScreenHeight(), 0, 0, 0, alpha);
+	}
+	if (yMargin != 0) {
+		self.PaintRectangle(0, 0, ScreenWidth(), yMargin, 0, 0, 0, alpha);
+		//self.PaintRectangle(0, ScreenHeight() - yMargin, ScreenWidth() / 10, ScreenHeight(), 0, 0, 0, alpha);
+		self.PaintRectangle(ScreenWidth() / 10 * 2.4, ScreenHeight() - yMargin, ScreenWidth(), ScreenHeight(), 0, 0, 0, alpha);
+	}
+	local xOffset = point[0] >= textHalfWidth + 20 ? 0 : textHalfWidth + 20 - point[0];
+	point[0] += xOffset;
+	if (role <= ROLE.MAX_IAF_TEAM) {
+		self.PaintText(point[0] - textHalfWidth, point[1] + line * (self.GetFontTall(font) + 10), 255, 255, 255, 240, font, message);
+		self.PaintRectangle(point[0] - textHalfWidth - 20, point[1] - 5 + line * (self.GetFontTall(font) + 10), point[0] + 20 + textHalfWidth, point[1] - 5 + (line + 1) * (self.GetFontTall(font) + 10), 0, 70, 0, 150);
+	} else if (role > ROLE.MAX_IAF_TEAM && role <= ROLE.MAX_TRAITOR_TEAM) {
+		self.PaintText(point[0] - textHalfWidth, point[1] + line * (self.GetFontTall(font) + 10), 255, 255, 255, 200, font, message);
+		self.PaintRectangle(point[0] - textHalfWidth - 20, point[1] - 5 + line * (self.GetFontTall(font) + 10), point[0] + 20 + textHalfWidth, point[1] - 5 + (line + 1) * (self.GetFontTall(font) + 10), 70, 0, 0, 150);
+	} else {
+		self.PaintText(point[0] - textHalfWidth, point[1] + line * (self.GetFontTall(font) + 10), 255, 255, 255, 200, font, message);
+		self.PaintRectangle(point[0] - textHalfWidth - 20, point[1] - 5 + line * (self.GetFontTall(font) + 10), point[0] + 20 + textHalfWidth, point[1] - 5 + (line + 1) * (self.GetFontTall(font) + 10), 0, 0, 0, 150);
+	}
+
+}
+
+function interp(i, t) {
+	local t0 = self.GetFloat(0 + 3 * i);
+	local t1 = self.GetFloat(3 + 3 * i);
+	local x0 = ScreenPosX(self.GetFloat(1 + 3 * i));
+	local x1 = ScreenPosX(self.GetFloat(4 + 3 * i));
+	local y0 = ScreenPosY(self.GetFloat(2 + 3 * i));
+	local y1 = ScreenPosY(self.GetFloat(5 + 3 * i));
+	local point = [0.0, 0.0];
+	point[0] = x0 + (x1 - x0) / (t1 - t0) * (t - t0);
+	point[1] = y0 + (y1 - y0) / (t1 - t0) * (t - t0);
+	return point;
+}
+
+function SetMargin() {
+	if (ScreenWidth().tofloat() / ScreenHeight().tofloat() > 16.0 / 9.0) {
+		xMargin = ((ScreenWidth().tofloat() - ScreenHeight().tofloat() * 16.0 / 9.0) / 2.0).tointeger();
+	}
+	if (ScreenWidth().tofloat() / ScreenHeight().tofloat() < 16.0 / 10.0) {
+		yMargin = ((ScreenHeight().tofloat() - ScreenWidth().tofloat() / 16.0 * 10.0) / 2.0).tointeger();;
+	}
+}
+
+// pass in a value from 0.0 to 1.0, 0.0 means the left side of the screen, 1.0 means the right, 0.5 in the middle
+function ScreenPosX(fraction) {
+	return xMargin + (ScreenWidth() - 2 * xMargin) * fraction;
+}
+
+// pass in a value from 0.0 to 1.0, 0.0 means the up side of the screen, 1.0 means the down, 0.5 in the middle
+function ScreenPosY(fraction) {
+	return yMargin + (ScreenHeight() - 2 * yMargin) * fraction;
+}

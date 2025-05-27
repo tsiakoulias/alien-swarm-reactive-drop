@@ -1,0 +1,44 @@
+[h2]模组信息 / Add-on Info[/h2]
+Mod Name: Traitors! / Verräter! / Traditori! / 裏切者だ！ / 배신자들! / Предатели! / 有内鬼！ / Förrädare! / 我們之中有叛徒! / 
+Currently Supported Languages: English / Deutsch / Italiano / 日本語 / 한국인 / Русский / 简体中文 / Svenska / 繁體中文 / 
+
+Tanks to community translators!
+
+[h2]关于模组 / About this add-on[/h2]
+这是一个老的挑战模组，作者未知。我仅仅做了bug修复，改善了UI显示。[strike]游戏平衡性方面没有任何改动。[/strike]侵删
+
+This is an old challenge that the creator is unknown to me. I fix its bugs and make some QoL UI changes. [strike]No changes is made to the balance.[/strike] I will delete this add-on on the demand of the Original Creator.
+
+
+[h3]重大平衡性改动 / Major Balancing Changes[/h3]
+[list]
+[*] 游戏开局一定时间内不受其他玩家的任何伤害，玩家有时间确定自己的策略。 
+[*] 手雷引爆时间增长，让玩家有时间做出反应。现在不再可能使用手雷进行无差别群杀（这不符合本挑战的目的，需要直接pvp乱杀的完全可以去玩死亡竞赛）。
+[*] [b]测试中[/b] 武器友军伤害平衡。以.50的伤害为基准，提升了其他武器的友军伤害。考虑到武器弹道散布因素，有的武器近距离作战有优势，有些远距离作战有优势。但整体上和.50相比，在同样的数据下，不同武器之间有差不多的胜率。 
+[/list]
+
+[list]
+[*] Friendly fire protection at the beginning of each map so that one has time to choose his strategy. 
+[*] Longer hand grenade fuse time so that one has several seconds to react and murderers are not likely to go crazy and team kill for no reason. See change notes for detail reasons.
+[*] [b]Currently in Testing[/b] Weapon damage re-balanced against .50 rifle. Other weapons now have higher friendly fire. Considering their bullets distribution, different weapons now have their own advantages (some have better performance at long range shooting, and some are better for close combat). They all have approximately the same chance to win against each other. 
+[/list]
+
+[h2]规则 / Challenge Rules[/h2]
+[list]
+[*] 游戏分为两队，分别是 [b]内鬼[/b] 和 [b]IAF士兵[/b]。至少需要三个玩家才可以正常进行。
+[*] [b]内鬼[/b] 获胜条件： [b]只有内鬼存活[/b] 或 [b]任务失败，但内鬼存活[/b]
+[*] [b]IAF队员[/b] 获胜条件： [b]完成整个任务[/b]
+[*] 否则没有胜利者[/list]
+
+[list]
+[*] There are two teams called [b]TRAITOR Team[/b] and [b]IAF Team[/b]. You need at least 3 players to play.
+[*] [b]TRAITOR team[/b] objective: [b]Kill IAF team[/b] or [b]Mission Failed, but traitor alive[/b]
+[*] [b]IAF team[/b] objective: [b]Complete the mission[/b]
+[*] Otherwise, there is no winne[/list]
+
+
+游戏中内鬼发送 "/" 开头的信息可以队内聊天。
+游戏中内鬼发送 "/gg" 投降。 
+
+A traitor can send secret messages beginning with "/" to teammates.
+A traitor can send "/gg" to surrender.
