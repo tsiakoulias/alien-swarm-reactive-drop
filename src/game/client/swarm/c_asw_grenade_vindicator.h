@@ -15,7 +15,7 @@ public:
 	virtual void Spawn();
 	virtual void OnDataChanged(DataUpdateType_t updateType);
 	virtual void Detonate();
-	void CreateSmokeTrail();
+	virtual void CreateSmokeTrail();
 
 	bool m_bDetonated;
 

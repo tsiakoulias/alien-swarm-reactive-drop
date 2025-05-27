@@ -39,6 +39,10 @@ BEGIN_DATADESC( CASW_Mortar_Round )
 	DEFINE_INPUTFUNC( FIELD_VOID, "CreateEffects", InputCreateEffects ),
 END_DATADESC()
 
+IMPLEMENT_SERVERCLASS_ST( CASW_Mortar_Round, DT_ASW_Mortar_Round )
+	
+END_SEND_TABLE();
+
 extern int	g_sModelIndexFireball;			// (in combatweapon.cpp) holds the index for the smoke cloud
 
 void CASW_Mortar_Round::Spawn( void )

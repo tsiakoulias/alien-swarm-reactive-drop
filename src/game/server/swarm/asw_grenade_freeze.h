@@ -11,6 +11,7 @@ class CASW_Grenade_Freeze : public CASW_Grenade_Cluster
 public:
 	DECLARE_CLASS( CASW_Grenade_Freeze, CASW_Grenade_Cluster );
 	DECLARE_DATADESC();
+	DECLARE_SERVERCLASS();
 
 	CASW_Grenade_Freeze();
 

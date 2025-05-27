@@ -10,6 +10,7 @@ public:
 	DECLARE_CLASS( CASW_Grenade_Cluster, CASW_Grenade_Vindicator );
 	DECLARE_DATADESC();
 	DECLARE_ENT_SCRIPTDESC();
+	DECLARE_SERVERCLASS();
 				
 	virtual void Spawn();
 	virtual void DoExplosion();
