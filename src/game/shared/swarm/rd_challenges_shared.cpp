@@ -399,6 +399,7 @@ static const char *s_szOfficialChallenges[] =
 	"riflemod_classic",
 	"rd_first_person",
 	"rd_third_person",
+	"traitors",
 	"asw_infection",
 	"asw_infection_fp",
 	"asw_infection_tp",
