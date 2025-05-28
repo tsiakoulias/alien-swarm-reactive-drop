@@ -46,7 +46,6 @@ IncludeScript("challenge_traitors_enums.nut");
 FONT_DEFAULTLARGE <- self.LookupFont("DefaultMedium");
 
 xMargin <- 0;
-yMargin <- 0;
 
 function Paint() {
 	//如果正在控制士兵，显示信息。
@@ -87,11 +86,6 @@ function PaintMsg(point, role, font, message) {
 		self.PaintRectangle(ScreenHeight() * 0.315, ScreenHeight() * 0.91, xMargin, ScreenHeight(), 0, 0, 0, alpha);
 		self.PaintRectangle(ScreenWidth() - xMargin, 0, ScreenWidth(), ScreenHeight(), 0, 0, 0, alpha);
 	}
-	if (yMargin != 0) {
-		self.PaintRectangle(0, 0, ScreenWidth(), yMargin, 0, 0, 0, alpha);
-		//self.PaintRectangle(0, ScreenHeight() - yMargin, ScreenWidth() / 10, ScreenHeight(), 0, 0, 0, alpha);
-		self.PaintRectangle(ScreenWidth() / 10 * 2.4, ScreenHeight() - yMargin, ScreenWidth(), ScreenHeight(), 0, 0, 0, alpha);
-	}
 	local xOffset = point[0] >= textHalfWidth + 20 ? 0 : textHalfWidth + 20 - point[0];
 	point[0] += xOffset;
 	if (role <= ROLE.MAX_IAF_TEAM) {
@@ -124,9 +118,6 @@ function SetMargin() {
 	if (ScreenWidth().tofloat() / ScreenHeight().tofloat() > 16.0 / 9.0) {
 		xMargin = ((ScreenWidth().tofloat() - ScreenHeight().tofloat() * 16.0 / 9.0) / 2.0).tointeger();
 	}
-	if (ScreenWidth().tofloat() / ScreenHeight().tofloat() < 16.0 / 10.0) {
-		yMargin = ((ScreenHeight().tofloat() - ScreenWidth().tofloat() / 16.0 * 10.0) / 2.0).tointeger();;
-	}
 }
 
 // pass in a value from 0.0 to 1.0, 0.0 means the left side of the screen, 1.0 means the right, 0.5 in the middle
@@ -136,5 +127,5 @@ function ScreenPosX(fraction) {
 
 // pass in a value from 0.0 to 1.0, 0.0 means the up side of the screen, 1.0 means the down, 0.5 in the middle
 function ScreenPosY(fraction) {
-	return yMargin + (ScreenHeight() - 2 * yMargin) * fraction;
+	return ScreenHeight() * fraction;
 }

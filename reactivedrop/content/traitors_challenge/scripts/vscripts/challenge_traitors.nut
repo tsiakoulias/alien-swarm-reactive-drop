@@ -935,19 +935,16 @@ function OnGameplayStart() {
 	g_str_GameResult = GetMapName().tolower() + "\t" + g_int_MarineCount.tostring() + "\t" + g_int_TraitorCount.tostring() + "\t"; //MapName, PlayerCount, TraitorCount
 
 	DelayFunctionCall("ClientPrintRoles", "", 2.0); // 2秒后显示内鬼名单
-
-	//PrintNetProps(hMarine);
-	//PrintNetProps(hPlayer);
 }
 
 function DisplayGameInstructions() {
+	LocalizedClientPrint(null, 3, TextColor(255, 255, 0) + "%s1", "#challenge_traitors_game_instruction0");
 	LocalizedClientPrint(null, 3, TextColor(255, 255, 0) + "%s1", "#challenge_traitors_game_instruction1");
 	LocalizedClientPrint(null, 3, TextColor(255, 255, 0) + "%s1", "#challenge_traitors_game_instruction2");
 	LocalizedClientPrint(null, 3, TextColor(255, 255, 0) + "%s1", "#challenge_traitors_game_instruction3");
 	LocalizedClientPrint(null, 3, TextColor(255, 255, 0) + "%s1", "#challenge_traitors_game_instruction4");
 	LocalizedClientPrint(null, 3, TextColor(255, 255, 0) + "%s1", "#challenge_traitors_game_instruction5");
 	LocalizedClientPrint(null, 3, TextColor(255, 255, 0) + "%s1", "#challenge_traitors_game_instruction6");
-	LocalizedClientPrint(null, 3, TextColor(255, 255, 0) + "%s1", "#challenge_traitors_game_instruction7");
 	LocalizedClientPrint(null, 3, TextColor(255, 255, 0) + "%s1", "#challenge_traitors_game_instruction8");
 }
 
