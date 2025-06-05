@@ -10,6 +10,7 @@
 #include "filesystem.h"
 #include "rd_workshop.h"
 #include "asw_util_shared.h"
+#include "video_services.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -34,11 +35,8 @@ CASW_Background_Movie* ASWBackgroundMovie()
 
 CASW_Background_Movie::CASW_Background_Movie()
 {
-#ifdef ASW_BINK_MOVIES
+	m_nMaterialType = MATERIAL_INVALID;
 	m_nBIKMaterial = BIKMATERIAL_INVALID;
-#else
-	m_nAVIMaterial = AVIMATERIAL_INVALID;
-#endif
 	m_nTextureID = -1;
 	m_szCurrentMovie[0] = 0;
 	m_nLastGameState = -1;
@@ -53,97 +51,152 @@ void CASW_Background_Movie::SetCurrentMovie( const char *szFilename )
 {
 	// Safety check as we're possibly going to overwrite a file here!
 	char szBaseName[MAX_PATH];
-	V_FileBase( szFilename, szBaseName, sizeof( szBaseName ) );
-	char szExpectedName[MAX_PATH];
-	V_snprintf( szExpectedName, sizeof( szExpectedName ), "media/%s.bik", szBaseName );
-	Assert( !V_strcmp( szFilename, szExpectedName ) );
-	if ( V_strcmp( szFilename, szExpectedName ) )
+	V_FileBase(szFilename, szBaseName, sizeof(szBaseName));
+	const char* szAllowedExtensions[] = { "bik", "webm", nullptr };
+
+	bool bValidExtension = false;
+	const char* szExt = V_GetFileExtension(szFilename);
+	if (szExt)
 	{
-		// If we're trying to set the movie to something dangerous, use a known safe filename instead.
-		szFilename = "media/BGFX_03.bik";
+		for (int i = 0; szAllowedExtensions[i]; i++)
+		{
+			if (!Q_stricmp(szExt, szAllowedExtensions[i]))
+			{
+				bValidExtension = true;
+				break;
+			}
+		}
 	}
 
-	szFilename = g_ReactiveDropWorkshop.GetNativeFileSystemFile( szFilename );
-
-	if ( Q_strcmp( m_szCurrentMovie, szFilename ) )
+	bool bValidPath = false;
+	if (V_IsAbsolutePath(szFilename))
 	{
-#ifdef ASW_BINK_MOVIES
-		if ( m_nBIKMaterial != BIKMATERIAL_INVALID )
+		Warning("Absolute paths are not allowed for video files: %s\n", szFilename);
+	}
+	else
+	{
+		char szExpectedPrefix[] = "media/";
+		if (!Q_strnicmp(szFilename, szExpectedPrefix, sizeof(szExpectedPrefix) - 1))
 		{
-			// FIXME: Make sure the m_pMaterial is actually destroyed at this point!
-			g_pBIK->DestroyMaterial( m_nBIKMaterial );
-			m_nBIKMaterial = BIKMATERIAL_INVALID;
+			bValidPath = true;
+		}
+	}
+
+	if (!bValidExtension || !bValidPath)
+	{
+		Warning("Invalid video path: %s (must be in media/ folder with .bik or .webm extension)\n", szFilename);
+
+		const char* szDefaultFiles[] = {
+			"media/BGFX_03.webm",
+			"media/BGFX_03.bik",
+			nullptr
+		};
+
+		for (int i = 0; szDefaultFiles[i]; i++)
+		{
+			if (g_pFullFileSystem->FileExists(szDefaultFiles[i], "GAME"))
+			{
+				szFilename = szDefaultFiles[i];
+				break;
+			}
+		}
+	}
+
+	szFilename = g_ReactiveDropWorkshop.GetNativeFileSystemFile(szFilename);
+	if (Q_strcmp(m_szCurrentMovie, szFilename))
+	{
+		if (m_nMaterialType != MATERIAL_INVALID)
+		{
+			switch (m_nMaterialType)
+			{
+			case MATERIAL_WEBM:
+				g_pWEBM->DestroyVideoMaterial( m_pWEBMMaterial );
+				break;
+			case MATERIAL_BIK:
+				g_pBIK->DestroyMaterial(m_nBIKMaterial);
+				break;
+			}
+			m_nMaterialType = MATERIAL_INVALID;
 			m_nTextureID = -1;
 		}
 
-		char szMaterialName[ MAX_PATH ];
-		Q_snprintf( szMaterialName, sizeof( szMaterialName ), "BackgroundBIKMaterial%i", g_pBIK->GetGlobalMaterialAllocationNumber() );
-		m_nBIKMaterial = bik->CreateMaterial( szMaterialName, szFilename, "GAME", BIK_LOOP );
-#else
-		if ( m_nAVIMaterial != AVIMATERIAL_INVALID )
+		const char* ext = Q_GetFileExtension(szFilename);
+		if (ext && !Q_stricmp(ext, "webm"))
 		{
-			// FIXME: Make sure the m_pMaterial is actually destroyed at this point!
-			g_pAVI->DestroyAVIMaterial( m_nAVIMaterial );
-			m_nAVIMaterial = AVIMATERIAL_INVALID;
-			m_nTextureID = -1;
+			// Utwórz materia³ WebM
+			char szMaterialName[MAX_PATH];
+			Q_snprintf(szMaterialName, sizeof(szMaterialName), "BackgroundWebMMaterial%i", g_pWEBM->GetUniqueMaterialID());
+
+			m_pWEBMMaterial = g_pWEBM->CreateVideoMaterial(
+				szMaterialName, szFilename, "GAME",
+				VideoPlaybackFlags::LOOP_VIDEO | VideoPlaybackFlags::DEFAULT_MATERIAL_OPTIONS,
+				VideoSystem::WEBM);
+
+			if (m_pWEBMMaterial)
+			{
+				m_nMaterialType = MATERIAL_WEBM;
+				m_pWEBMMaterial->StartVideo();
+			}
+		}
+		else
+		{
+			char szMaterialName[MAX_PATH];
+			Q_snprintf(szMaterialName, sizeof(szMaterialName), "BackgroundBIKMaterial%i", g_pBIK->GetGlobalMaterialAllocationNumber());
+
+			m_nBIKMaterial = bik->CreateMaterial(szMaterialName, szFilename, "GAME", BIK_LOOP);
+			m_nMaterialType = MATERIAL_BIK;
 		}
 
-		char szMaterialName[ MAX_PATH ];
-		static int g_nGlobalAVIAllocationCount = 0;
-		Q_snprintf( szMaterialName, sizeof( szMaterialName ), "BackgroundAVIMaterial%i", g_nGlobalAVIAllocationCount++ );
-		m_nAVIMaterial = g_pAVI->CreateAVIMaterial( szMaterialName, szFilename, "GAME" );
-		m_flStartTime = gpGlobals->realtime;
-
-		IMaterial *pMaterial = avi->GetMaterial( m_nAVIMaterial );
-		pMaterial->IncrementReferenceCount();
-#endif
-
-		Q_snprintf( m_szCurrentMovie, sizeof( m_szCurrentMovie ), "%s", szFilename );
-		s_bLastReduceMotion = false; // we need to render at least one frame before we can pause.
+		Q_snprintf(m_szCurrentMovie, sizeof(m_szCurrentMovie), "%s", szFilename);
+		s_bLastReduceMotion = false;
 	}
 }
 
+
 void CASW_Background_Movie::ClearCurrentMovie()
 {
-#ifdef ASW_BINK_MOVIES
-	if ( m_nBIKMaterial != BIKMATERIAL_INVALID )
+	if (m_nMaterialType != MATERIAL_INVALID)
 	{
-		// FIXME: Make sure the m_pMaterial is actually destroyed at this point!
-		g_pBIK->DestroyMaterial( m_nBIKMaterial );
-		m_nBIKMaterial = BIKMATERIAL_INVALID;
+		switch (m_nMaterialType)
+		{
+		case MATERIAL_WEBM:
+			g_pWEBM->DestroyVideoMaterial( m_pWEBMMaterial );
+			break;
+		case MATERIAL_BIK:
+			g_pBIK->DestroyMaterial(m_nBIKMaterial);
+			break;
+		}
+		m_nMaterialType = MATERIAL_INVALID;
 		m_nTextureID = -1;
 	}
-#else
-	if ( m_nAVIMaterial != AVIMATERIAL_INVALID )
-	{
-		// FIXME: Make sure the m_pMaterial is actually destroyed at this point!
-		g_pAVI->DestroyAVIMaterial( m_nAVIMaterial );
-		m_nAVIMaterial = AVIMATERIAL_INVALID;
-		m_nTextureID = -1;
-	}
-#endif
 }
 
 int CASW_Background_Movie::SetTextureMaterial()
 {
-#ifdef ASW_BINK_MOVIES
-	if ( m_nBIKMaterial == BIKMATERIAL_INVALID )
+	if (m_nMaterialType == MATERIAL_INVALID)
 		return -1;
-#else
-	if ( m_nAVIMaterial == AVIMATERIAL_INVALID )
-		return -1;
-#endif
 
-	if ( m_nTextureID == -1 )
+	if (m_nTextureID == -1)
 	{
-		m_nTextureID = g_pMatSystemSurface->CreateNewTextureID( true );
+		m_nTextureID = g_pMatSystemSurface->CreateNewTextureID(true);
 	}
-	
-#ifdef ASW_BINK_MOVIES
-	g_pMatSystemSurface->DrawSetTextureMaterial( m_nTextureID, g_pBIK->GetMaterial( m_nBIKMaterial ) );
-#else
-	g_pMatSystemSurface->DrawSetTextureMaterial( m_nTextureID, g_pAVI->GetMaterial( m_nAVIMaterial ) );
-#endif
+
+	switch (m_nMaterialType)
+	{
+	case MATERIAL_WEBM:
+	{
+		IMaterial *pMaterial = m_pWEBMMaterial->GetMaterial();
+		if ( pMaterial )
+		{
+			g_pMatSystemSurface->DrawSetTextureMaterial( m_nTextureID, pMaterial );
+		}
+		break;
+	}
+	case MATERIAL_BIK:
+		g_pMatSystemSurface->DrawSetTextureMaterial(m_nTextureID, g_pBIK->GetMaterial(m_nBIKMaterial));
+		break;
+	}
+
 	return m_nTextureID;
 }
 
@@ -159,7 +212,6 @@ void CASW_Background_Movie::Update( bool bForce )
 		if ( ( nGameState != m_nLastGameState || bForce ) && !( nGameState == ASW_GS_LAUNCHING || nGameState == ASW_GS_INGAME ) )
 		{
 			const char *pFilename = NULL;
-#ifdef ASW_BINK_MOVIES
 			const char *szMovieType = "briefing";
 			if ( ASWGameRules()->GetGameState() >= ASW_GS_DEBRIEF )
 			{
@@ -180,12 +232,8 @@ void CASW_Background_Movie::Update( bool bForce )
 					pFilename = NULL;
 				}
 			}
-
 			if ( pFilename == NULL )
 				pFilename = UTIL_RD_RandomBriefingMovie( engine->GetLevelNameShort(), ASWGameRules()->m_iCosmeticRandomSeed, szMovieType );
-#else
-			pFilename = "media/test.avi";
-#endif
 			if ( pFilename )
 			{
 				SetCurrentMovie( pFilename );
@@ -198,55 +246,65 @@ void CASW_Background_Movie::Update( bool bForce )
 		int nGameState = 0;
 		if ( nGameState != m_nLastGameState || bForce )
 		{
-#ifdef ASW_BINK_MOVIES
 			const char *szMainMenuImage, *szMainMenuVideo, *szMainMenuAudio;
 			UTIL_RD_DecideMainMenuBackground( szMainMenuImage, szMainMenuVideo, szMainMenuAudio, false );
 			SetCurrentMovie( szMainMenuVideo );
-#else
-			SetCurrentMovie( "media/test.avi" );
-#endif
 			m_nLastGameState = nGameState;
 		}
 	}
 
-#ifdef ASW_BINK_MOVIES
-	if ( m_nBIKMaterial == BIKMATERIAL_INVALID )
+	if (m_nMaterialType == MATERIAL_INVALID)
 		return;
 
-	if ( g_pBIK->ReadyForSwap( m_nBIKMaterial ) )
+	switch (m_nMaterialType)
 	{
-		if ( g_pBIK->Update( m_nBIKMaterial ) == false )
-		{
-			// FIXME: Make sure the m_pMaterial is actually destroyed at this point!
-			g_pBIK->DestroyMaterial( m_nBIKMaterial );
-			m_nBIKMaterial = BIKMATERIAL_INVALID;
-		}
-		else if ( !s_bLastReduceMotion && rd_reduce_motion.GetBool() )
+	case MATERIAL_WEBM:
+		if ( !s_bLastReduceMotion && rd_reduce_motion.GetBool() )
 		{
 			s_bLastReduceMotion = true;
-			bik->Pause( m_nBIKMaterial );
+			m_pWEBMMaterial->SetPaused( true );
 		}
+		else if ( s_bLastReduceMotion && !rd_reduce_motion.GetBool() )
+		{
+			s_bLastReduceMotion = false;
+			m_pWEBMMaterial->SetPaused( false );
+		}
+
+		if ( !m_pWEBMMaterial->Update() )
+		{
+			if ( m_pWEBMMaterial->IsLooping() )
+			{
+				m_pWEBMMaterial->SetTime( 0.0f );
+			}
+			else
+			{
+				g_pWEBM->DestroyVideoMaterial( m_pWEBMMaterial );
+				m_nMaterialType = MATERIAL_INVALID;
+			}
+		}
+		break;
+	case MATERIAL_BIK:
+		if (g_pBIK->ReadyForSwap(m_nBIKMaterial))
+		{
+			if (g_pBIK->Update(m_nBIKMaterial) == false)
+			{
+				g_pBIK->DestroyMaterial(m_nBIKMaterial);
+				m_nMaterialType = MATERIAL_INVALID;
+			}
+			else if (!s_bLastReduceMotion && rd_reduce_motion.GetBool())
+			{
+				s_bLastReduceMotion = true;
+				bik->Pause(m_nBIKMaterial);
+			}
+		}
+
+		if (m_nMaterialType != MATERIAL_INVALID && s_bLastReduceMotion && !rd_reduce_motion.GetBool())
+		{
+			s_bLastReduceMotion = false;
+			bik->Unpause(m_nBIKMaterial);
+		}
+		break;
 	}
-
-	if ( m_nBIKMaterial != BIKMATERIAL_INVALID && s_bLastReduceMotion && !rd_reduce_motion.GetBool() )
-	{
-		s_bLastReduceMotion = false;
-		bik->Unpause( m_nBIKMaterial );
-	}
-#else
-	if ( m_nAVIMaterial == AVIMATERIAL_INVALID )
-		return;
-
-	int nFrames = avi->GetFrameCount( m_nAVIMaterial );
-	float flTimePerFrame = 1.0f / avi->GetFrameRate( m_nAVIMaterial );
-	float flTimePassed = gpGlobals->realtime - m_flStartTime;
-	int nFramesPassed = flTimePassed / flTimePerFrame;
-	nFramesPassed = nFramesPassed % nFrames;
-	avi->SetFrame( m_nAVIMaterial, nFramesPassed );
-
-// 	float flMaxU, flMaxV;
-// 	g_pAVI->GetTexCoordRange( m_nAVIMaterial, &flMaxU, &flMaxV );
-#endif
 }
 
 // ======================================
