@@ -2263,9 +2263,6 @@
     <Library Include="videoservices\lib\win32\vpxmt.lib">
       <Filter>videoservices\lib</Filter>
     </Library>
-    <Library Include="videoservices\lib\win32\webm.lib">
-      <Filter>videoservices\lib</Filter>
-    </Library>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\vpc_scripts\loadaddress.vpc" />
@@ -2278,7 +2275,7 @@
       <UniqueIdentifier>{ff3ae5f5-6682-44dd-90bd-d75db53e8abe}</UniqueIdentifier>
     </Filter>
     <Filter Include="videoservices\lib">
-      <UniqueIdentifier>{77802894-4ba3-4224-a155-1c15e27be367}</UniqueIdentifier>
+      <UniqueIdentifier>{94fbf44a-e7fc-481d-ae84-7eb1c4519f2c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
