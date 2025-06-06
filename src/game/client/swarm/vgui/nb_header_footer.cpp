@@ -36,7 +36,6 @@ CASW_Background_Movie* ASWBackgroundMovie()
 CASW_Background_Movie::CASW_Background_Movie()
 {
 	m_nMaterialType = MATERIAL_INVALID;
-	m_nBIKMaterial = BIKMATERIAL_INVALID;
 	m_nTextureID = -1;
 	m_szCurrentMovie[0] = 0;
 	m_nLastGameState = -1;
@@ -113,7 +112,7 @@ void CASW_Background_Movie::SetCurrentMovie( const char *szFilename )
 				g_pWEBM->DestroyVideoMaterial( m_pWEBMMaterial );
 				break;
 			case MATERIAL_BIK:
-				g_pBIK->DestroyMaterial(m_nBIKMaterial);
+				g_pBIK->DestroyMaterial( m_nBIKMaterial );
 				break;
 			}
 			m_nMaterialType = MATERIAL_INVALID;
@@ -123,7 +122,6 @@ void CASW_Background_Movie::SetCurrentMovie( const char *szFilename )
 		const char* ext = Q_GetFileExtension(szFilename);
 		if (ext && !Q_stricmp(ext, "webm"))
 		{
-			// Utwórz materia³ WebM
 			char szMaterialName[MAX_PATH];
 			Q_snprintf(szMaterialName, sizeof(szMaterialName), "BackgroundWebMMaterial%i", g_pWEBM->GetUniqueMaterialID());
 
@@ -163,7 +161,7 @@ void CASW_Background_Movie::ClearCurrentMovie()
 			g_pWEBM->DestroyVideoMaterial( m_pWEBMMaterial );
 			break;
 		case MATERIAL_BIK:
-			g_pBIK->DestroyMaterial(m_nBIKMaterial);
+			g_pBIK->DestroyMaterial( m_nBIKMaterial );
 			break;
 		}
 		m_nMaterialType = MATERIAL_INVALID;
@@ -272,15 +270,8 @@ void CASW_Background_Movie::Update( bool bForce )
 
 		if ( !m_pWEBMMaterial->Update() )
 		{
-			if ( m_pWEBMMaterial->IsLooping() )
-			{
-				m_pWEBMMaterial->SetTime( 0.0f );
-			}
-			else
-			{
-				g_pWEBM->DestroyVideoMaterial( m_pWEBMMaterial );
-				m_nMaterialType = MATERIAL_INVALID;
-			}
+			g_pWEBM->DestroyVideoMaterial( m_pWEBMMaterial );
+			m_nMaterialType = MATERIAL_INVALID;
 		}
 		break;
 	case MATERIAL_BIK:

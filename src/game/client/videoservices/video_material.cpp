@@ -313,9 +313,6 @@ void CVideoMaterial::CreateVideoMaterial( const char* pMaterialName )
 	m_textureWidth = ALIGN_VALUE(m_videoWidth, 8);
 	m_textureHeight = ALIGN_VALUE(m_videoHeight, 8);
 
-	//Warning("\nm_textureWidth: %d\nm_textureHeight: %d\nm_videoWidth: %d\nm_videoHeight: %d\n", m_textureWidth, m_textureHeight, m_videoWidth, m_videoHeight);
-
-
 	// create the textures
 	m_yTexture.InitProceduralTexture( ytexture, "VideoCacheTextures", m_textureWidth, m_textureHeight, IMAGE_FORMAT_I8, tex_flags );
 	// CB and CR are half the size of the Y (the brightness)
@@ -328,31 +325,6 @@ void CVideoMaterial::CreateVideoMaterial( const char* pMaterialName )
 	m_yTexture->SetTextureRegenerator( m_yTextureRegen );
 	m_crTexture->SetTextureRegenerator( m_crTextureRegen );
 	m_cbTexture->SetTextureRegenerator( m_cbTextureRegen );
-
-
-	// ---------------------------
-	// material
-	// 
-	// Use the Bik shader as it deals with YUV420
-	KeyValues* pVMTKeyValues = new KeyValues( "Bik" );
-	pVMTKeyValues->SetString( "$ytexture", ytexture );
-	pVMTKeyValues->SetString( "$cbtexture", cbtexture );
-	pVMTKeyValues->SetString( "$crtexture", crtexture );
-	pVMTKeyValues->SetInt( "$nofog", 1 );
-	pVMTKeyValues->SetInt( "$spriteorientation", 3 );
-	pVMTKeyValues->SetInt( "$translucent", 1 );
-	pVMTKeyValues->SetInt( "$nolod", 1 );
-	pVMTKeyValues->SetInt( "$vertexcolor", 1 );
-	pVMTKeyValues->SetInt( "$vertexalpha", 1 );
-	pVMTKeyValues->SetInt( "$nomip", 1 );
-	m_videoMaterial.Init( pMaterialName, pVMTKeyValues );
-
-	// Refresh the material vars because apparently init doesn't do this
-	// and retains the previous video's frame
-	m_videoMaterial->Refresh();
-
-	m_videoReady = true;
-	m_videoStarted = false;
 
 	// update the procedural texture with the first frame of the video
 	WebMFrame video_frame;
@@ -376,8 +348,29 @@ void CVideoMaterial::CreateVideoMaterial( const char* pMaterialName )
 			break;
 		}
 	}
-
 	m_demuxer->resetVideo();
+
+	// ---------------------------
+	// material
+	// Use the Bik shader as it deals with YUV420
+	KeyValues* pVMTKeyValues = new KeyValues( "Bik" );
+	pVMTKeyValues->SetString( "$ytexture", ytexture );
+	pVMTKeyValues->SetString( "$cbtexture", cbtexture );
+	pVMTKeyValues->SetString( "$crtexture", crtexture );
+	pVMTKeyValues->SetInt( "$nofog", 1 );
+	pVMTKeyValues->SetInt( "$spriteorientation", 3 );
+	pVMTKeyValues->SetInt( "$translucent", 1 );
+	pVMTKeyValues->SetInt( "$nolod", 1 );
+	pVMTKeyValues->SetInt( "$vertexcolor", 1 );
+	pVMTKeyValues->SetInt( "$vertexalpha", 1 );
+	pVMTKeyValues->SetInt( "$nomip", 1 );
+	m_videoMaterial.Init( pMaterialName, pVMTKeyValues );
+	// Refresh the material vars because apparently init doesn't do this
+	// and retains the previous video's frame
+	m_videoMaterial->Refresh();
+
+	m_videoReady = true;
+	m_videoStarted = false;
 }
 
 const char *CVideoMaterial::GetVideoFileName()
