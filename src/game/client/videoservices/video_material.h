@@ -1,7 +1,8 @@
 #ifndef VIDEO_MATERIAL_H
-#define VIDEO_MATERIAL_H
+	#define VIDEO_MATERIAL_H
+
 #ifdef _WIN32
-#pragma once
+	#pragma once
 #endif
 
 #include <vector>
@@ -15,8 +16,8 @@
 #include "libwebm/mkvparser/mkvparser.h"
 
 #ifdef _WIN32
-#include <windows.h>
-#include "dsound.h"
+	#include <windows.h>
+	#include "dsound.h"
 #endif
 
 typedef enum YUVChannel_e {
@@ -228,4 +229,4 @@ private:
 	int m_nBytesPerSample;
 };
 
-#endif
+#endif // VIDEO_MATERIAL_H

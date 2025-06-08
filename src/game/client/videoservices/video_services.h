@@ -9,7 +9,7 @@
 // ASRD
 
 #ifndef VIDEO_SERVICES_H
-#define VIDEO_SERVICES_H
+	#define VIDEO_SERVICES_H
 
 #ifdef _WIN32
 	#pragma once
@@ -104,4 +104,4 @@ class CVideoServices : public CTier3AppSystem< IVideoServices >
 		int m_iUniqueVideoID;
 
 };
-#endif	// VIDEOSERVICES_H
+#endif // VIDEOSERVICES_H

@@ -25,7 +25,6 @@
 
 #include "cbase.h"
 
-
 #include "WebMDemuxer.hpp"
 
 #include "libwebm/mkvparser/mkvparser.h"

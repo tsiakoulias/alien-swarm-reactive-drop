@@ -24,9 +24,10 @@
 
 
 #ifndef WEBMDEMUXER_HPP
-#define WEBMDEMUXER_HPP
+	#define WEBMDEMUXER_HPP
+
 #if defined( _WIN32 )
-#pragma once
+	#pragma once
 #endif
 
 #include <stddef.h>

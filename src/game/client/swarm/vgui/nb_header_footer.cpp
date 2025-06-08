@@ -1,4 +1,5 @@
 #include "cbase.h"
+
 #include "nb_header_footer.h"
 #include "vgui_controls/Label.h"
 #include "vgui_controls/ImagePanel.h"

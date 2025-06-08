@@ -23,9 +23,10 @@
 */
 
 #ifndef OPUSVORBISDECODER_HPP
-#define OPUSVORBISDECODER_HPP
+	#define OPUSVORBISDECODER_HPP
+
 #if defined( _WIN32 )
-#pragma once
+	#pragma once
 #endif
 
 #include "WebMDemuxer.hpp"
