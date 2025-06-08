@@ -206,12 +206,7 @@ private:
 	unsigned int m_currentFrame;
 	CUtlQueue< WebMFrame*> m_videoFrames;
 
-#ifdef _LINUX
-	SDL_AudioSpec* m_pAudioDevice;
-	Uint8* m_pAudioBuffer;
-
-	SDL_AudioStream *m_pSDLAudioStream;
-#elif _WIN32
+#ifdef _WIN32
 	IDirectSound* m_pAudioDevice;
 	IDirectSoundBuffer* m_pAudioBuffer;
 

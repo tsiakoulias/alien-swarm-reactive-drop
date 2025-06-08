@@ -22,6 +22,7 @@
 	SOFTWARE.
 */
 
+
 #ifndef WEBMDEMUXER_HPP
 #define WEBMDEMUXER_HPP
 #if defined( _WIN32 )
@@ -29,6 +30,7 @@
 #endif
 
 #include <stddef.h>
+
 
 namespace mkvparser {
 	class IMkvReader;

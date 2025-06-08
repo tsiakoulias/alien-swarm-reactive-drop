@@ -22,6 +22,7 @@
 	SOFTWARE.
 */
 
+
 #ifndef VPXDECODER_HPP
 #define VPXDECODER_HPP
 #if defined( _WIN32 )
@@ -29,6 +30,7 @@
 #endif
 
 #include "WebMDemuxer.hpp"
+
 
 struct vpx_codec_ctx;
 

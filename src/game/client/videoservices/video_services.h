@@ -21,8 +21,6 @@
 #ifdef _WIN32
 	#include <Windows.h>
 	#include "dsound.h"
-#elif _LINUX
-	#include "SDL2/SDL_audio.h"
 #endif
 
 class CVideoMaterial;
