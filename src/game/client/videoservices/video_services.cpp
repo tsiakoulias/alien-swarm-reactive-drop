@@ -23,8 +23,8 @@
 // Setup Singleton for accessing Video Services
 //-----------------------------------------------------------------------------
 CVideoServices g_pVideoServices;
-EXPOSE_SINGLE_INTERFACE_GLOBALVAR( CVideoServices, IVideoServices, VIDEO_SERVICES_INTERFACE_VERSION, g_pVideoServices);
-IVideoServices* g_pWEBM = &g_pVideoServices;
+EXPOSE_SINGLE_INTERFACE_GLOBALVAR( CVideoServices, IVideoServices, VIDEO_SERVICES_INTERFACE_VERSION, g_pVideoServices );
+IVideoServices *g_pWEBM = &g_pVideoServices;
 
 // --------------------------------------------------------------------
 // construction/destruction
@@ -161,7 +161,7 @@ VideoSystem_t CVideoServices::LocateVideoSystemForPlayingFile( const char *pFile
 VideoResult_t CVideoServices::LocatePlayableVideoFile( const char *pSearchFileName, const char *pPathID, VideoSystem_t *pPlaybackSystem, char *pPlaybackFileName, int fileNameMaxLen, VideoSystemFeature_t playMode )
 {
 	// is this even a webm?
-	if( LocateVideoSystemForPlayingFile(pSearchFileName, playMode) == VideoSystem_t::NONE )
+	if ( LocateVideoSystemForPlayingFile( pSearchFileName, playMode ) == VideoSystem_t::NONE )
 		return VideoResult_t::VIDEO_SYSTEM_NOT_FOUND;
 
 	if ( !g_pFullFileSystem->FileExists( pSearchFileName, pPathID ) )
@@ -174,8 +174,8 @@ VideoResult_t CVideoServices::LocatePlayableVideoFile( const char *pSearchFileNa
 IVideoMaterial *CVideoServices::CreateVideoMaterial( const char *pMaterialName, const char *pVideoFileName, const char *pPathID,
 	VideoPlaybackFlags_t playbackFlags, VideoSystem_t videoSystem, bool PlayAlternateIfNotAvailable )
 {
-	char sVideoPath[MAX_PATH];
-	char sVideoFilename[MAX_PATH];
+	char sVideoPath[ MAX_PATH ];
+	char sVideoFilename[ MAX_PATH ];
 	Q_strncpy( sVideoFilename, pVideoFileName, sizeof( sVideoFilename ) );
 	// TODO; Allow mkv's?
 	// just look for a webm, there's nothing else.
@@ -192,7 +192,7 @@ IVideoMaterial *CVideoServices::CreateVideoMaterial( const char *pMaterialName, 
 		return nullptr;
 	}
 
-	pMaterial->SetLooping((playbackFlags & VideoPlaybackFlags::LOOP_VIDEO) != 0);
+	pMaterial->SetLooping( ( playbackFlags & VideoPlaybackFlags::LOOP_VIDEO ) != 0 );
 
 
 	// We may have more than one video playing at a time
@@ -202,7 +202,7 @@ IVideoMaterial *CVideoServices::CreateVideoMaterial( const char *pMaterialName, 
 
 VideoResult_t CVideoServices::DestroyVideoMaterial( IVideoMaterial *pVideoMaterial )
 {
-	CVideoMaterial *pCVideoMaterial = (CVideoMaterial *)pVideoMaterial;
+	CVideoMaterial *pCVideoMaterial = ( CVideoMaterial * )pVideoMaterial;
 	int idx = m_vecVideos.Find( pCVideoMaterial );
 	if ( idx != -1 )
 	{
@@ -220,7 +220,7 @@ int	CVideoServices::GetUniqueMaterialID()
 }
 
 // Plays a given video file until it completes or the user presses ESC, SPACE, or ENTER
-VideoResult_t CVideoServices::PlayVideoFileFullScreen( const char *pFileName, const char *pPathID, void *mainWindow, 
+VideoResult_t CVideoServices::PlayVideoFileFullScreen( const char *pFileName, const char *pPathID, void *mainWindow,
 	int windowWidth, int windowHeight, int desktopWidth, int desktopHeight, bool windowed, float forcedMinTime,
 	VideoPlaybackFlags_t playbackFlags,
 	VideoSystem_t videoSystem, bool PlayAlternateIfNotAvailable )
@@ -230,12 +230,12 @@ VideoResult_t CVideoServices::PlayVideoFileFullScreen( const char *pFileName, co
 	if ( FAILED( DirectSoundCreate( NULL, &m_pSoundDevice, NULL ) ) )
 		return VideoResult_t::AUDIO_ERROR_OCCURED;
 
-	m_pSoundDevice->SetCooperativeLevel( (HWND)mainWindow, DSSCL_PRIORITY );
+	m_pSoundDevice->SetCooperativeLevel( ( HWND )mainWindow, DSSCL_PRIORITY );
 #endif
 
 	// TODO - do this properly so it can return a proper error
-	CVideoMaterial *videoMaterial = (CVideoMaterial *)CreateVideoMaterial( "FullScreenVideo", pFileName, pPathID, playbackFlags, 
-																			videoSystem, PlayAlternateIfNotAvailable );
+	CVideoMaterial *videoMaterial = ( CVideoMaterial * )CreateVideoMaterial( "FullScreenVideo", pFileName, pPathID, playbackFlags,
+		videoSystem, PlayAlternateIfNotAvailable );
 	if ( !videoMaterial )
 	{
 #ifdef _WIN32
@@ -249,12 +249,12 @@ VideoResult_t CVideoServices::PlayVideoFileFullScreen( const char *pFileName, co
 	int nVideoWidth, nVideoHeight;
 	videoMaterial->GetVideoImageSize( &nVideoWidth, &nVideoHeight );
 	videoMaterial->GetVideoTexCoordRange( &flU, &flV );
-	float flRightU = flU - ( 1.0f / (float)nVideoWidth );
-	float flBottomV = flV - ( 1.0f / (float)nVideoHeight );
+	float flRightU = flU - ( 1.0f / ( float )nVideoWidth );
+	float flBottomV = flV - ( 1.0f / ( float )nVideoHeight );
 
 	// get the ratio of the video so we don't stretch it out
-	float flFrameRatio = ( (float)windowWidth / (float)windowHeight );
-	float flVideoRatio = ( (float)nVideoWidth / (float)nVideoHeight );
+	float flFrameRatio = ( ( float )windowWidth / ( float )windowHeight );
+	float flVideoRatio = ( ( float )nVideoWidth / ( float )nVideoHeight );
 
 	int nPlaybackWidth = windowWidth;
 	int nPlaybackHeight = windowHeight;
@@ -324,12 +324,12 @@ VideoResult_t CVideoServices::SoundDeviceCommand( VideoSoundDeviceOperation_t op
 #ifdef _WIN32
 	if ( operation == VideoSoundDeviceOperation_t::SET_DIRECT_SOUND_DEVICE )
 	{
-		m_pSoundDevice = (IDirectSound8 *)pDevice;
+		m_pSoundDevice = ( IDirectSound8 * )pDevice;
 
 		// update videos with the new sound device
 		FOR_EACH_VEC( m_vecVideos, vid )
 		{
-			m_vecVideos[vid]->SoundDeviceCommand( operation, m_pSoundDevice, pData );
+			m_vecVideos[ vid ]->SoundDeviceCommand( operation, m_pSoundDevice, pData );
 		}
 		return VideoResult_t::SUCCESS;
 	}

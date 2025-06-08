@@ -24,7 +24,7 @@ static bool s_bLastReduceMotion = false;
 
 CASW_Background_Movie *g_pBackgroundMovie = NULL;
 
-CASW_Background_Movie* ASWBackgroundMovie()
+CASW_Background_Movie *ASWBackgroundMovie()
 {
 	if ( !g_pBackgroundMovie )
 	{
@@ -37,7 +37,7 @@ CASW_Background_Movie::CASW_Background_Movie()
 {
 	m_nMaterialType = MATERIAL_INVALID;
 	m_nTextureID = -1;
-	m_szCurrentMovie[0] = 0;
+	m_szCurrentMovie[ 0 ] = 0;
 	m_nLastGameState = -1;
 }
 
@@ -49,17 +49,17 @@ CASW_Background_Movie::~CASW_Background_Movie()
 void CASW_Background_Movie::SetCurrentMovie( const char *szFilename )
 {
 	// Safety check as we're possibly going to overwrite a file here!
-	char szBaseName[MAX_PATH];
-	V_FileBase(szFilename, szBaseName, sizeof(szBaseName));
-	const char* szAllowedExtensions[] = { "bik", "webm", nullptr };
+	char szBaseName[ MAX_PATH ];
+	V_FileBase( szFilename, szBaseName, sizeof( szBaseName ) );
+	const char *szAllowedExtensions[] = { "bik", "webm", nullptr };
 
 	bool bValidExtension = false;
-	const char* szExt = V_GetFileExtension(szFilename);
-	if (szExt)
+	const char *szExt = V_GetFileExtension( szFilename );
+	if ( szExt )
 	{
-		for (int i = 0; szAllowedExtensions[i]; i++)
+		for ( int i = 0; szAllowedExtensions[ i ]; i++ )
 		{
-			if (!Q_stricmp(szExt, szAllowedExtensions[i]))
+			if ( !Q_stricmp( szExt, szAllowedExtensions[ i ] ) )
 			{
 				bValidExtension = true;
 				break;
@@ -68,45 +68,45 @@ void CASW_Background_Movie::SetCurrentMovie( const char *szFilename )
 	}
 
 	bool bValidPath = false;
-	if (V_IsAbsolutePath(szFilename))
+	if ( V_IsAbsolutePath( szFilename ) )
 	{
-		Warning("Absolute paths are not allowed for video files: %s\n", szFilename);
+		Warning( "Absolute paths are not allowed for video files: %s\n", szFilename );
 	}
 	else
 	{
 		char szExpectedPrefix[] = "media/";
-		if (!Q_strnicmp(szFilename, szExpectedPrefix, sizeof(szExpectedPrefix) - 1))
+		if ( !Q_strnicmp( szFilename, szExpectedPrefix, sizeof( szExpectedPrefix ) - 1 ) )
 		{
 			bValidPath = true;
 		}
 	}
 
-	if (!bValidExtension || !bValidPath)
+	if ( !bValidExtension || !bValidPath )
 	{
-		Warning("Invalid video path: %s (must be in media/ folder with .bik or .webm extension)\n", szFilename);
+		Warning( "Invalid video path: %s (must be in media/ folder with .bik or .webm extension)\n", szFilename );
 
-		const char* szDefaultFiles[] = {
+		const char *szDefaultFiles[] = {
 			"media/BGFX_03.webm",
 			"media/BGFX_03.bik",
 			nullptr
 		};
 
-		for (int i = 0; szDefaultFiles[i]; i++)
+		for ( int i = 0; szDefaultFiles[ i ]; i++ )
 		{
-			if (g_pFullFileSystem->FileExists(szDefaultFiles[i], "GAME"))
+			if ( g_pFullFileSystem->FileExists( szDefaultFiles[ i ], "GAME" ) )
 			{
-				szFilename = szDefaultFiles[i];
+				szFilename = szDefaultFiles[ i ];
 				break;
 			}
 		}
 	}
 
-	szFilename = g_ReactiveDropWorkshop.GetNativeFileSystemFile(szFilename);
-	if (Q_strcmp(m_szCurrentMovie, szFilename))
+	szFilename = g_ReactiveDropWorkshop.GetNativeFileSystemFile( szFilename );
+	if ( Q_strcmp( m_szCurrentMovie, szFilename ) )
 	{
-		if (m_nMaterialType != MATERIAL_INVALID)
+		if ( m_nMaterialType != MATERIAL_INVALID )
 		{
-			switch (m_nMaterialType)
+			switch ( m_nMaterialType )
 			{
 			case MATERIAL_WEBM:
 				g_pWEBM->DestroyVideoMaterial( m_pWEBMMaterial );
@@ -119,18 +119,18 @@ void CASW_Background_Movie::SetCurrentMovie( const char *szFilename )
 			m_nTextureID = -1;
 		}
 
-		const char* ext = Q_GetFileExtension(szFilename);
-		if (ext && !Q_stricmp(ext, "webm"))
+		const char *ext = Q_GetFileExtension( szFilename );
+		if ( ext && !Q_stricmp( ext, "webm" ) )
 		{
-			char szMaterialName[MAX_PATH];
-			Q_snprintf(szMaterialName, sizeof(szMaterialName), "BackgroundWebMMaterial%i", g_pWEBM->GetUniqueMaterialID());
+			char szMaterialName[ MAX_PATH ];
+			Q_snprintf( szMaterialName, sizeof( szMaterialName ), "BackgroundWebMMaterial%i", g_pWEBM->GetUniqueMaterialID() );
 
 			m_pWEBMMaterial = g_pWEBM->CreateVideoMaterial(
 				szMaterialName, szFilename, "GAME",
 				VideoPlaybackFlags::LOOP_VIDEO | VideoPlaybackFlags::DEFAULT_MATERIAL_OPTIONS,
-				VideoSystem::WEBM);
+				VideoSystem::WEBM );
 
-			if (m_pWEBMMaterial)
+			if ( m_pWEBMMaterial )
 			{
 				m_nMaterialType = MATERIAL_WEBM;
 				m_pWEBMMaterial->StartVideo();
@@ -138,14 +138,14 @@ void CASW_Background_Movie::SetCurrentMovie( const char *szFilename )
 		}
 		else
 		{
-			char szMaterialName[MAX_PATH];
-			Q_snprintf(szMaterialName, sizeof(szMaterialName), "BackgroundBIKMaterial%i", g_pBIK->GetGlobalMaterialAllocationNumber());
+			char szMaterialName[ MAX_PATH ];
+			Q_snprintf( szMaterialName, sizeof( szMaterialName ), "BackgroundBIKMaterial%i", g_pBIK->GetGlobalMaterialAllocationNumber() );
 
-			m_nBIKMaterial = bik->CreateMaterial(szMaterialName, szFilename, "GAME", BIK_LOOP);
+			m_nBIKMaterial = bik->CreateMaterial( szMaterialName, szFilename, "GAME", BIK_LOOP );
 			m_nMaterialType = MATERIAL_BIK;
 		}
 
-		Q_snprintf(m_szCurrentMovie, sizeof(m_szCurrentMovie), "%s", szFilename);
+		Q_snprintf( m_szCurrentMovie, sizeof( m_szCurrentMovie ), "%s", szFilename );
 		s_bLastReduceMotion = false;
 	}
 }
@@ -153,9 +153,9 @@ void CASW_Background_Movie::SetCurrentMovie( const char *szFilename )
 
 void CASW_Background_Movie::ClearCurrentMovie()
 {
-	if (m_nMaterialType != MATERIAL_INVALID)
+	if ( m_nMaterialType != MATERIAL_INVALID )
 	{
-		switch (m_nMaterialType)
+		switch ( m_nMaterialType )
 		{
 		case MATERIAL_WEBM:
 			g_pWEBM->DestroyVideoMaterial( m_pWEBMMaterial );
@@ -171,27 +171,23 @@ void CASW_Background_Movie::ClearCurrentMovie()
 
 int CASW_Background_Movie::SetTextureMaterial()
 {
-	if (m_nMaterialType == MATERIAL_INVALID)
+	if ( m_nMaterialType == MATERIAL_INVALID )
 		return -1;
 
-	if (m_nTextureID == -1)
+	if ( m_nTextureID == -1 )
 	{
-		m_nTextureID = g_pMatSystemSurface->CreateNewTextureID(true);
+		m_nTextureID = g_pMatSystemSurface->CreateNewTextureID( true );
 	}
 
-	switch (m_nMaterialType)
+	switch ( m_nMaterialType )
 	{
 	case MATERIAL_WEBM:
 	{
-		IMaterial *pMaterial = m_pWEBMMaterial->GetMaterial();
-		if ( pMaterial )
-		{
-			g_pMatSystemSurface->DrawSetTextureMaterial( m_nTextureID, pMaterial );
-		}
+		g_pMatSystemSurface->DrawSetTextureMaterial( m_nTextureID, m_pWEBMMaterial->GetMaterial() );
 		break;
 	}
 	case MATERIAL_BIK:
-		g_pMatSystemSurface->DrawSetTextureMaterial(m_nTextureID, g_pBIK->GetMaterial(m_nBIKMaterial));
+		g_pMatSystemSurface->DrawSetTextureMaterial( m_nTextureID, g_pBIK->GetMaterial( m_nBIKMaterial ) );
 		break;
 	}
 
@@ -225,7 +221,7 @@ void CASW_Background_Movie::Update( bool bForce )
 			else
 			{
 				pFilename = ASWGameRules()->m_szBriefingVideo;
-				if ( pFilename[0] == '\0' )
+				if ( pFilename[ 0 ] == '\0' )
 				{
 					pFilename = NULL;
 				}
@@ -251,10 +247,10 @@ void CASW_Background_Movie::Update( bool bForce )
 		}
 	}
 
-	if (m_nMaterialType == MATERIAL_INVALID)
+	if ( m_nMaterialType == MATERIAL_INVALID )
 		return;
 
-	switch (m_nMaterialType)
+	switch ( m_nMaterialType )
 	{
 	case MATERIAL_WEBM:
 		if ( !s_bLastReduceMotion && rd_reduce_motion.GetBool() )
@@ -275,24 +271,24 @@ void CASW_Background_Movie::Update( bool bForce )
 		}
 		break;
 	case MATERIAL_BIK:
-		if (g_pBIK->ReadyForSwap(m_nBIKMaterial))
+		if ( g_pBIK->ReadyForSwap( m_nBIKMaterial ) )
 		{
-			if (g_pBIK->Update(m_nBIKMaterial) == false)
+			if ( g_pBIK->Update( m_nBIKMaterial ) == false )
 			{
-				g_pBIK->DestroyMaterial(m_nBIKMaterial);
+				g_pBIK->DestroyMaterial( m_nBIKMaterial );
 				m_nMaterialType = MATERIAL_INVALID;
 			}
-			else if (!s_bLastReduceMotion && rd_reduce_motion.GetBool())
+			else if ( !s_bLastReduceMotion && rd_reduce_motion.GetBool() )
 			{
 				s_bLastReduceMotion = true;
-				bik->Pause(m_nBIKMaterial);
+				bik->Pause( m_nBIKMaterial );
 			}
 		}
 
-		if (m_nMaterialType != MATERIAL_INVALID && s_bLastReduceMotion && !rd_reduce_motion.GetBool())
+		if ( m_nMaterialType != MATERIAL_INVALID && s_bLastReduceMotion && !rd_reduce_motion.GetBool() )
 		{
 			s_bLastReduceMotion = false;
-			bik->Unpause(m_nBIKMaterial);
+			bik->Unpause( m_nBIKMaterial );
 		}
 		break;
 	}
@@ -304,7 +300,7 @@ CNB_Header_Footer::CNB_Header_Footer( vgui::Panel *parent, const char *name ) : 
 {
 	// == MANAGED_MEMBER_CREATION_START: Do not edit by hand ==
 	m_pBackground = new vgui::Panel( this, "Background" );
-	m_pBackgroundImage = new vgui::ImagePanel( this, "BackgroundImage" );	
+	m_pBackgroundImage = new vgui::ImagePanel( this, "BackgroundImage" );
 	m_pTitle = new vgui::Label( this, "Title", "" );
 	m_pBottomBar = new vgui::Panel( this, "BottomBar" );
 	m_pBottomBarLine = new vgui::Panel( this, "BottomBarLine" );
@@ -337,61 +333,61 @@ ConVar asw_background_color( "asw_background_color", "16 32 46 128", FCVAR_NONE,
 void CNB_Header_Footer::ApplySchemeSettings( vgui::IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );
-	
+
 	LoadControlSettings( "resource/ui/nb_header_footer.res" );
 
 	// TODO: Different image in widescreen to avoid stretching
 	// this image is no longer used
 	//m_pBackgroundImage->SetImage( "lobby/swarm_background01" );
 
-	switch( m_nTitleStyle )
+	switch ( m_nTitleStyle )
 	{
-		case NB_TITLE_BRIGHT: m_pTitle->SetFgColor( m_TitleBrightColor ); break;
-		case NB_TITLE_MEDIUM: m_pTitle->SetFgColor( m_TitleMediumColor ); break;
+	case NB_TITLE_BRIGHT: m_pTitle->SetFgColor( m_TitleBrightColor ); break;
+	case NB_TITLE_MEDIUM: m_pTitle->SetFgColor( m_TitleMediumColor ); break;
 	}
 
-	switch( m_nBackgroundStyle )
+	switch ( m_nBackgroundStyle )
 	{
-		case NB_BACKGROUND_DARK:
-			{
-				m_pBackground->SetVisible( true );
-				m_pBackgroundImage->SetVisible( false );
-				m_pBackground->SetBgColor( m_BackgroundColorDark );
-				break;
-			}
-		case NB_BACKGROUND_TRANSPARENT_BLUE:
-			{
-				m_pBackground->SetVisible( true );
-				m_pBackgroundImage->SetVisible( false );
-				m_pBackground->SetBgColor( asw_background_color.GetColor() );
-				break;
-			}
-		case NB_BACKGROUND_TRANSPARENT_RED:
-			{
-				m_pBackground->SetVisible( true );
-				m_pBackgroundImage->SetVisible( false );
-				m_pBackground->SetBgColor( m_BackgroundColorRed );
-				break;
-			}
-		case NB_BACKGROUND_BLUE:
-			{
-				m_pBackground->SetVisible( true );
-				m_pBackgroundImage->SetVisible( false );
-				m_pBackground->SetBgColor( m_BackgroundColorBlue );
-				break;
-			}
-		case NB_BACKGROUND_IMAGE:
-			{
-				m_pBackground->SetVisible( false );
-				m_pBackgroundImage->SetVisible( true );
-				break;
-			}
+	case NB_BACKGROUND_DARK:
+	{
+		m_pBackground->SetVisible( true );
+		m_pBackgroundImage->SetVisible( false );
+		m_pBackground->SetBgColor( m_BackgroundColorDark );
+		break;
+	}
+	case NB_BACKGROUND_TRANSPARENT_BLUE:
+	{
+		m_pBackground->SetVisible( true );
+		m_pBackgroundImage->SetVisible( false );
+		m_pBackground->SetBgColor( asw_background_color.GetColor() );
+		break;
+	}
+	case NB_BACKGROUND_TRANSPARENT_RED:
+	{
+		m_pBackground->SetVisible( true );
+		m_pBackgroundImage->SetVisible( false );
+		m_pBackground->SetBgColor( m_BackgroundColorRed );
+		break;
+	}
+	case NB_BACKGROUND_BLUE:
+	{
+		m_pBackground->SetVisible( true );
+		m_pBackgroundImage->SetVisible( false );
+		m_pBackground->SetBgColor( m_BackgroundColorBlue );
+		break;
+	}
+	case NB_BACKGROUND_IMAGE:
+	{
+		m_pBackground->SetVisible( false );
+		m_pBackgroundImage->SetVisible( true );
+		break;
+	}
 
-		case NB_BACKGROUND_NONE:
-			{
-				m_pBackground->SetVisible( false );
-				m_pBackgroundImage->SetVisible( false );
-			}
+	case NB_BACKGROUND_NONE:
+	{
+		m_pBackground->SetVisible( false );
+		m_pBackgroundImage->SetVisible( false );
+	}
 	}
 
 	m_pTopBar->SetVisible( m_bHeaderEnabled );
@@ -510,9 +506,9 @@ void CNB_Header_Footer::PaintBackground()
 			GetBounds( x, y, w, t );
 
 			// center, 16:9 aspect ratio
-			int width_at_ratio = t * (16.0f / 9.0f);
+			int width_at_ratio = t * ( 16.0f / 9.0f );
 			x = ( w * 0.5f ) - ( width_at_ratio * 0.5f );
-			
+
 			surface()->DrawTexturedRect( x, y, x + width_at_ratio, y + t );
 		}
 	}

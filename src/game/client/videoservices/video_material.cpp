@@ -90,7 +90,7 @@ CVideoMaterial::CVideoMaterial()
 
 	m_soundKilled = false;
 
-	m_videoPath[0] = '\0';
+	m_videoPath[ 0 ] = '\0';
 
 	m_volume = 1.0f;
 	m_videoTime = 0.0;
@@ -155,10 +155,10 @@ CVideoMaterial::~CVideoMaterial()
 	delete m_crTextureRegen;
 	delete m_cbTextureRegen;
 
-	IMaterial* material = m_videoMaterial;
+	IMaterial *material = m_videoMaterial;
 	m_videoMaterial.Shutdown();
 	// Removes any material that might reference the video texture
-	if( materials )
+	if ( materials )
 		materials->UncacheUnusedMaterials();
 
 	// kill it if it remains
@@ -204,24 +204,24 @@ bool CVideoMaterial::LoadVideo( const char *pMaterialName, const char *pVideoFil
 		}
 		return false;
 	}
-	
+
 	// assign the decoder a reasonable number of threads
-	const CPUInformation& cpuInfo = GetCPUInformation();
+	const CPUInformation &cpuInfo = GetCPUInformation();
 	unsigned int numthreads = clamp( cpuInfo.m_nLogicalProcessors - 2, 1, 8 );
 	m_videoDecoder = new VPXDecoder( *m_demuxer, numthreads );
 	m_audioDecoder = new OpusVorbisDecoder( *m_demuxer );
-	m_pcm = m_audioDecoder->isOpen() ? new short[m_audioDecoder->getBufferSamples() * m_demuxer->getChannels()] : NULL;
+	m_pcm = m_audioDecoder->isOpen() ? new short[ m_audioDecoder->getBufferSamples() * m_demuxer->getChannels() ] : NULL;
 	m_videoWidth = m_demuxer->getWidth();
 	m_videoHeight = m_demuxer->getHeight();
 	// This is a guessed framerate from the first 50 frames 
-	m_frameRate.SetFPS( m_demuxer->getFrameRate() ); 
+	m_frameRate.SetFPS( m_demuxer->getFrameRate() );
 
 	CreateSoundBuffer( pSoundDevice );
 	CreateVideoMaterial( pMaterialName );
 	return true;
 }
 
-bool CVideoMaterial::CreateSoundBuffer( void* pSoundDevice )
+bool CVideoMaterial::CreateSoundBuffer( void *pSoundDevice )
 {
 	if ( !m_audioDecoder->isOpen() )
 		return false;
@@ -233,7 +233,7 @@ bool CVideoMaterial::CreateSoundBuffer( void* pSoundDevice )
 	}
 
 #ifdef _WIN32
-	m_pAudioDevice = ( IDirectSound* )pSoundDevice;
+	m_pAudioDevice = ( IDirectSound * )pSoundDevice;
 
 	WAVEFORMATEX waveFormat;
 	Q_memset( &waveFormat, 0, sizeof( WAVEFORMATEX ) );
@@ -260,17 +260,17 @@ bool CVideoMaterial::CreateSoundBuffer( void* pSoundDevice )
 	m_nAudioBufferSize = BUFFER_SIZE;
 	m_nBytesPerSample = waveFormat.nBlockAlign;
 
-	IDirectSoundBuffer* tempBuffer = nullptr;
+	IDirectSoundBuffer *tempBuffer = nullptr;
 	if ( FAILED( IDirectSound_CreateSoundBuffer( m_pAudioDevice, &dsbd, &tempBuffer, NULL ) ) )
 		return false;
 
-	if ( FAILED( IDirectSoundBuffer_QueryInterface( tempBuffer, IID_IDirectSoundBuffer, ( LPVOID* )&m_pAudioBuffer ) ) )
+	if ( FAILED( IDirectSoundBuffer_QueryInterface( tempBuffer, IID_IDirectSoundBuffer, ( LPVOID * )&m_pAudioBuffer ) ) )
 		return false;
 
 	m_pAudioBuffer->AddRef();
 	tempBuffer->Release();
 
-	if ( FAILED( IDirectSoundBuffer_QueryInterface( m_pAudioBuffer, IID_IDirectSoundNotify, ( LPVOID* )&m_directSoundNotify ) ) )
+	if ( FAILED( IDirectSoundBuffer_QueryInterface( m_pAudioBuffer, IID_IDirectSoundNotify, ( LPVOID * )&m_directSoundNotify ) ) )
 		return false;
 
 	DSBPOSITIONNOTIFY posNotify[ 2 ];
@@ -295,7 +295,7 @@ bool CVideoMaterial::CreateSoundBuffer( void* pSoundDevice )
 	return true;
 }
 
-void CVideoMaterial::CreateVideoMaterial( const char* pMaterialName )
+void CVideoMaterial::CreateVideoMaterial( const char *pMaterialName )
 {
 	// ---------------------------
 	// texture
@@ -309,9 +309,9 @@ void CVideoMaterial::CreateVideoMaterial( const char* pMaterialName )
 	const int tex_flags = TEXTUREFLAGS_PROCEDURAL | TEXTUREFLAGS_CLAMPS | TEXTUREFLAGS_CLAMPT |
 		TEXTUREFLAGS_NOMIP | TEXTUREFLAGS_NOLOD | TEXTUREFLAGS_SINGLECOPY;
 
-	#define ALIGN_VALUE( val, alignment ) ( ( val + alignment - 1 ) & ~( alignment - 1 ) );
-	m_textureWidth = ALIGN_VALUE(m_videoWidth, 8);
-	m_textureHeight = ALIGN_VALUE(m_videoHeight, 8);
+#define ALIGN_VALUE( val, alignment ) ( ( val + alignment - 1 ) & ~( alignment - 1 ) );
+	m_textureWidth = ALIGN_VALUE( m_videoWidth, 8 );
+	m_textureHeight = ALIGN_VALUE( m_videoHeight, 8 );
 
 	// create the textures
 	m_yTexture.InitProceduralTexture( ytexture, "VideoCacheTextures", m_textureWidth, m_textureHeight, IMAGE_FORMAT_I8, tex_flags );
@@ -319,7 +319,7 @@ void CVideoMaterial::CreateVideoMaterial( const char* pMaterialName )
 	m_cbTexture.InitProceduralTexture( cbtexture, "VideoCacheTextures", m_textureWidth >> 1, m_textureHeight >> 1, IMAGE_FORMAT_I8, tex_flags );
 	m_crTexture.InitProceduralTexture( crtexture, "VideoCacheTextures", m_textureWidth >> 1, m_textureHeight >> 1, IMAGE_FORMAT_I8, tex_flags );
 
-	m_yTextureRegen  = new CYUVTextureRegenerator<YUVCHANNEL_Y>( m_textureWidth, m_textureHeight);
+	m_yTextureRegen = new CYUVTextureRegenerator<YUVCHANNEL_Y>( m_textureWidth, m_textureHeight );
 	m_cbTextureRegen = new CYUVTextureRegenerator<YUVCHANNEL_CB>( m_textureWidth >> 1, m_textureHeight >> 1 );
 	m_crTextureRegen = new CYUVTextureRegenerator<YUVCHANNEL_CR>( m_textureWidth >> 1, m_textureHeight >> 1 );
 	m_yTexture->SetTextureRegenerator( m_yTextureRegen );
@@ -353,7 +353,7 @@ void CVideoMaterial::CreateVideoMaterial( const char* pMaterialName )
 	// ---------------------------
 	// material
 	// Use the Bik shader as it deals with YUV420
-	KeyValues* pVMTKeyValues = new KeyValues( "Bik" );
+	KeyValues *pVMTKeyValues = new KeyValues( "Bik" );
 	pVMTKeyValues->SetString( "$ytexture", ytexture );
 	pVMTKeyValues->SetString( "$cbtexture", cbtexture );
 	pVMTKeyValues->SetString( "$crtexture", crtexture );
@@ -413,9 +413,9 @@ bool CVideoMaterial::IsFinishedPlaying()
 //-----------------------------------------------------------------------------
 // Purpose: Threaded function that pauses the sound buffer if it hasn't been updated in a while
 //-----------------------------------------------------------------------------
-unsigned int CVideoMaterial::HandleBufferUpdates( void* params )
-{	
-	CVideoMaterial* m = ( CVideoMaterial* )params;
+unsigned int CVideoMaterial::HandleBufferUpdates( void *params )
+{
+	CVideoMaterial *m = ( CVideoMaterial * )params;
 
 	HANDLE hEvents[ 3 ];
 	hEvents[ 0 ] = m->m_endEventHandle;
@@ -466,10 +466,10 @@ void CVideoMaterial::DestroySoundBuffer()
 
 	if ( !m_soundKilled )
 	{
-		IDirectSound* pDSInterface = nullptr;
-		IDirectSoundBuffer* pDSBufferInterface = nullptr;
-		if ( SUCCEEDED( m_pAudioDevice->QueryInterface( IID_IDirectSound, ( void** )&pDSInterface ) ) &&
-			SUCCEEDED( m_pAudioBuffer->QueryInterface( IID_IDirectSoundBuffer, ( void** )&pDSBufferInterface ) ) )
+		IDirectSound *pDSInterface = nullptr;
+		IDirectSoundBuffer *pDSBufferInterface = nullptr;
+		if ( SUCCEEDED( m_pAudioDevice->QueryInterface( IID_IDirectSound, ( void ** )&pDSInterface ) ) &&
+			SUCCEEDED( m_pAudioBuffer->QueryInterface( IID_IDirectSoundBuffer, ( void ** )&pDSBufferInterface ) ) )
 		{
 			IDirectSoundBuffer_Stop( m_pAudioBuffer );
 			IDirectSoundBuffer_Release( m_pAudioBuffer );
@@ -595,7 +595,7 @@ bool CVideoMaterial::NeedNewFrame( double curtime )
 	if ( m_videoFrames.Tail()->time <= curtime )
 		return true;
 
-	if( m_pAudioBuffer && m_nAudioBufferFilledSize < BUFFER_FILLED_MIN )
+	if ( m_pAudioBuffer && m_nAudioBufferFilledSize < BUFFER_FILLED_MIN )
 		return true;
 
 	return false;
@@ -644,9 +644,9 @@ bool CVideoMaterial::Update()
 
 	if ( m_curTime < m_videoTime )
 	{
-		if( m_pAudioBuffer )
+		if ( m_pAudioBuffer )
 		{
-			if( m_nAudioBufferFilledSize > BUFFER_FILLED_MIN )
+			if ( m_nAudioBufferFilledSize > BUFFER_FILLED_MIN )
 				return true;
 		}
 		else
@@ -689,7 +689,7 @@ bool CVideoMaterial::Update()
 	// Read until we've filled the buffer or got enough frames
 	while ( NeedNewFrame( m_curTime ) || bNeedUpdate )
 	{
-		WebMFrame* video_frame = new WebMFrame();
+		WebMFrame *video_frame = new WebMFrame();
 		// did we reach the EOS
 		if ( !m_demuxer->readFrame( video_frame, m_audioFrame ) )
 		{
@@ -710,7 +710,7 @@ bool CVideoMaterial::Update()
 		if ( m_audioFrame->isValid() && m_pAudioBuffer )
 		{
 			int numOutSamples = 0;
-			
+
 			m_audioDecoder->getPCMS16( *m_audioFrame, m_pcm, numOutSamples );
 			if ( numOutSamples == 0 )
 				continue;
@@ -746,7 +746,7 @@ bool CVideoMaterial::Update()
 				m_nAudioBufferWriteOffset = 0;
 				IDirectSoundBuffer_Lock( m_pAudioBuffer, 0, nBytesRead, &pAudioPtr, &dwAudioBytes1, NULL, NULL, 0 );
 
-				Q_memcpy( pAudioPtr, ( char* )( m_pcm )+nPCMOverflowOffset, nPCMOverflowSize );
+				Q_memcpy( pAudioPtr, ( char * )( m_pcm )+nPCMOverflowOffset, nPCMOverflowSize );
 				m_nAudioBufferWriteOffset += nPCMOverflowSize;
 
 				IDirectSoundBuffer_Unlock( m_pAudioBuffer, pAudioPtr, dwAudioBytes1, NULL, NULL );
@@ -773,36 +773,36 @@ bool CVideoMaterial::Update()
 		}
 	}
 
-    while (m_videoFrames.Count() > 0 && m_curTime >= m_videoTime)
-    {
-        if (m_videoFrames.Head()->isValid())
-        {
-            m_videoDecoder->decode(*m_videoFrames.Head());
+	while ( m_videoFrames.Count() > 0 && m_curTime >= m_videoTime )
+	{
+		if ( m_videoFrames.Head()->isValid() )
+		{
+			m_videoDecoder->decode( *m_videoFrames.Head() );
 
-            VPXDecoder::IMAGE_ERROR err;
-            if ((err = m_videoDecoder->getImage(*m_image)) != VPXDecoder::NO_FRAME)
-            {
-                if (err == VPXDecoder::IMAGE_ERROR::NO_IMAGE_ERROR)
-                {
-                 
-                    m_yTextureRegen->m_decodedImage = m_image;
-                    m_crTextureRegen->m_decodedImage = m_image;
-                    m_cbTextureRegen->m_decodedImage = m_image;
+			VPXDecoder::IMAGE_ERROR err;
+			if ( ( err = m_videoDecoder->getImage( *m_image ) ) != VPXDecoder::NO_FRAME )
+			{
+				if ( err == VPXDecoder::IMAGE_ERROR::NO_IMAGE_ERROR )
+				{
 
-                    m_yTexture->Download();
-                    m_crTexture->Download();
-                    m_cbTexture->Download();
-                }
-            }
+					m_yTextureRegen->m_decodedImage = m_image;
+					m_crTextureRegen->m_decodedImage = m_image;
+					m_cbTextureRegen->m_decodedImage = m_image;
+
+					m_yTexture->Download();
+					m_crTexture->Download();
+					m_cbTexture->Download();
+				}
+			}
 			m_videoTime = m_videoFrames.Head()->time;
 			m_currentFrame++;
 		}
 
 		WebMFrame *frame = m_videoFrames.RemoveAtHead();
-		if( frame )
+		if ( frame )
 			delete frame;
 	}
-	
+
 	return true;
 }
 
@@ -815,8 +815,8 @@ IMaterial *CVideoMaterial::GetMaterial()
 // Where the video is actually is within the texture
 void CVideoMaterial::GetVideoTexCoordRange( float *pMaxU, float *pMaxV )
 {
-	*pMaxU = (float)m_videoWidth / (float)m_textureWidth;
-	*pMaxV = (float)m_videoHeight / (float)m_textureHeight;
+	*pMaxU = ( float )m_videoWidth / ( float )m_textureWidth;
+	*pMaxV = ( float )m_videoHeight / ( float )m_textureHeight;
 }
 
 void CVideoMaterial::GetVideoImageSize( int *pWidth, int *pHeight )
