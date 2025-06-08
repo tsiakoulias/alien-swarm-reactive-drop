@@ -45,8 +45,17 @@ ConVar rd_draw_timer( "rd_draw_timer", "0", FCVAR_ARCHIVE, "Display the current 
 ConVar rd_draw_timer_color( "rd_draw_timer_color", "255 255 255 255", FCVAR_ARCHIVE, "The color of the current mission time" );
 ConVar rd_draw_marine_health_counter( "rd_draw_marine_health_counter", "0", FCVAR_ARCHIVE, "Display a numeric counter for marine health on the HUD" );
 
+// restricted area variables
+int g_nRestrictedAreaLeft;
+int g_nRestrictedAreaRight;
+int g_nScreenAreaWidth;
+int g_nScreenAreaHeight;
+bool g_bUltraWideScreen;
+// restricted area cvars
 ConVar rd_draw_restricted_borders( "rd_draw_restricted_borders", "1", FCVAR_ARCHIVE, "Display the restricted cursor area when using ultra-wide resolution" );
 ConVar rd_draw_restricted_borders_color("rd_draw_restricted_borders_color", "128 128 128 128", 0, "Color of the restricted cursor area borders");
+ConVar rd_draw_restricted_rectangles_coop("rd_draw_restricted_rectangles_coop", "1", FCVAR_ARCHIVE | FCVAR_REPLICATED | FCVAR_NOTIFY, "Fill extra side FOVs with black on ultra-wide resolution in coop mode.");
+ConVar rd_draw_restricted_rectangles_dm("rd_draw_restricted_rectangles_dm", "1", FCVAR_ARCHIVE | FCVAR_REPLICATED | FCVAR_CHEAT | FCVAR_NOTIFY, "Fill extra side FOVs with black on ultra-wide resolution in deathmatch mode.");
 
 using namespace vgui;
 
@@ -152,16 +161,18 @@ void CASW_Hud_Master::OnThink()
 
 	C_ASW_Player *pPlayer = C_ASW_Player::GetLocalASWPlayer();
 
-	if ( !pPlayer || !ASWGameResource() )
+	if (!pPlayer || !ASWGameResource())
+	{
 		return;
+	}
 
 	if ( ASWDeathmatchMode() )
 	{
 		int nFrags[ASW_MAX_MARINE_RESOURCES];
-		for ( int i = 0; i < ASW_MAX_MARINE_RESOURCES; i++ )
+		for (int i = 0; i < ASW_MAX_MARINE_RESOURCES; i++)
 		{
-			C_ASW_Marine_Resource *pMR = ASWGameResource()->GetMarineResource( i );
-			nFrags[i] = pMR ? ASWDeathmatchMode()->GetFragCount( pMR ) : INT_MIN;
+			C_ASW_Marine_Resource* pMR = ASWGameResource()->GetMarineResource(i);
+			nFrags[i] = pMR ? ASWDeathmatchMode()->GetFragCount(pMR) : INT_MIN;
 		}
 
 		for ( int i = 0; i < NELEMS( m_nMostFrags ); i++ )
@@ -198,7 +209,7 @@ void CASW_Hud_Master::OnThink()
 				}
 			}
 
-			if ( m_nMostFrags[i] == -1 )
+			if (m_nMostFrags[i] == -1)
 			{
 				break;
 			}
@@ -398,7 +409,6 @@ void CASW_Hud_Master::OnThink()
 				m_SquadMateInfo[ nPosition ].nClips = 0;
 				m_SquadMateInfo[ nPosition ].bClipsDoubled = false;
 				m_SquadMateInfo[ nPosition ].flAmmoFraction = 0;
-				//Msg( "Setting squadmate %d ammo to zero 2\n", nPosition );
 			}
 
 			nPosition++;
@@ -434,6 +444,25 @@ void CASW_Hud_Master::OnThink()
 			StopItemFX( pMarine, -1 );
 		}
 	}
+
+	g_nScreenAreaWidth = ScreenWidth();
+	g_nScreenAreaHeight = ScreenHeight();
+	int nStandardWidth = (int)(g_nScreenAreaHeight * 16.0f / 9.0f ) + 1;
+	if (g_nScreenAreaWidth > nStandardWidth)
+	{
+		g_nRestrictedAreaLeft = nStandardWidth >> 1;
+		g_nRestrictedAreaRight = g_nScreenAreaWidth - (nStandardWidth >> 1);
+		g_bUltraWideScreen = true;
+		m_nMarinePortrait_x = g_nRestrictedAreaLeft;
+	}
+	else
+	{
+		g_nRestrictedAreaLeft = 0;
+		g_nRestrictedAreaRight = g_nScreenAreaWidth;
+		g_bUltraWideScreen = false;
+		m_nMarinePortrait_x = 0;
+	}
+
 }
 
 void CASW_Hud_Master::Paint( void )
@@ -486,15 +515,27 @@ void CASW_Hud_Master::Paint( void )
 
 	if ( m_pLocalMarineResource )
 	{
+		// Block extra side FOVs
+		if (g_bUltraWideScreen && ((rd_draw_restricted_rectangles_coop.GetBool() && !ASWDeathmatchMode()) || (rd_draw_restricted_rectangles_dm.GetBool() && ASWDeathmatchMode())) && !pPlayer->GetSpectatingNPC()) {
+			//	(0,0)-----(L,0)       (R,0)-----(W,0)
+			//	  |//////////|            |/////////|
+			//	  |//////////|            |/////////|
+			//	(0,H)-----(L,H)       (R,H)-----(W,H)
+			surface()->DrawSetColor(Color(0, 0, 0, 255));
+			surface()->DrawFilledRect(0, 0, g_nRestrictedAreaLeft, g_nScreenAreaHeight);
+			surface()->DrawFilledRect(g_nRestrictedAreaRight, 0, g_nScreenAreaWidth, g_nScreenAreaHeight);
+			//Msg("%d\t%d\n", x1, x2);
+		}
+
 		// draw restricted borders for ultra-wide screen
-		if (rd_draw_restricted_borders.GetBool() && g_ultra_wide_screen && !pPlayer->GetSpectatingNPC()) {
-			//	(x,y)-----------(w,y)
+		if (g_bUltraWideScreen && rd_draw_restricted_borders.GetBool() && !pPlayer->GetSpectatingNPC()) {
+			//	(L,0)-----------(R,0)
 			//	  |               |
 			//	  |               |
-			//	(x,h)-----------(w,h)
+			//	(L,H)-----------(R,H)
 			surface()->DrawSetColor(rd_draw_restricted_borders_color.GetColor());
-			surface()->DrawLine(g_clamp_area.x, g_clamp_area.y, g_clamp_area.x, g_clamp_area.height);
-			surface()->DrawLine(g_clamp_area.width, g_clamp_area.y, g_clamp_area.width, g_clamp_area.height);
+			surface()->DrawLine(g_nRestrictedAreaLeft, 0, g_nRestrictedAreaLeft, g_nScreenAreaHeight);
+			surface()->DrawLine(g_nRestrictedAreaRight, 0, g_nRestrictedAreaRight, g_nScreenAreaHeight);
 		}
 
 		C_ASW_Marine_Resource *pMR = m_pLocalMarineResource;
@@ -1119,7 +1160,7 @@ void CASW_Hud_Master::PaintLocalMarineInventory()
 				surface()->DrawSetColor( 66, 142, 192, 255 );		// light blue
 			}
 			surface()->DrawSetTexture( pWeapon->GetUseIconTextureID() );
-			int x = YRES( pInfo->m_iHUDIconOffsetX );
+			int x = YRES( pInfo->m_iHUDIconOffsetX ) + m_nMarinePortrait_x;
 			int y = YRES( pInfo->m_iHUDIconOffsetY );
 			int w = m_nWeapon_w;
 			int t = m_nWeapon_t;
