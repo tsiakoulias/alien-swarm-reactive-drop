@@ -182,7 +182,6 @@ function DebugKillAliens(interval = 1) {
 			hEntitiy.TakeDamage(99, DAMAGE_TYPE.DMG_FALL, null);
 		}
 	}
-
 }
 
 function DropWeapon() {
@@ -308,7 +307,6 @@ function DropWeapon() {
 			}
 		}
 	}
-
 }
 
 function FixT75(interval = 1) {
@@ -319,7 +317,6 @@ function FixT75(interval = 1) {
 	while (hT75 = Entities.FindByClassname(hT75, "asw_t75")) {
 		hT75.__KeyValueFromInt("solid", 0);
 	}
-
 }
 
 function RefreshSkillMenu(interval = 1) {
@@ -949,15 +946,6 @@ function DisplayGameInstructions() {
 }
 
 function InitializeMarineList() {
-	local i = 1;
-	local hPlayer = null;
-	while ((hPlayer = Entities.FindByClassname(hPlayer, "player")) != null) {
-		NetProps.SetPropString(hPlayer, "m_szNetname", i.tostring() +
-			"-" + hPlayer.GetPlayerName());
-		i++;
-	}
-
-
 	// 遍历士兵，同时移除机器人（防止有人在进入游戏瞬间掉线。这个概率很低，但需要排除）
 	local hMarine = null;
 	while ((hMarine = Entities.FindByClassname(hMarine, "asw_marine")) != null) {

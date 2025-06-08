@@ -23,7 +23,7 @@ const float PLAYER_RESOURCE_THINK_INTERVAL = 0.2f;
 #define PLAYER_DEBUG_NAME "WWWWWWWWWWWWWWW"
 
 ConVar cl_names_debug( "cl_names_debug", "0", FCVAR_DEVELOPMENTONLY );
-
+ConVar cl_add_index_to_name("cl_add_index_to_name", "0", FCVAR_REPLICATED);
 
 void RecvProxy_ChangedTeam( const CRecvProxyData *pData, void *pStruct, void *pOut )
 {
@@ -143,6 +143,7 @@ void C_PlayerResource::OnDataChanged(DataUpdateType_t updateType)
 
 void C_PlayerResource::UpdatePlayerName( int slot )
 {
+	static char szNameTemp[MAX_PLAYERS + 1][MAX_PLAYER_NAME_LENGTH];
 	if ( slot < 1 || slot > MAX_PLAYERS )
 	{
 		Error( "UpdatePlayerName with bogus slot %d\n", slot );
@@ -155,11 +156,20 @@ void C_PlayerResource::UpdatePlayerName( int slot )
 	{
 		g_RDTextFiltering.FilterTextName( sPlayerInfo.name, g_RDTextFiltering.GetClientSteamID( slot ) );
 		pchPlayerName = sPlayerInfo.name;
+		V_snprintf(szNameTemp[slot], MAX_PLAYER_NAME_LENGTH - 1, "%d-%s", slot, pchPlayerName);
 	}
-
-	if ( !m_szName[slot] || Q_stricmp( m_szName[slot], pchPlayerName ) )
+	if (cl_add_index_to_name.GetBool()) {
+		if (!m_szName[slot] || Q_stricmp(m_szName[slot], szNameTemp[slot]))
+		{
+			m_szName[slot] = AllocPooledString(szNameTemp[slot]);
+		}
+	}
+	else
 	{
-		m_szName[slot] = AllocPooledString( pchPlayerName );
+		if (!m_szName[slot] || Q_stricmp(m_szName[slot], pchPlayerName))
+		{
+			m_szName[slot] = AllocPooledString(pchPlayerName);
+		}
 	}
 }
 
