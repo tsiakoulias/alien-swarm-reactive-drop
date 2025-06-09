@@ -10,20 +10,20 @@ g_bool_TechKill <- false; // Not actually being used 没有实际用处
 IncludeScript("challenge_traitors_enums.nut"); // Enum types 枚举类型
 IncludeScript("challenge_traitors_random.nut"); // Random number lib 随机数相关函数
 IncludeScript("challenge_traitors_localize.nut"); // Localization related 本地化函数
-IncludeScript("traitors_challenge_translations_all.nut"); // Localization strings 翻译文本
-IncludeScript("traitors_client_shared.nut"); // Shared functions for client side UI UI公用函数
+IncludeScript("challenge_traitors_translations_all.nut"); // Localization strings 翻译文本
+IncludeScript("challenge_traitors_client_shared.nut"); // Shared functions for client side UI UI公用函数
 IncludeScript("challenge_traitors_map_handler.nut"); // Handles edge cases of different maps处理地图的特殊情况
 //Events 事件
-IncludeScript("traitors_events/ongameevent_heal_beacon_placed.nut");
-IncludeScript("traitors_events/ongameevent_entity_killed.nut");
-IncludeScript("traitors_events/ongameevent_flare_placed.nut");
-IncludeScript("traitors_events/ongameevent_marine_selected.nut");
-IncludeScript("traitors_events/ongameevent_mission_success_or_fail.nut");
-IncludeScript("traitors_events/ongameevent_player_fullyjoined.nut");
-IncludeScript("traitors_events/ongameevent_weapon_fire.nut");
-IncludeScript("traitors_events/ongameevent_weapon_reload.nut");
-IncludeScript("traitors_events/OnReceivedTextMessage.nut");
-IncludeScript("traitors_events/OnTakeDamage_Alive_Any.nut");
+IncludeScript("challenge_traitors_events/ongameevent_heal_beacon_placed.nut");
+IncludeScript("challenge_traitors_events/ongameevent_entity_killed.nut");
+IncludeScript("challenge_traitors_events/ongameevent_flare_placed.nut");
+IncludeScript("challenge_traitors_events/ongameevent_marine_selected.nut");
+IncludeScript("challenge_traitors_events/ongameevent_mission_success_or_fail.nut");
+IncludeScript("challenge_traitors_events/ongameevent_player_fullyjoined.nut");
+IncludeScript("challenge_traitors_events/ongameevent_weapon_fire.nut");
+IncludeScript("challenge_traitors_events/ongameevent_weapon_reload.nut");
+IncludeScript("challenge_traitors_events/OnReceivedTextMessage.nut");
+IncludeScript("challenge_traitors_events/OnTakeDamage_Alive_Any.nut");
 
 
 //Role variables / arrays / tables 角色相关的变量等
@@ -300,10 +300,14 @@ function DropWeapon() {
 				default:
 			}
 			if (veryHighDamageWeaponCount >= 2 || highFiringRateWeaponCount >= 2 || accurateWeaponCount >= 2) {
-				hMarine.DropWeapon(1);
-				local hPlayer = hMarine.GetCommander();
-				local strLanguage = GetClientLanguage(hPlayer.entindex());
-				LocalizedClientPrint(hPlayer, 3, GetLocalizedString("#challenge_traitors_drop_weapon_notify", strLanguage));
+				if (hMarine != null && hMarine.IsValid()) {
+					hMarine.DropWeapon(1);
+					local hPlayer = hMarine.GetCommander();
+					if (hPlayer != null && hPlayer.IsValid()) {
+						local strLanguage = GetClientLanguage(hPlayer.entindex());
+						LocalizedClientPrint(hPlayer, 3, GetLocalizedString("#challenge_traitors_drop_weapon_notify", strLanguage));
+					}
+				}
 			}
 		}
 	}
@@ -409,7 +413,7 @@ function RefreshMenu(hMarine) {
 			hVGuiRefresh.Destroy();
 		}
 		hVGuiRefresh = Entities.CreateByClassname("rd_vgui_vscript");
-		hVGuiRefresh.__KeyValueFromString("client_vscript", "traitors_client_refresh_menu.nut");
+		hVGuiRefresh.__KeyValueFromString("client_vscript", "challenge_traitors_client_refresh_menu.nut");
 		hVGuiRefresh.ValidateScriptScope();
 		hVGuiRefresh.GetScriptScope().Input <- Input;
 		hVGuiRefresh.Spawn();
@@ -1572,7 +1576,7 @@ function CreateScannerVGui(hMarine) {
 	local strLanguage = GetClientLanguage(hMarine.GetCommander().entindex());
 	local hVGuiBackground = Entities.CreateByClassname("rd_vgui_vscript");
 	g_ent_HudAndVGui.append(hVGuiBackground);
-	hVGuiBackground.__KeyValueFromString("client_vscript", "traitors_client_scanner_background.nut");
+	hVGuiBackground.__KeyValueFromString("client_vscript", "challenge_traitors_client_scanner_background.nut");
 	hVGuiBackground.ValidateScriptScope();
 	hVGuiBackground.GetScriptScope().Input <- Input;
 	hVGuiBackground.Spawn();
@@ -1599,7 +1603,7 @@ function CreateScannerVGui(hMarine) {
 	foreach(tempMarine in g_marine_Total_Unshuffled) {
 		local hVGuiButton = Entities.CreateByClassname("rd_vgui_vscript");
 		g_ent_HudAndVGui.append(hVGuiButton);
-		hVGuiButton.__KeyValueFromString("client_vscript", "traitors_client_scanner_button.nut");
+		hVGuiButton.__KeyValueFromString("client_vscript", "challenge_traitors_client_scanner_button.nut");
 		hVGuiButton.ValidateScriptScope();
 		hVGuiButton.GetScriptScope().Input <- Input;
 		hVGuiButton.Spawn();
@@ -1643,7 +1647,7 @@ function CreateSilencerVGui(hMarine) {
 	local strLanguage = GetClientLanguage(hMarine.GetCommander().entindex());
 	local hVGuiBackground = Entities.CreateByClassname("rd_vgui_vscript");
 	g_ent_HudAndVGui.append(hVGuiBackground);
-	hVGuiBackground.__KeyValueFromString("client_vscript", "traitors_client_silencer_background.nut");
+	hVGuiBackground.__KeyValueFromString("client_vscript", "challenge_traitors_client_silencer_background.nut");
 	hVGuiBackground.ValidateScriptScope();
 	hVGuiBackground.GetScriptScope().Input <- Input;
 	hVGuiBackground.Spawn();
@@ -1669,7 +1673,7 @@ function CreateSilencerVGui(hMarine) {
 	foreach(tempMarine in g_marine_Total_Unshuffled) {
 		local hVGuiButton = Entities.CreateByClassname("rd_vgui_vscript");
 		g_ent_HudAndVGui.append(hVGuiButton);
-		hVGuiButton.__KeyValueFromString("client_vscript", "traitors_client_silencer_button.nut");
+		hVGuiButton.__KeyValueFromString("client_vscript", "challenge_traitors_client_silencer_button.nut");
 		hVGuiButton.ValidateScriptScope();
 		hVGuiButton.GetScriptScope().Input <- Input;
 		hVGuiButton.Spawn();
@@ -1711,7 +1715,7 @@ function CreateShieldVGui(hMarine) {
 	local strLanguage = GetClientLanguage(hMarine.GetCommander().entindex());
 	local hVGuiBackground = Entities.CreateByClassname("rd_vgui_vscript");
 	g_ent_HudAndVGui.append(hVGuiBackground);
-	hVGuiBackground.__KeyValueFromString("client_vscript", "traitors_client_shield_background.nut");
+	hVGuiBackground.__KeyValueFromString("client_vscript", "challenge_traitors_client_shield_background.nut");
 	hVGuiBackground.ValidateScriptScope();
 	hVGuiBackground.GetScriptScope().Input <- Input;
 	hVGuiBackground.Spawn();
@@ -1737,7 +1741,7 @@ function CreateShieldVGui(hMarine) {
 	foreach(tempMarine in g_marine_Total_Unshuffled) {
 		local hVGuiButton = Entities.CreateByClassname("rd_vgui_vscript");
 		g_ent_HudAndVGui.append(hVGuiButton);
-		hVGuiButton.__KeyValueFromString("client_vscript", "traitors_client_shield_button.nut");
+		hVGuiButton.__KeyValueFromString("client_vscript", "challenge_traitors_client_shield_button.nut");
 		hVGuiButton.ValidateScriptScope();
 		hVGuiButton.GetScriptScope().Input <- Input;
 		hVGuiButton.Spawn();
@@ -1780,7 +1784,7 @@ function CreateBiochemistVGui(hMarine) {
 	local strLanguage = GetClientLanguage(hMarine.GetCommander().entindex());
 	local hVGuiBackground = Entities.CreateByClassname("rd_vgui_vscript");
 	g_ent_HudAndVGui.append(hVGuiBackground);
-	hVGuiBackground.__KeyValueFromString("client_vscript", "traitors_client_biochemist_background.nut");
+	hVGuiBackground.__KeyValueFromString("client_vscript", "challenge_traitors_client_biochemist_background.nut");
 	hVGuiBackground.ValidateScriptScope();
 	hVGuiBackground.GetScriptScope().Input <- Input;
 	hVGuiBackground.Spawn();
@@ -1808,7 +1812,7 @@ function CreateBiochemistVGui(hMarine) {
 	foreach(tempMarine in g_marine_Total_Unshuffled) {
 		local hVGuiButton = Entities.CreateByClassname("rd_vgui_vscript");
 		g_ent_HudAndVGui.append(hVGuiButton);
-		hVGuiButton.__KeyValueFromString("client_vscript", "traitors_client_biochemist_button.nut");
+		hVGuiButton.__KeyValueFromString("client_vscript", "challenge_traitors_client_biochemist_button.nut");
 		hVGuiButton.ValidateScriptScope();
 		hVGuiButton.GetScriptScope().Input <- Input;
 		hVGuiButton.Spawn();
@@ -1850,7 +1854,7 @@ function CreateInfectorVGui(hMarine) {
 	local strLanguage = GetClientLanguage(hMarine.GetCommander().entindex());
 	local hVGuiBackground = Entities.CreateByClassname("rd_vgui_vscript");
 	g_ent_HudAndVGui.append(hVGuiBackground);
-	hVGuiBackground.__KeyValueFromString("client_vscript", "traitors_client_infector_background.nut");
+	hVGuiBackground.__KeyValueFromString("client_vscript", "challenge_traitors_client_infector_background.nut");
 	hVGuiBackground.ValidateScriptScope();
 	hVGuiBackground.GetScriptScope().Input <- Input;
 	hVGuiBackground.Spawn();
@@ -1881,7 +1885,7 @@ function CreateInfectorVGui(hMarine) {
 		}
 		local hVGuiButton = Entities.CreateByClassname("rd_vgui_vscript");
 		g_ent_HudAndVGui.append(hVGuiButton);
-		hVGuiButton.__KeyValueFromString("client_vscript", "traitors_client_infector_button.nut");
+		hVGuiButton.__KeyValueFromString("client_vscript", "challenge_traitors_client_infector_button.nut");
 		hVGuiButton.ValidateScriptScope();
 		hVGuiButton.GetScriptScope().Input <- Input;
 		hVGuiButton.Spawn();

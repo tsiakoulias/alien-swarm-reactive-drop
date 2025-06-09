@@ -34,7 +34,7 @@
 */
 isServer <- false;
 IncludeScript("challenge_traitors_enums");
-IncludeScript("traitors_client_shared");
+IncludeScript("challenge_traitors_client_shared");
 
 FONT_DEFAULTLARGE <- self.LookupFont("DefaultLarge");
 rowHeight <- self.GetFontTall(FONT_DEFAULTLARGE);
@@ -54,8 +54,8 @@ r0 <- 0;
 b1 <- 0;
 g1 <- 0;
 r1 <- 0;
-getconsttable()["shield_next_active_time"] <- 0.0;
-getconsttable()["shield_is_skill_used"] <- false;
+getconsttable()["silencer_next_active_time"] <- 0.0;
+getconsttable()["silencer_is_skill_used"] <- false;
 activeTime <- 0.0;
 isSkillUsed <- false;
 str1 <- "";
@@ -75,8 +75,8 @@ function Paint() {
 }
 
 function Control(tbl) {
-	activeTime = getconsttable()["shield_next_active_time"];
-	isSkillUsed = isSkillUsed ? true : getconsttable()["shield_is_skill_used"];
+	activeTime = getconsttable()["silencer_next_active_time"];
+	isSkillUsed = isSkillUsed ? true : getconsttable()["silencer_is_skill_used"];
 
 	str0 = "";
 	if (isSkillUsed == false) {

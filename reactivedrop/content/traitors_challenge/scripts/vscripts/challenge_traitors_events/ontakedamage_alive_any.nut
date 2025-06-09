@@ -203,6 +203,7 @@ function OnTakeDamage_Alive_Any(victim, inflictor, attacker, weapon, damage, dam
 		}
 		damage *= distanceRatio;
 
+		attacker.ValidateScriptScope();
 		local hHud = Entities.FindByName(null, attacker.GetScriptScope().strFlashbangHudName);
 		local ratio = 1.0;
 		local currentIntensity;
@@ -250,6 +251,7 @@ function OnTakeDamage_Alive_Any(victim, inflictor, attacker, weapon, damage, dam
 			ResetHudAndChatForDeserterPlayer(g_marine_Deserter);
 		}
 	}
+	victim.ValidateScriptScope();
 	return victim.GetScriptScope().DamageMapModifier * damage;
 }
 
@@ -258,6 +260,7 @@ function ResetHudAndChatForDeserterPlayer(hMarine) {
 		return;
 	}
 	local hPlayer = hMarine.GetCommander();
+	hPlayer.ValidateScriptScope();
 	local role = hMarine.GetScriptScope().Role;
 	local strRole = GetRoleString(role);
 

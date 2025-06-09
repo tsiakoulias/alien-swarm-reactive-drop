@@ -35,7 +35,7 @@
 */
 isServer <- false;
 IncludeScript("challenge_traitors_enums");
-IncludeScript("traitors_client_shared");
+IncludeScript("challenge_traitors_client_shared");
 
 FONT_DEFAULTLARGE <- self.LookupFont("DefaultLarge");
 rowHeight <- self.GetFontTall(FONT_DEFAULTLARGE);

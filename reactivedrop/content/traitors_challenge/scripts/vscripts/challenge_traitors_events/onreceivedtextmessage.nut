@@ -66,6 +66,7 @@ function OnReceivedTextMessage(recipient, sender, message) {
 }
 
 function ToggleVGuiMenu(hSender, hMarine) {
+	hMarine.ValidateScriptScope();
 	if (hSender.GetMarine() != g_marine_SilencedMarine) {
 		if (hMarine.GetScriptScope().IsOpen == true) {
 			local hVGuiBackground = Entities.FindByName(null, hMarine.GetScriptScope().strVGuiNameBackground)

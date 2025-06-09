@@ -2,7 +2,7 @@
 	int		0  - 按钮序号
 	int		1  - 士兵entindex
 	int		2  - 总人数
-	int		3  - 能否被沉默
+	int		3  - 能否使用技能
 
 	float	0  - 允许使用技能的开始时间
 
@@ -33,7 +33,7 @@ efaultUnderline
 */
 isServer <- false;
 IncludeScript("challenge_traitors_enums");
-IncludeScript("traitors_client_shared");
+IncludeScript("challenge_traitors_client_shared");
 
 FONT_DEFAULTLARGE <- self.LookupFont("DefaultLarge");
 rowHeight <- self.GetFontTall(FONT_DEFAULTLARGE);
@@ -75,7 +75,7 @@ function Paint() {
 function Control(tbl) {
 	UpdateButton();
 
-	if (!isAlive && !getconsttable()["marine_info"][self.GetInt(0)].silencerIsSilenced) {
+	if (!isAlive && !getconsttable()["marine_info"][self.GetInt(0)].shieldIsSelected) {
 		b1 = 50;
 		g1 = 50;
 		r1 = 50;
@@ -84,22 +84,23 @@ function Control(tbl) {
 		r0 = 10;
 		return;
 	}
+
 	if (!isSkillUsed && Time() > activeTime) {
 		if (tbl.mouse_left) {
 			isMouseDown = true;
 		} else if (isMouseDown == true) {
 			if (tbl.mouse_x > x0 && tbl.mouse_x < x1 && tbl.mouse_y > y0 && tbl.mouse_y < y1 && self.GetInt(3) != 0) {
-				getconsttable()["marine_info"][self.GetInt(0)].silencerIsSilenced = true;
-				getconsttable()["silencer_is_skill_used"] = true;
-				self.SendInput(VGUI_ACTION.SILENCER_SILENCE | self.GetInt(1));
+				getconsttable()["marine_info"][self.GetInt(0)].shieldIsSelected = true;
+				getconsttable()["shield_is_skill_used"] = true;
+				self.SendInput(VGUI_ACTION.SHIELD_GIVE_MECHA | self.GetInt(1));
 			}
 			isMouseDown = false;
 		}
 	}
-	if (getconsttable()["marine_info"][self.GetInt(0)].silencerIsSilenced) {
+	if (getconsttable()["marine_info"][self.GetInt(0)].shieldIsSelected) {
 		b0 = 0;
-		g0 = 0;
-		r0 = 255;
+		g0 = 255;
+		r0 = 0;
 		b1 = 0;
 		g1 = 0;
 		r1 = 0;
@@ -143,8 +144,8 @@ function OnUpdate() {
 
 function UpdateButton() {
 	local idx = self.GetInt(0);
-	activeTime = getconsttable()["silencer_next_active_time"];
-	isSkillUsed = isSkillUsed ? true : getconsttable()["silencer_is_skill_used"];
+	activeTime = getconsttable()["shield_next_active_time"];
+	isSkillUsed = isSkillUsed ? true : getconsttable()["shield_is_skill_used"];
 	text = self.GetString(0);
 	isAlive = true;
 
