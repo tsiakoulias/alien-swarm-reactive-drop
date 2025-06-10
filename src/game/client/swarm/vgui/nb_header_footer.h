@@ -7,13 +7,10 @@
 #include <vgui/VGUI.h>
 #include <vgui_controls/EditablePanel.h>
 
-#define ASW_BINK_MOVIES
-
-#ifdef ASW_BINK_MOVIES
 #include "avi/ibik.h"
-#else
-#include "avi/iavi.h"
-#endif
+#include "ivideoservices.h"
+
+extern IVideoServices *g_pWEBM;
 
 // == MANAGED_CLASS_DECLARATIONS_START: Do not edit by hand ==
 class vgui::Label;
@@ -48,13 +45,20 @@ public:
 	int SetTextureMaterial();
 	void ClearCurrentMovie();
  
+	enum VideoMaterialType
+	{
+		MATERIAL_INVALID = -1,
+		MATERIAL_BIK,
+		MATERIAL_WEBM
+	};
+
 private:
-#ifdef ASW_BINK_MOVIES
-	BIKMaterial_t m_nBIKMaterial;
-#else
-	AVIMaterial_t m_nAVIMaterial;
-	float m_flStartTime;
-#endif
+	union {
+		BIKMaterial_t m_nBIKMaterial;
+		IVideoMaterial *m_pWEBMMaterial;
+	};
+	VideoMaterialType m_nMaterialType;
+
 	int m_nTextureID;
 	char m_szCurrentMovie[ MAX_PATH ];
 	int m_nLastGameState;
