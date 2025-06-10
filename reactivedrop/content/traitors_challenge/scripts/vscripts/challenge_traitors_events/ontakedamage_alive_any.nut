@@ -80,9 +80,9 @@ function OnTakeDamage_Alive_Any(victim, inflictor, attacker, weapon, damage, dam
 				case "asw_weapon_prifle": //原型突击步枪
 					local distance = (attacker.GetOrigin() - victim.GetOrigin()).Length();
 					local temp = distance < 250 ? 1.0 : 300.0 / distance;
-					factor1 = temp * RandFloatUniformDistribution(0.25, 0.54);
-					factor2 = temp * RandFloatUniformDistribution(0.23, 0.44);
-					factor3 = temp * RandFloatUniformDistribution(0.27, 0.64);
+					factor1 = temp * RandomHQUniformFloatDistribution(0.25, 0.54);
+					factor2 = temp * RandomHQUniformFloatDistribution(0.23, 0.44);
+					factor3 = temp * RandomHQUniformFloatDistribution(0.27, 0.64);
 					break;
 				case "asw_weapon_autogun": //自动机枪
 					factor1 = 0.47;
@@ -148,7 +148,7 @@ function OnTakeDamage_Alive_Any(victim, inflictor, attacker, weapon, damage, dam
 					factor3 = 1.00;
 					break;
 				case "asw_weapon_grenades": //手雷
-					damage = RandFloatNormalDistribution(2000, 200);
+					damage = RandomHQNormalDistribution(2000, 200);
 					factor1 = 0.001;
 					factor2 = 0.005;
 					factor3 = 0.015;
@@ -333,8 +333,8 @@ function PunchKnockdown(attacker, victim) {
 	} else {
 		thresh = hasPowerFist ? 0.9 : 0.75;
 	}
-	if (thresh >= RandFloatUniformDistribution(0.0, 1.0)) {
-		local temp = RandFloatUniformDistribution(1.0, 1.5) * -200;
+	if (thresh >= RandomHQUniformFloatDistribution(0.0, 1.0)) {
+		local temp = RandomHQUniformFloatDistribution(1.0, 1.5) * -200;
 		vecAttackerToVictim.x *= temp;
 		vecAttackerToVictim.y *= temp;
 		vecAttackerToVictim.z = 70 * temp;

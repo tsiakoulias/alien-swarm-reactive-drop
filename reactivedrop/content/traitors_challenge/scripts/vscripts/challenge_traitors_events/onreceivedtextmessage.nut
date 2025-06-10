@@ -102,7 +102,7 @@ function SetBomb() {
 	}
 	g_bool_BombActivited = true;
 	if (g_marine_Boomer != g_marine_SilencedMarine) {
-		local delay = RandIntUniformDistribution(0, 5);
+		local delay = RandomHQUniformIntDistribution(0, 5);
 		DelayFunctionCall("BomberAlert", "", delay + 0.01);
 
 		g_marine_Boomer.PrecacheSoundScript(BOOMER_SOUND.COUNT_DOWN[delay]);
@@ -130,7 +130,7 @@ function BomberSelfExplode() {
 	local radius = 150;
 	local hAttacker = g_marine_Boomer;
 	local explosionPos = hAttacker.GetOrigin() + Vector(0, 0, 60);
-	local damageScale = RandFloatNormalDistribution(1.05, 0.05);
+	local damageScale = RandomHQNormalDistribution(1.05, 0.05);
 	while (hMarine = Entities.FindByClassnameWithin(hMarine, "asw_marine", explosionPos, 4 * radius)) {
 		// 检查实体是否有效且存活
 		if (g_int_Counter > g_int_ImmuneCounter && hMarine.IsValid() && hMarine != hAttacker && hMarine.GetHealth() > 0) {

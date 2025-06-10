@@ -50,12 +50,12 @@ function OnGameEvent_heal_beacon_placed(params) {
 		hNewHealBeacon = PlaceHealBeacon(230, 6, 3.65, 23, 180, HealBeaconOrigin + offset);
 		hNewHealBeacon.SetVelocity(LaunchVector(hNewHealBeacon.GetOrigin(), targetPos, 150, 0.5));
 
-		if (RandIntUniformDistribution(0, 999) >= 945) {
+		if (RandomHQUniformIntDistribution(0, 999) >= 945) {
 			hNewDamageAmplifier = PlaceDamageAmplifier(30, 180, HealBeaconOrigin + offset);
 			hNewDamageAmplifier.SetVelocity(LaunchVector(hNewDamageAmplifier.GetOrigin(), targetPos, 150, 0.5));
 		}
 
-		if (RandIntUniformDistribution(0, 999) >= 669) {
+		if (RandomHQUniformIntDistribution(0, 999) >= 669) {
 			hNewFreezeGrenade = DropFreezeGrenade(30, 2, 180, HealBeaconOrigin + offset);
 			hNewFreezeGrenade.SetVelocity(LaunchVector(hNewFreezeGrenade.GetOrigin(), targetPos, 150, 0.5));
 		}

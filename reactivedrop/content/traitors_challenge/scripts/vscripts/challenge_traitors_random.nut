@@ -1,3 +1,11 @@
+// Better to use built-in MT19937 RNG provided by c++ STL for highest performance.
+// void RandomHQSetSeed(int seed) // Do not call this unless necessary. RNG is automatically seeded upon game start.
+// void RandomHQSetRandomDevice() // Do not call this unless necessary. RNG is automatically seeded upon game start.
+// int RandomHQUniformIntDistribution(int min, int max)
+// float RandomHQUniformFloatDistribution(float min, float max)
+// float RandomHQNormalDistribution(float mean, float std_dev)
+
+
 // 基于 Mersenne Twister ( MT19937 )的高质量随机数生成器，具有无偏的均匀分布和正态分布。
 _mtArray <- array(624); // 状态数组
 _mtIndex <- 0;

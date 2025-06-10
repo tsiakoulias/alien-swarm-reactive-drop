@@ -476,7 +476,7 @@ function DetectAndApplySkill(interval = 1) {
 		foreach(idx, menuProps in g_lst_MenuProps) {
 			if (menuProps.entIndex == entindex && Time() >= g_tbl_MenuSkillInfo.scannerLastSkillTime + g_tbl_MenuSkillInfo.scannerSkillCD) {
 				if (g_tbl_MenuSkillInfo.scannerRandomScanCounter > 0) {
-					local rand = RandIntUniformDistribution(0, g_marine_Total_Unshuffled.len() - 5 + g_tbl_MenuSkillInfo.scannerRandomScanCounter);
+					local rand = RandomHQUniformIntDistribution(0, g_marine_Total_Unshuffled.len() - 5 + g_tbl_MenuSkillInfo.scannerRandomScanCounter);
 					foreach(idx, prop in g_lst_MenuProps) {
 						if (prop.scannerIsRevealed || prop.entIndex == g_marine_Scanner.entindex()) {
 							continue;
@@ -849,6 +849,12 @@ function WriteMatchResultToFile(winner) {
 	StringToFile("Challenge_Traitor_Result_" + GetLocalTime().tostring() + ".txt", g_str_GameResult);
 }
 
+function GetLocalTime() {
+	local localTime = {};
+	LocalTime(localTime);
+	return localTime.dayofyear * 86400 + localTime.hour * 3600 + localTime.minute * 60 + localTime.second;
+}
+
 function ShowSpeciallRolesList() {
 	local hPlayer = null;
 	while (hPlayer = Entities.FindByClassname(hPlayer, "player")) {
@@ -907,8 +913,6 @@ function OnMissionStart() {
 }
 
 function OnGameplayStart() {
-	PrepareRNG(); //准备随机数
-
 	SetConVars(); //设置cvar
 	SetTechMap(); //设置技术地图标识，暂时没有作用
 	SetImmuneTimeAndFlags(); //设置出生保护，记录当前地图
@@ -1029,7 +1033,7 @@ function InitializeExtraHealthAndShield() {
 
 function DeterminRoleCount() {
 	// 确定各种数量
-	local tempRandom = RandIntUniformDistribution(0, 1)
+	local tempRandom = RandomHQUniformIntDistribution(0, 1)
 	switch (g_int_MarineCount) {
 		case 0:
 		case 1:
@@ -1052,7 +1056,7 @@ function DeterminRoleCount() {
 
 			LocalizedClientPrint(null, 3, TextColor(160, 32, 240) + "%s1", "#challenge_traitors_not_enough_players");
 			if (DEBUG) {
-				g_int_TraitorCount = 0; //RandIntUniformDistribution(0, 1);
+				g_int_TraitorCount = 0; //RandomHQUniformIntDistribution(0, 1);
 				//tempRandom;
 				g_bool_ClhallengeEnable = true;
 				LocalizedClientPrint(null, 3, TextColor(255, 0, 0) + "You are now in DEBUG mode");
@@ -1060,7 +1064,7 @@ function DeterminRoleCount() {
 			break;
 		case 3:
 			g_int_TraitorCount = 1;
-			g_bool_HasTraitorLeader = (RandIntUniformDistribution(0, 2) == 0);
+			g_bool_HasTraitorLeader = (RandomHQUniformIntDistribution(0, 2) == 0);
 			g_int_TraitorLeaderExtraHealth = 60;
 			break; //1
 		case 4:
@@ -1080,13 +1084,13 @@ function DeterminRoleCount() {
 			break; //2
 		case 7:
 			g_int_TraitorCount = 2;
-			g_bool_HasIafLeader = (RandIntUniformDistribution(0, 2) == 0);
-			g_bool_HasScanner = (RandIntUniformDistribution(0, 20) == 0);
-			g_bool_HasBiochemist = (RandIntUniformDistribution(0, 14) == 0);
+			g_bool_HasIafLeader = (RandomHQUniformIntDistribution(0, 2) == 0);
+			g_bool_HasScanner = (RandomHQUniformIntDistribution(0, 20) == 0);
+			g_bool_HasBiochemist = (RandomHQUniformIntDistribution(0, 14) == 0);
 			g_bool_HasInfector = g_bool_HasBiochemist;
 			g_bool_HasSilencer = g_bool_HasScanner;
-			g_bool_HasTraitorLeader = g_bool_HasIafLeader || (RandIntUniformDistribution(0, 3) == 0);
-			switch (RandIntUniformDistribution(0, 6)) {
+			g_bool_HasTraitorLeader = g_bool_HasIafLeader || (RandomHQUniformIntDistribution(0, 3) == 0);
+			switch (RandomHQUniformIntDistribution(0, 6)) {
 				case 0:
 					//g_bool_HasInfector = true;
 					break;
@@ -1097,21 +1101,21 @@ function DeterminRoleCount() {
 					g_bool_HasSilencer = true;
 					break;
 			}
-			g_bool_HasShield = (RandIntUniformDistribution(0, 12) == 0);
-			g_bool_HasSniper = (RandIntUniformDistribution(0, 12) == 0);
-			g_bool_HasDemo = (RandIntUniformDistribution(0, 12) == 0);
-			g_bool_HasDeserter = (RandIntUniformDistribution(0, 8) == 0);
+			g_bool_HasShield = (RandomHQUniformIntDistribution(0, 12) == 0);
+			g_bool_HasSniper = (RandomHQUniformIntDistribution(0, 12) == 0);
+			g_bool_HasDemo = (RandomHQUniformIntDistribution(0, 12) == 0);
+			g_bool_HasDeserter = (RandomHQUniformIntDistribution(0, 8) == 0);
 			break; //2
 		case 8:
 			g_int_TraitorCount = 2;
-			g_bool_HasScanner = (RandIntUniformDistribution(0, 10) == 0);
-			g_bool_HasBiochemist = (RandIntUniformDistribution(0, 7) == 0);
-			g_bool_HasIafLeader = (RandIntUniformDistribution(0, 1) == 0);
+			g_bool_HasScanner = (RandomHQUniformIntDistribution(0, 10) == 0);
+			g_bool_HasBiochemist = (RandomHQUniformIntDistribution(0, 7) == 0);
+			g_bool_HasIafLeader = (RandomHQUniformIntDistribution(0, 1) == 0);
 			g_bool_HasInfector = g_bool_HasBiochemist;
 			g_bool_HasSilencer = g_bool_HasScanner;
 			g_bool_HasTraitorLeader = true;
 			g_int_TraitorLeaderExtraHealth = 250;
-			switch (RandIntUniformDistribution(0, 5)) {
+			switch (RandomHQUniformIntDistribution(0, 5)) {
 				case 0:
 					//g_bool_HasInfector = true;
 					break;
@@ -1122,10 +1126,10 @@ function DeterminRoleCount() {
 					g_bool_HasSilencer = true;
 					break;
 			}
-			g_bool_HasShield = (RandIntUniformDistribution(0, 8) == 0);
-			g_bool_HasSniper = (RandIntUniformDistribution(0, 12) == 0);
-			g_bool_HasDemo = (RandIntUniformDistribution(0, 8) == 0);
-			g_bool_HasDeserter = (RandIntUniformDistribution(0, 6) == 0);
+			g_bool_HasShield = (RandomHQUniformIntDistribution(0, 8) == 0);
+			g_bool_HasSniper = (RandomHQUniformIntDistribution(0, 12) == 0);
+			g_bool_HasDemo = (RandomHQUniformIntDistribution(0, 8) == 0);
+			g_bool_HasDeserter = (RandomHQUniformIntDistribution(0, 6) == 0);
 			break; //2
 		case 9:
 			g_int_TraitorCount = 3;
@@ -1155,20 +1159,20 @@ function DeterminRoleCount() {
 	if (g_int_MarineCount >= 9 && g_int_MarineCount < 12) {
 		g_bool_HasScanner = true;
 		g_bool_HasBiochemist = true;
-		g_bool_HasIafLeader = (RandIntUniformDistribution(0, 14 - g_int_MarineCount) == 0);
-		g_bool_HasShield = (RandIntUniformDistribution(0, 16 - g_int_MarineCount) == 0);
-		if ((RandIntUniformDistribution(0, 16 - g_int_MarineCount) == 0)) {
-			g_bool_HasSniper = (RandIntUniformDistribution(0, 1) == 0);
+		g_bool_HasIafLeader = (RandomHQUniformIntDistribution(0, 14 - g_int_MarineCount) == 0);
+		g_bool_HasShield = (RandomHQUniformIntDistribution(0, 16 - g_int_MarineCount) == 0);
+		if ((RandomHQUniformIntDistribution(0, 16 - g_int_MarineCount) == 0)) {
+			g_bool_HasSniper = (RandomHQUniformIntDistribution(0, 1) == 0);
 			g_bool_HasDemo = !g_bool_HasSniper;
 		}
-		g_bool_HasDeserter = (RandIntUniformDistribution(0, 16 - g_int_MarineCount) == 0);
+		g_bool_HasDeserter = (RandomHQUniformIntDistribution(0, 16 - g_int_MarineCount) == 0);
 
 		g_bool_HasInfector = true;
-		g_bool_HasSilencer = (RandIntUniformDistribution(0, 3) != 0);
+		g_bool_HasSilencer = (RandomHQUniformIntDistribution(0, 3) != 0);
 		g_bool_HasMimic = !g_bool_HasSilencer;
 		g_bool_HasTraitorLeader = g_bool_HasIafLeader;
-		if ((RandIntUniformDistribution(0, 12 - g_int_MarineCount) == 0)) {
-			g_bool_HasBoomer = (RandIntUniformDistribution(0, 1) == 0);
+		if ((RandomHQUniformIntDistribution(0, 12 - g_int_MarineCount) == 0)) {
+			g_bool_HasBoomer = (RandomHQUniformIntDistribution(0, 1) == 0);
 			g_bool_HasInfector = !g_bool_HasBoomer;
 		}
 	}
@@ -1176,16 +1180,16 @@ function DeterminRoleCount() {
 		g_bool_HasScanner = true;
 		g_bool_HasBiochemist = true;
 		g_bool_HasIafLeader = true;
-		g_bool_HasShield = (RandIntUniformDistribution(0, 16 - g_int_MarineCount) == 0);
-		g_bool_HasSniper = (RandIntUniformDistribution(0, 16 - g_int_MarineCount) == 0);
-		g_bool_HasDemo = (RandIntUniformDistribution(0, 16 - g_int_MarineCount) == 0);
+		g_bool_HasShield = (RandomHQUniformIntDistribution(0, 16 - g_int_MarineCount) == 0);
+		g_bool_HasSniper = (RandomHQUniformIntDistribution(0, 16 - g_int_MarineCount) == 0);
+		g_bool_HasDemo = (RandomHQUniformIntDistribution(0, 16 - g_int_MarineCount) == 0);
 		g_bool_HasDeserter = true;
 
 		g_bool_HasInfector = true;
 		g_bool_HasSilencer = true;
 		g_bool_HasTraitorLeader = true;
-		g_bool_HasMimic = (RandIntUniformDistribution(0, 16 - g_int_MarineCount) == 0);
-		g_bool_HasBoomer = (RandIntUniformDistribution(0, 16 - g_int_MarineCount) == 0);
+		g_bool_HasMimic = (RandomHQUniformIntDistribution(0, 16 - g_int_MarineCount) == 0);
+		g_bool_HasBoomer = (RandomHQUniformIntDistribution(0, 16 - g_int_MarineCount) == 0);
 		g_bool_HasInfector = !g_bool_HasBoomer;
 	}
 	if (g_int_MarineCount >= 16) {
@@ -1205,21 +1209,6 @@ function DeterminRoleCount() {
 	}
 	g_int_TraitorAliveCount = g_int_TraitorCount;
 	g_int_IafAliveCount = g_int_MarineCount - g_int_TraitorCount;
-}
-
-function PrepareRNG() {
-	RngSetSeed(GetLocalTime()); //设置随机数种子
-	local i = 0;
-	for (; i < 200; i++) {
-		RandIntUniformDistribution(0, 1); //丢弃前50个随机数
-	}
-	RngSetSeed(GetLocalTime() * 1000 + (Time() * 1000).tointeger() % 1000); //重新设置随机数种子
-}
-
-function GetLocalTime() {
-	local localTime = {};
-	LocalTime(localTime);
-	return localTime.dayofyear * 86400 + localTime.hour * 3600 + localTime.minute * 60 + localTime.second;
 }
 
 function DelayFunctionCall(function_name, function_params, delay) {
@@ -2253,17 +2242,17 @@ function SetConVars(interval = 1) {
 	Convars.SetValue("asw_marine_ff_absorption", 0);
 	Convars.SetValue("rd_aim_marines", 1);
 	Convars.SetValue("rd_hp_regen", 1);
-	Convars.SetValue("rm_health_regen_amount", RandFloatNormalDistribution(3, 0.5));
-	Convars.SetValue("rm_health_regen_interval", RandFloatNormalDistribution(10, 0.4));
+	Convars.SetValue("rm_health_regen_amount", RandomHQNormalDistribution(3, 0.5));
+	Convars.SetValue("rm_health_regen_interval", RandomHQNormalDistribution(10, 0.4));
 	Convars.SetValue("rd_weapons_show_hidden", 1);
-	Convars.SetValue("rd_jumpjet_knockdown_marines", RandIntUniformDistribution(0, 10) >= 8 ? 0 : 1);
+	Convars.SetValue("rd_jumpjet_knockdown_marines", RandomHQUniformIntDistribution(0, 10) >= 8 ? 0 : 1);
 	Convars.SetValue("rd_marine_ignite_immediately", 1);
 	Convars.SetValue("asw_marine_time_until_ignite", 0);
-	Convars.SetValue("asw_marine_burn_time_easy", RandFloatNormalDistribution(45, 5));
-	Convars.SetValue("asw_marine_burn_time_normal", RandFloatNormalDistribution(45, 5));
-	Convars.SetValue("asw_marine_burn_time_hard", RandFloatNormalDistribution(45, 5));
-	Convars.SetValue("asw_marine_burn_time_insane", RandFloatNormalDistribution(45, 5));
-	Convars.SetValue("asw_blink_charge_time", RandFloatNormalDistribution(100, 25));
+	Convars.SetValue("asw_marine_burn_time_easy", RandomHQNormalDistribution(45, 5));
+	Convars.SetValue("asw_marine_burn_time_normal", RandomHQNormalDistribution(45, 5));
+	Convars.SetValue("asw_marine_burn_time_hard", RandomHQNormalDistribution(45, 5));
+	Convars.SetValue("asw_marine_burn_time_insane", RandomHQNormalDistribution(45, 5));
+	Convars.SetValue("asw_blink_charge_time", RandomHQNormalDistribution(100, 25));
 	Convars.SetValue("asw_minigun_spin_down_rate", 100);
 	Convars.SetValue("asw_minigun_spin_rate_threshold", 1);
 	Convars.SetValue("asw_minigun_spin_up_rate", 50);
@@ -2272,20 +2261,20 @@ function SetConVars(interval = 1) {
 	Convars.SetValue("rd_techreq", 0);
 	Convars.SetValue("rd_hackall", 1);
 	Convars.SetValue("rd_biomass_ignite_from_explosions", 1);
-	Convars.SetValue("rd_spawn_medkits", RandFloatNormalDistribution(61, 2).tointeger());
-	Convars.SetValue("asw_fist_passive_damage_scale", RandFloatNormalDistribution(4500, 500));
+	Convars.SetValue("rd_spawn_medkits", RandomHQNormalDistribution(61, 2).tointeger());
+	Convars.SetValue("asw_fist_passive_damage_scale", RandomHQNormalDistribution(4500, 500));
 	Convars.SetValue("rd_stuck_bot_teleport", 1);
-	Convars.SetValue("rd_damage_buff_scale", RandFloatNormalDistribution(1.2, 0.02));
+	Convars.SetValue("rd_damage_buff_scale", RandomHQNormalDistribution(1.2, 0.02));
 
-	Convars.SetValue("asw_cluster_grenade_fuse", RandFloatNormalDistribution(4, 0.7));
-	local child_fuse_max = RandFloatNormalDistribution(2.4, 0.3);
-	local child_fuse_min = child_fuse_max / RandFloatUniformDistribution(1.5, 3.0);
+	Convars.SetValue("asw_cluster_grenade_fuse", RandomHQNormalDistribution(4, 0.7));
+	local child_fuse_max = RandomHQNormalDistribution(2.4, 0.3);
+	local child_fuse_min = child_fuse_max / RandomHQUniformFloatDistribution(1.5, 3.0);
 	Convars.SetValue("asw_cluster_grenade_child_fuse_max", child_fuse_max);
 	Convars.SetValue("asw_cluster_grenade_child_fuse_min", child_fuse_min);
-	Convars.SetValue("asw_cluster_grenade_radius_check_scale", RandFloatNormalDistribution(0.55, 0.017));
+	Convars.SetValue("asw_cluster_grenade_radius_check_scale", RandomHQNormalDistribution(0.55, 0.017));
 
-	Convars.SetValue("rd_marine_passive_armor_layers_amount", RandFloatNormalDistribution(14, 1.5).tointeger());
-	Convars.SetValue("rd_marine_passive_armor_layer_protection_value", RandFloatNormalDistribution(0.04, 0.0005));
+	Convars.SetValue("rd_marine_passive_armor_layers_amount", RandomHQNormalDistribution(14, 1.5).tointeger());
+	Convars.SetValue("rd_marine_passive_armor_layer_protection_value", RandomHQNormalDistribution(0.04, 0.0005));
 
 	Convars.SetValue("asw_sentry_friendly_fire_scale", 0.2);
 	Convars.SetValue("asw_sentry_friendly_target", g_enum_CurrentMap == MAP.RED_6 ? 0 : 1);
@@ -2295,15 +2284,15 @@ function SetConVars(interval = 1) {
 	//Convars.SetValue("autoaim_max_dist", 0);
 
 	Convars.SetValue("asw_ammo_count_sniper_rifle", 1);
-	Convars.SetValue("asw_skill_accuracy_sniper_rifle_dmg_step", RandFloatNormalDistribution(5, 1).tointeger());
-	Convars.SetValue("rd_sniper_dmg_base", RandFloatUniformDistribution(100, 150));
-	Convars.SetValue("rd_sniper_rifle_dmg_zoomed_bonus", RandFloatUniformDistribution(500, 700));
+	Convars.SetValue("asw_skill_accuracy_sniper_rifle_dmg_step", RandomHQNormalDistribution(5, 1).tointeger());
+	Convars.SetValue("rd_sniper_dmg_base", RandomHQUniformFloatDistribution(100, 150));
+	Convars.SetValue("rd_sniper_rifle_dmg_zoomed_bonus", RandomHQUniformFloatDistribution(500, 700));
 
-	Convars.SetValue("asw_ammo_count_devastator", RandIntUniformDistribution(10, 25));
+	Convars.SetValue("asw_ammo_count_devastator", RandomHQUniformIntDistribution(10, 25));
 
-	Convars.SetValue("rd_railgun_dmg_base", RandIntUniformDistribution(100, 250));
+	Convars.SetValue("rd_railgun_dmg_base", RandomHQUniformIntDistribution(100, 250));
 
-	Convars.SetValue("rd_pistols_min_delay", RandFloatUniformDistribution(0.116, 0.126));
+	Convars.SetValue("rd_pistols_min_delay", RandomHQUniformFloatDistribution(0.116, 0.126));
 
 	local hPlayer = null;
 	local playerCount = 0;

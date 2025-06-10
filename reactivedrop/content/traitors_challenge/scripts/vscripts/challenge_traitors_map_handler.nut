@@ -124,7 +124,7 @@ function SetMapHandler() {
 					temp.z = 0;
 					local radius = temp.Norm();
 					if (radius < 100) {
-						hMarine.SetOrigin(Vector(RandFloatUniformDistribution(-650, 870), RandFloatUniformDistribution(-1590, -1320), -30));
+						hMarine.SetOrigin(Vector(RandomHQUniformFloatDistribution(-650, 870), RandomHQUniformFloatDistribution(-1590, -1320), -30));
 					}
 				}
 			};
@@ -326,13 +326,13 @@ function SetMapHandler() {
 						hMarine.TakeDamage(4, DAMAGE_TYPE.DMG_FALL, null);
 					}
 					if (temp.y >= 5129 && temp.y <= 5350) {
-						hMarine.SetOrigin(Vector(RandIntUniformDistribution(-5606, -5257), RandIntUniformDistribution(4388, 4996), 810));
+						hMarine.SetOrigin(Vector(RandomHQUniformIntDistribution(-5606, -5257), RandomHQUniformIntDistribution(4388, 4996), 810));
 					}
 				}
 				if (g_int_Counter == g_int_MapKillCounter[0]) {
 					foreach(hMarine in g_marine_Total) {
 						if (hMarine != null && hMarine.IsValid() && hMarine.GetOrigin().x > -3200) {
-							hMarine.SetOrigin(Vector(RandIntUniformDistribution(-3426, -3228), RandIntUniformDistribution(6834, 7258), 810));
+							hMarine.SetOrigin(Vector(RandomHQUniformIntDistribution(-3426, -3228), RandomHQUniformIntDistribution(6834, 7258), 810));
 						}
 					}
 				}
@@ -354,13 +354,13 @@ function SetMapHandler() {
 						g_int_MapKillCounter[0] = g_int_Counter + 600;
 					}
 					if (temp.y >= 4947 && temp.y <= 5019) {
-						hMarine.SetOrigin(Vector(RandIntUniformDistribution(-5642, -5316), RandIntUniformDistribution(5375, 5989), 810) + g_vec_Jac2Offset);
+						hMarine.SetOrigin(Vector(RandomHQUniformIntDistribution(-5642, -5316), RandomHQUniformIntDistribution(5375, 5989), 810) + g_vec_Jac2Offset);
 					}
 				}
 				if (g_int_Counter == g_int_MapKillCounter[0]) {
 					foreach(hMarine in g_marine_Total) {
 						if (hMarine != null && hMarine.IsValid() && (hMarine.GetOrigin().x - g_vec_Jac2Offset.x) <= -3900) {
-							hMarine.SetOrigin(Vector(RandIntUniformDistribution(-3426, -3228), RandIntUniformDistribution(6834, 7258), 810) + g_vec_Jac2Offset);
+							hMarine.SetOrigin(Vector(RandomHQUniformIntDistribution(-3426, -3228), RandomHQUniformIntDistribution(6834, 7258), 810) + g_vec_Jac2Offset);
 						}
 					}
 				}
