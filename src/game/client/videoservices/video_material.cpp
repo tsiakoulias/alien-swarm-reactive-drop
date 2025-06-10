@@ -357,14 +357,17 @@ void CVideoMaterial::CreateVideoMaterial( const char *pMaterialName )
 	pVMTKeyValues->SetString( "$ytexture", ytexture );
 	pVMTKeyValues->SetString( "$cbtexture", cbtexture );
 	pVMTKeyValues->SetString( "$crtexture", crtexture );
+	pVMTKeyValues->SetString( "$basetexture", m_yTexture->GetName() );
 	pVMTKeyValues->SetInt( "$nobasetexture", 1 );
-	pVMTKeyValues->SetInt( "$nofog", 1 );
-	pVMTKeyValues->SetInt( "$spriteorientation", 3 );
-	pVMTKeyValues->SetInt( "$translucent", 1 );
 	pVMTKeyValues->SetInt( "$nolod", 1 );
 	pVMTKeyValues->SetInt( "$nomip", 1 );
+	pVMTKeyValues->SetInt( "$nofog", 1 );
+	pVMTKeyValues->SetInt( "$translucent", 1 );
 	pVMTKeyValues->SetInt( "$vertexcolor", 1 );
 	pVMTKeyValues->SetInt( "$vertexalpha", 1 );
+	pVMTKeyValues->SetInt( "$gammacolorread", 0 );
+	pVMTKeyValues->SetInt( "$spriteorientation", 3 );
+
 	m_videoMaterial.Init( pMaterialName, pVMTKeyValues );
 	// Refresh the material vars because apparently init doesn't do this
 	// and retains the previous video's frame
