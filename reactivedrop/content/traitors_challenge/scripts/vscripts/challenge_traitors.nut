@@ -1407,7 +1407,7 @@ function CreatePlayerHud(hPlayer) {
 	local strLanguage = GetClientLanguage(hPlayer.entindex());
 	local hHud1 = Entities.CreateByClassname("rd_hud_vscript");
 	g_ent_HudAndVGui.append(hHud1);
-	hHud1.__KeyValueFromString("client_vscript", "traitors_player_info.nut");
+	hHud1.__KeyValueFromString("client_vscript", "challenge_traitors_player_info.nut");
 	hHud1.Spawn();
 	hHud1.Activate();
 	hHud1.SetEntity(0, hPlayer);
@@ -1434,7 +1434,7 @@ function CreatePlayerHud(hPlayer) {
 	// Hud1 Hud2 Hud4 用于显示团队信息，如果是观战，则显示简要的游戏规则
 	local hHud2 = Entities.CreateByClassname("rd_hud_vscript");
 	g_ent_HudAndVGui.append(hHud2);
-	hHud2.__KeyValueFromString("client_vscript", "traitors_player_info.nut");
+	hHud2.__KeyValueFromString("client_vscript", "challenge_traitors_player_info.nut");
 	hHud2.Spawn();
 	hHud2.Activate();
 	hHud2.SetEntity(0, hPlayer);
@@ -1462,7 +1462,7 @@ function CreatePlayerHud(hPlayer) {
 	// Hud1 Hud2 Hud4 用于显示团队信息，如果是观战，则显示简要的游戏规则
 	local hHud4 = Entities.CreateByClassname("rd_hud_vscript");
 	g_ent_HudAndVGui.append(hHud4);
-	hHud4.__KeyValueFromString("client_vscript", "traitors_player_info.nut");
+	hHud4.__KeyValueFromString("client_vscript", "challenge_traitors_player_info.nut");
 	hHud4.Spawn();
 	hHud4.Activate();
 	hHud4.SetEntity(0, hPlayer);
@@ -1489,7 +1489,7 @@ function CreatePlayerHud(hPlayer) {
 	// hHud3 用于内鬼团队显示一些特殊提示以及投票信息
 	local hHud3 = Entities.CreateByClassname("rd_hud_vscript");
 	g_ent_HudAndVGui.append(hHud3);
-	hHud3.__KeyValueFromString("client_vscript", "traitors_player_info.nut");
+	hHud3.__KeyValueFromString("client_vscript", "challenge_traitors_player_info.nut");
 	hHud3.Spawn();
 	hHud3.Activate();
 	hHud3.SetEntity(0, hPlayer);
@@ -1539,7 +1539,7 @@ function CreateMarineHudAndVGuiEntities() {
 function CreateMarineFlashbangHud(hMarine) {
 	local hHud = Entities.CreateByClassname("rd_hud_vscript");
 	g_ent_HudAndVGui.append(hHud);
-	hHud.__KeyValueFromString("client_vscript", "traitors_flashbang.nut");
+	hHud.__KeyValueFromString("client_vscript", "challenge_traitors_flashbang.nut");
 	hHud.Spawn();
 	hHud.Activate();
 	hHud.SetEntity(0, hMarine);
