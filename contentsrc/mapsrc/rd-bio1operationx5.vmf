@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "679"
+	"mapversion" "680"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -32,7 +32,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "679"
+	"mapversion" "680"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -163939,6 +163939,7 @@ entity
 	"id" "351944"
 	"classname" "asw_sentry_top_machinegun"
 	"angles" "20 270 180"
+	"friendlyfire" "0"
 	"skin" "0"
 	"targetname" "turrets"
 	"TurretRange" "0"
@@ -163956,6 +163957,7 @@ entity
 	"id" "351951"
 	"classname" "asw_sentry_top_machinegun"
 	"angles" "20 270 180"
+	"friendlyfire" "0"
 	"skin" "0"
 	"targetname" "turrets"
 	"TurretRange" "0"
@@ -184284,7 +184286,7 @@ entity
 	"origin" "1079 574.193 -95"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupid" "24"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
@@ -184299,7 +184301,7 @@ entity
 	"origin" "1106 622.193 -95"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupid" "24"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
@@ -184314,7 +184316,7 @@ entity
 	"origin" "1152 623 -95"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupid" "24"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
@@ -184329,7 +184331,7 @@ entity
 	"origin" "1149 573 -95"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupid" "24"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
@@ -184344,7 +184346,7 @@ entity
 	"origin" "1199 601 -95"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupid" "24"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
@@ -184359,7 +184361,7 @@ entity
 	"origin" "1152 665 -95"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupid" "24"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
@@ -184374,7 +184376,7 @@ entity
 	"origin" "1089 689.193 -95"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupid" "24"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
@@ -184389,7 +184391,7 @@ entity
 	"origin" "1028 629.193 -95"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupid" "24"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
@@ -197632,8 +197634,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[-2469.28 7879.66 141.554]"
-		"look" "[-2567.35 8039.06 -57.7515]"
+		"position" "[-3289.36 2110.09 -10.1296]"
+		"look" "[-3241.15 2303.47 -197.29]"
 	}
 	camera
 	{
