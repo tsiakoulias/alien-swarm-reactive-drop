@@ -554,7 +554,7 @@ class CASW_Mission_Chooser_VScript
 		g_pScriptVM->SetValue( table, "search_light_angle_4", pCampaign->SearchLightAngle[3] );
 
 		ScriptVariant_t missionsArray;
-		CreateArray( missionsArray );
+		g_pScriptVM->CreateTable( missionsArray );
 
 		FOR_EACH_VEC( pCampaign->Missions, i )
 		{
@@ -575,7 +575,8 @@ class CASW_Mission_Chooser_VScript
 			g_pScriptVM->SetValue( missionTable, "needs_more_than_one_marine", pMission->NeedsMoreThanOneMarine );
 
 			ScriptVariant_t linksArray;
-			CreateArray( linksArray );
+			g_pScriptVM->CreateTable( linksArray );
+
 			FOR_EACH_VEC( pMission->Links, j )
 			{
 				ArrayPush( linksArray, pMission->Links[j] );
@@ -592,7 +593,7 @@ class CASW_Mission_Chooser_VScript
 		g_pScriptVM->ReleaseValue( missionsArray );
 
 		ScriptVariant_t tagsArray;
-		CreateArray( tagsArray );
+		g_pScriptVM->CreateTable( tagsArray );
 
 		FOR_EACH_VEC( pCampaign->Tags, i )
 		{
@@ -625,7 +626,7 @@ class CASW_Mission_Chooser_VScript
 		g_pScriptVM->SetValue( table, "briefing_material", STRING( pMission->BriefingMaterial ) );
 
 		ScriptVariant_t verticalSectionsArray;
-		CreateArray( verticalSectionsArray );
+		g_pScriptVM->CreateTable( verticalSectionsArray );
 
 		FOR_EACH_VEC( pMission->VerticalSections, i )
 		{
@@ -654,7 +655,7 @@ class CASW_Mission_Chooser_VScript
 		// intentionally not including Builtin flag.
 
 		ScriptVariant_t tagsArray;
-		CreateArray( tagsArray );
+		g_pScriptVM->CreateTable( tagsArray );
 
 		FOR_EACH_VEC( pMission->Tags, i )
 		{
