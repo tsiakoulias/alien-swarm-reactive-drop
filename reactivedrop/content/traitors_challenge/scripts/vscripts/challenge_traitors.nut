@@ -376,7 +376,7 @@ function RefreshSkillMenu(interval = 1) {
 	}
 }
 
-g_float_AbetRatio <- 1.67;
+g_float_AbetRatio <- 1.5;
 function RefreshMenu(hMarine) {
 	local i = -1;
 
@@ -638,10 +638,10 @@ function DetectAndApplySkill(interval = 1) {
 			}
 			local flg = false;
 			local temp = null;
-			foreach(idx, tempMarine in g_marine_Iaf) {
+			foreach(tempidx, tempMarine in g_marine_Iaf) {
 				if (hMarine == tempMarine) {
 					flg = true; // 标记Iaf队员
-					temp = idx; // 标记Iaf队员的索引
+					temp = tempidx; // 标记Iaf队员的索引
 				}
 			}
 			if (flg) {
@@ -649,19 +649,19 @@ function DetectAndApplySkill(interval = 1) {
 			}
 			flg = false;
 			temp = null;
-			foreach(idx, tempMarine in g_marine_IafAlive) {
+			foreach(tempidx, tempMarine in g_marine_IafAlive) {
 				if (hMarine == tempMarine) {
 					flg = true; // 标记Iaf队员
-					temp = idx; // 标记Iaf队员的索引
+					temp = tempidx; // 标记Iaf队员的索引
 				}
 			}
 			if (flg) {
 				g_marine_IafAlive.remove(temp); // 从存活列表中移除IAF队员
 				g_int_IafAliveCount = g_marine_IafAlive.len(); // 更新存活的IAF队员数量
 			}
-			g_tbl_MenuSkillInfo.infectorIsSkillUsed = true;
 			g_lst_MenuProps[idx].infectorIsAbeted = true;
 			g_marine_AbetedMarine = hMarine;
+			g_tbl_MenuSkillInfo.infectorIsSkillUsed = true;
 			break;
 		}
 	}
@@ -799,7 +799,6 @@ function CheckSurrenderVotes(interval) {
 				hHud3.SetString(0, GetLocalizedString("#challenge_traitors_game_instruction_traitor3", strLanguage));
 			}
 		}
-
 	}
 }
 
@@ -1075,16 +1074,17 @@ function DeterminRoleCount() {
 		case 5:
 			g_int_TraitorCount = 1;
 			g_bool_HasTraitorLeader = true;
-			g_int_TraitorLeaderExtraHealth = 220;
+			g_int_TraitorLeaderExtraHealth = 350;
 			break; //1
 		case 6:
 			g_int_TraitorCount = 2;
 			g_bool_HasTraitorLeader = true;
-			g_int_TraitorLeaderExtraHealth = 120;
+			g_int_TraitorLeaderExtraHealth = 150;
 			break; //2
 		case 7:
 			g_int_TraitorCount = 2;
-			g_bool_HasIafLeader = (RandomHQUniformIntDistribution(0, 2) == 0);
+			g_bool_HasIafLeader = true;
+			g_int_TraitorLeaderExtraHealth = 200;
 			g_bool_HasScanner = (RandomHQUniformIntDistribution(0, 20) == 0);
 			g_bool_HasBiochemist = (RandomHQUniformIntDistribution(0, 14) == 0);
 			g_bool_HasInfector = g_bool_HasBiochemist;
@@ -1111,10 +1111,9 @@ function DeterminRoleCount() {
 			g_bool_HasScanner = (RandomHQUniformIntDistribution(0, 10) == 0);
 			g_bool_HasBiochemist = (RandomHQUniformIntDistribution(0, 7) == 0);
 			g_bool_HasIafLeader = (RandomHQUniformIntDistribution(0, 1) == 0);
-			g_bool_HasInfector = g_bool_HasBiochemist;
-			g_bool_HasSilencer = g_bool_HasScanner;
+			g_bool_HasInfector = (RandomHQUniformIntDistribution(0, 1) == 0);
 			g_bool_HasTraitorLeader = true;
-			g_int_TraitorLeaderExtraHealth = 250;
+			g_int_TraitorLeaderExtraHealth = 350;
 			switch (RandomHQUniformIntDistribution(0, 5)) {
 				case 0:
 					//g_bool_HasInfector = true;
@@ -1170,7 +1169,8 @@ function DeterminRoleCount() {
 		g_bool_HasInfector = true;
 		g_bool_HasSilencer = (RandomHQUniformIntDistribution(0, 3) != 0);
 		g_bool_HasMimic = !g_bool_HasSilencer;
-		g_bool_HasTraitorLeader = g_bool_HasIafLeader;
+		g_bool_HasTraitorLeader = true;
+		g_int_TraitorLeaderExtraHealth = 300;
 		if ((RandomHQUniformIntDistribution(0, 12 - g_int_MarineCount) == 0)) {
 			g_bool_HasBoomer = (RandomHQUniformIntDistribution(0, 1) == 0);
 			g_bool_HasInfector = !g_bool_HasBoomer;
@@ -1188,6 +1188,7 @@ function DeterminRoleCount() {
 		g_bool_HasInfector = true;
 		g_bool_HasSilencer = true;
 		g_bool_HasTraitorLeader = true;
+		g_int_TraitorLeaderExtraHealth = 350;
 		g_bool_HasMimic = (RandomHQUniformIntDistribution(0, 16 - g_int_MarineCount) == 0);
 		g_bool_HasBoomer = (RandomHQUniformIntDistribution(0, 16 - g_int_MarineCount) == 0);
 		g_bool_HasInfector = !g_bool_HasBoomer;
@@ -2443,7 +2444,6 @@ function GenerateTraitorList() {
 			g_str_TraitorNameList = g_str_TraitorNameList + " [ " + hPlayer.GetPlayerName() + " ]"; // 将选出的内鬼名字存入内鬼名单
 		} else {
 			g_str_TraitorNameList = g_str_TraitorNameList + " < " + "%s2" + " > "; // 将选出的内鬼名字存入内鬼名单
-
 		}
 	}
 }
