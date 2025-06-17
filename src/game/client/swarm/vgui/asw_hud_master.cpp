@@ -450,8 +450,8 @@ void CASW_Hud_Master::OnThink()
 	int nStandardWidth = (int)(g_nScreenAreaHeight * 16.0f / 9.0f ) + 1;
 	if (g_nScreenAreaWidth > nStandardWidth)
 	{
-		g_nRestrictedAreaLeft = nStandardWidth >> 1;
-		g_nRestrictedAreaRight = g_nScreenAreaWidth - (nStandardWidth >> 1);
+		g_nRestrictedAreaLeft = (g_nScreenAreaWidth - nStandardWidth) >> 1;
+		g_nRestrictedAreaRight = g_nScreenAreaWidth - g_nRestrictedAreaLeft;
 		g_bUltraWideScreen = true;
 		m_nMarinePortrait_x = g_nRestrictedAreaLeft;
 	}
