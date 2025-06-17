@@ -46,6 +46,12 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+// restricted area variables and cvars
+extern int g_nRestrictedAreaLeft;
+extern bool g_bUltraWideScreen;
+extern ConVar rd_draw_restricted_rectangles_coop;
+extern ConVar rd_draw_restricted_rectangles_dm;
+
 extern ConVar asw_draw_hud;
 extern ConVar asw_hud_alpha;
 extern ConVar asw_DebugAutoAim;
@@ -610,8 +616,14 @@ void CASWHud3DMarineNames::PaintMarineLabel( int iMyMarineNum, C_ASW_Marine *RES
 		*/
 		// the presence or absence and size of these elements depends on a variety of factors.
 		// first, is the marine on screen?
-		bool bMarineOnScreen = ( screenPos.x >= 0 ) && ( screenPos.x <= nMaxX ) &&
-			( screenPos.y >= 0 ) && ( screenPos.y <= nMaxY );
+		bool bMarineOnScreen = (screenPos.x >= 0) && (screenPos.x <= nMaxX) &&
+			(screenPos.y >= 0) && (screenPos.y <= nMaxY);
+		int nRestrictedAreaOffset = 0;
+		if (g_bUltraWideScreen && ((rd_draw_restricted_rectangles_coop.GetBool() && !ASWDeathmatchMode()) || (rd_draw_restricted_rectangles_dm.GetBool() && ASWDeathmatchMode()))) {
+			bMarineOnScreen = (screenPos.x >= g_nRestrictedAreaLeft) && (screenPos.x <= nMaxX - g_nRestrictedAreaLeft) &&
+				(screenPos.y >= 0) && (screenPos.y <= nMaxY);
+			nRestrictedAreaOffset = g_nRestrictedAreaLeft;
+		}
 
 		// COPYPASTA: if the marine isn't on screen, compute an appropriate screen point to use
 		// (don't just clip to screen coords, which makes direction change inappropriately)
@@ -720,14 +732,14 @@ void CASWHud3DMarineNames::PaintMarineLabel( int iMyMarineNum, C_ASW_Marine *RES
 		int nBoxCenterY = screenPos.y + nTotalBoxHeight / 2;
 
 		// if off to the left, push to the right
-		if ( nBoxCenterX - ( nTotalBoxWidth / 2 ) < nMinX )
+		if ( nBoxCenterX - ( nTotalBoxWidth / 2 ) < nMinX + nRestrictedAreaOffset)
 		{
-			nBoxCenterX -= nBoxCenterX - ( nTotalBoxWidth / 2 ) - nMinX;
+			nBoxCenterX -= nBoxCenterX - ( nTotalBoxWidth / 2 ) - nMinX - nRestrictedAreaOffset;
 		}
-		else if ( nBoxCenterX + ( nTotalBoxWidth / 2 ) >= nMaxX )
+		else if ( nBoxCenterX + ( nTotalBoxWidth / 2 ) >= nMaxX - nRestrictedAreaOffset)
 			// if off to the right, push to the left
 		{
-			nBoxCenterX -= nBoxCenterX + ( nTotalBoxWidth / 2 ) - nMaxX;
+			nBoxCenterX -= nBoxCenterX + ( nTotalBoxWidth / 2 ) - nMaxX + nRestrictedAreaOffset;
 		}
 
 		// if too high, push down
@@ -817,7 +829,7 @@ void CASWHud3DMarineNames::PaintMarineLabel( int iMyMarineNum, C_ASW_Marine *RES
 				// actual text
 				vgui::surface()->DrawSetTextColor( MarineNameColor1.r(), MarineNameColor1.g(), MarineNameColor1.b(), 200 );
 				vgui::surface()->DrawSetTextPos( nTextPosX, nCursorY );
-				vgui::surface()->DrawUnicodeString( wszName );
+				vgui::surface()->DrawUnicodeString(wszName);
 
 				// advance cursor
 				nCursorY += nMarineNameHeight + MAX( nLineSpacing, YRES( 2 ) );

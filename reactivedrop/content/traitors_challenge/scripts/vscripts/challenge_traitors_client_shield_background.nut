@@ -4,7 +4,6 @@
 	int		4  - 字符串终止2
 	int		5  - 字符串终止3
 	int		6  - 字符串终止4
-	int		7  - 字符串终止5
 
 	float	0  - 允许使用技能的开始时间
 
@@ -35,7 +34,7 @@
 */
 isServer <- false;
 IncludeScript("challenge_traitors_enums");
-IncludeScript("traitors_client_shared");
+IncludeScript("challenge_traitors_client_shared");
 
 FONT_DEFAULTLARGE <- self.LookupFont("DefaultLarge");
 rowHeight <- self.GetFontTall(FONT_DEFAULTLARGE);
@@ -55,17 +54,14 @@ r0 <- 0;
 b1 <- 0;
 g1 <- 0;
 r1 <- 0;
-getconsttable()["infector_next_active_time"] <- 0.0;
-getconsttable()["infector_is_skill_used"] <- false;
-getconsttable()["infector_is_skill_active"] <- false;
+getconsttable()["shield_next_active_time"] <- 0.0;
+getconsttable()["shield_is_skill_used"] <- false;
 activeTime <- 0.0;
 isSkillUsed <- false;
-isSkillActive <- false;
 str1 <- "";
 str2 <- "";
 str3 <- "";
 str4 <- "";
-str5 <- "";
 str0 <- "";
 
 function Paint() {
@@ -79,21 +75,18 @@ function Paint() {
 }
 
 function Control(tbl) {
-	activeTime = getconsttable()["infector_next_active_time"];
-	isSkillUsed = isSkillUsed ? true : getconsttable()["infector_is_skill_used"];
-	isSkillActive = isSkillActive ? true : getconsttable()["infector_is_skill_active"];
+	activeTime = getconsttable()["shield_next_active_time"];
+	isSkillUsed = isSkillUsed ? true : getconsttable()["shield_is_skill_used"];
 
 	str0 = "";
 	if (isSkillUsed == false) {
-		if (Time() < activeTime) {
-			str0 = str3 + (activeTime - Time() + 1).tointeger().tostring() + str4;
-		} else if (!isSkillActive) {
-			str0 = str2;
-		} else {
+		if (Time() >= activeTime) {
 			str0 = str1;
+		} else {
+			str0 = str2 + (activeTime - Time() + 1).tointeger().tostring() + str3;
 		}
 	} else {
-		str0 = str5;
+		str0 = str4;
 	}
 	x2 = ScreenWidth() * 0.5 - 0.5 * self.GetTextWide(FONT_DEFAULTLARGE, str0);
 	y2 = y1 - rowMargin - rowHeight - rowSep;
@@ -113,12 +106,10 @@ function OnUpdate() {
 	local b = a + self.GetInt(4);
 	local c = b + self.GetInt(5);
 	local d = c + self.GetInt(6);
-	local e = d + self.GetInt(7);
 	str1 = a > 0 ? text.slice(0, a) : "";
 	str2 = b > a ? text.slice(a, b) : "";
 	str3 = c > b ? text.slice(b, c) : "";
 	str4 = d > c ? text.slice(c, d) : "";
-	str5 = e > d ? text.slice(d, e) : "";
 	rowHeight = self.GetFontTall(FONT_DEFAULTLARGE);
 	nRows = (self.GetInt(2) / nCols + 1).tointeger();
 	x0 = ScreenWidth() * 0.5 - colWidth * nCols / 2.0 - colSep * (nCols / 2.0 + 0.5) - colMargin;

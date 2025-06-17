@@ -28,6 +28,9 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+// restricted area variables
+extern int g_nRestrictedAreaLeft;
+
 extern ConVar asw_draw_hud;
 extern ConVar asw_hud_alpha;
 extern ConVar rd_points_delay;
@@ -42,7 +45,7 @@ using namespace vgui;
 
 #define LETTER_INTERVAL 0.05f
 
-DECLARE_HUDELEMENT( CASWHudObjective );
+DECLARE_HUDELEMENT_DEPTH( CASWHudObjective, 45 );
 
 
 static void MsgFunc_ShowObjectives( bf_read &msg )
@@ -185,7 +188,7 @@ void CASWHudObjective::Paint( void )
 		m_pHeaderLabel->GetPos(tx, ty);
 		float fScale = ScreenWidth() / 1024.0f;
 		int width = 213 * fScale;
-		int left_side = tx - 4.0f * fScale;
+		int left_side = tx - 4.0f * fScale + g_nRestrictedAreaLeft;
 		int top = ty - 4.0f * fScale;
 		int height = th + 8.0f * fScale;
 		vgui::Vertex_t points[4] = 
@@ -247,7 +250,7 @@ void CASWHudObjective::Paint( void )
 	BaseClass::Paint();
 
 	// allow custom painting
-	int ob_x = 0;
+	int ob_x = g_nRestrictedAreaLeft;
 	int ob_y = 0;
 	for (int i=0;i<ASW_MAX_OBJECTIVES;i++)
 	{
@@ -452,7 +455,7 @@ void CASWHudObjective::LayoutObjectives()
 	float fScale = (ScreenHeight() / 768.0f) * asw_hud_scale.GetFloat();
 	int icon_size = 16.0f * fScale;
 	int tick_size = 16.0f * fScale;
-	int border = 14.0f * fScale;
+	int border = 14.0f * fScale + g_nRestrictedAreaLeft;
 	int label_x = border + tick_size + icon_size;
 	int font_tall = vgui::surface()->GetFontTall(m_font);
 	int header_y = 14.0f * fScale;

@@ -2,7 +2,6 @@
 	int		0  - 按钮序号
 	int		1  - 士兵entindex
 	int		2  - 总人数
-	int		3  - 能否治疗
 
 	float	0  - 允许使用技能的开始时间
 
@@ -33,7 +32,7 @@ efaultUnderline
 */
 isServer <- false;
 IncludeScript("challenge_traitors_enums");
-IncludeScript("traitors_client_shared");
+IncludeScript("challenge_traitors_client_shared");
 
 FONT_DEFAULTLARGE <- self.LookupFont("DefaultLarge");
 rowHeight <- self.GetFontTall(FONT_DEFAULTLARGE);
@@ -55,12 +54,12 @@ r0 <- 0;
 b1 <- 0;
 g1 <- 0;
 r1 <- 0;
-isMouseDownLeft <- false;
-isMouseDownRight <- false;
 activeTime <- 0.0;
-isHealUsed <- false;
-isKillUsed <- false;
+role <- ROLE.NONE;
+isMouseDown <- false;
+isSkillUsed <- false;
 isAlive <- true;
+isSkillActive <- false;
 
 function Paint() {
 	local hMarine = self.GetEntity(0);
@@ -77,7 +76,7 @@ function Paint() {
 function Control(tbl) {
 	UpdateButton();
 
-	if (!isAlive && !getconsttable()["marine_info"][self.GetInt(0)].biochemistIsHealed && !getconsttable()["marine_info"][self.GetInt(0)].biochemistIsKilled) {
+	if (!getconsttable()["marine_info"][self.GetInt(0)].infectorIsAbeted && ((role > ROLE.MAX_IAF_TEAM && role < ROLE.MAX_TRAITOR_TEAM) || !isAlive)) {
 		b1 = 50;
 		g1 = 50;
 		r1 = 50;
@@ -85,57 +84,36 @@ function Control(tbl) {
 		g0 = 10;
 		r0 = 10;
 		return;
+	} else {
+		b0 = 0;
+		g0 = 0;
+		r0 = 0;
+		b1 = 255;
+		g1 = 255;
+		r1 = 255;
 	}
 
-	if (!(isHealUsed && isKillUsed) && Time() > activeTime) {
+	if (Time() > activeTime && isSkillActive && !isSkillUsed) {
 		if (tbl.mouse_left) {
-			isMouseDownLeft = true;
-		} else if (isMouseDownLeft == true && isMouseDownRight == false) {
-			if (!getconsttable()["marine_info"][self.GetInt(0)].biochemistIsKilled && tbl.mouse_x > x0 && tbl.mouse_x < x1 && tbl.mouse_y > y0 && tbl.mouse_y < y1 && self.GetInt(3) == 1) {
-				getconsttable()["marine_info"][self.GetInt(0)].biochemistIsHealed = true;
-				getconsttable()["biochemist_is_heal_used"] = true;
-				self.SendInput(VGUI_ACTION.BIOCHEMIST_HEAL | self.GetInt(1));
-			}
-			isMouseDownLeft = false;
-		} else if (isMouseDownLeft == true && isMouseDownRight == true) {
-			isMouseDownLeft = false;
-		}
-		if (tbl.mouse_right) {
-			isMouseDownRight = true;
-		} else if (isMouseDownLeft == false && isMouseDownRight == true) {
+			isMouseDown = true;
+		} else if (isMouseDown == true) {
 			if (tbl.mouse_x > x0 && tbl.mouse_x < x1 && tbl.mouse_y > y0 && tbl.mouse_y < y1) {
-				getconsttable()["marine_info"][self.GetInt(0)].biochemistIsKilled = true;
-				getconsttable()["biochemist_is_kill_used"] = true;
-				self.SendInput(VGUI_ACTION.BIOCHEMIST_KILL | self.GetInt(1));
+				getconsttable()["marine_info"][self.GetInt(0)].infectorIsAbeted = true;
+				getconsttable()["infector_is_skill_used"] = true;
+				self.SendInput(VGUI_ACTION.INFECTOR_ABET | self.GetInt(1));
 			}
-			isMouseDownRight = false;
-		} else if (isMouseDownLeft == true && isMouseDownRight == true) {
-			isMouseDownRight = false;
+			isMouseDown = false;
 		}
 	}
-	if (getconsttable()["marine_info"][self.GetInt(0)].biochemistIsHealed && !getconsttable()["marine_info"][self.GetInt(0)].biochemistIsKilled) {
-		b0 = 0;
-		g0 = 255;
-		r0 = 0;
-		b1 = 0;
-		g1 = 0;
-		r1 = 0;
-	} else if (!getconsttable()["marine_info"][self.GetInt(0)].biochemistIsHealed && getconsttable()["marine_info"][self.GetInt(0)].biochemistIsKilled) {
+	if (getconsttable()["marine_info"][self.GetInt(0)].infectorIsAbeted) {
 		b0 = 0;
 		g0 = 0;
 		r0 = 255;
 		b1 = 0;
 		g1 = 0;
 		r1 = 0;
-	} else if (getconsttable()["marine_info"][self.GetInt(0)].biochemistIsHealed && getconsttable()["marine_info"][self.GetInt(0)].biochemistIsKilled) {
-		b0 = 0;
-		g0 = 255;
-		r0 = 255;
-		b1 = 0;
-		g1 = 0;
-		r1 = 0;
 	} else {
-		if (!(isHealUsed && isKillUsed) && Time() > activeTime && tbl.mouse_x > x0 && tbl.mouse_x < x1 && tbl.mouse_y > y0 && tbl.mouse_y < y1) {
+		if (Time() > activeTime && isSkillActive && !isSkillUsed && tbl.mouse_x > x0 && tbl.mouse_x < x1 && tbl.mouse_y > y0 && tbl.mouse_y < y1) {
 			b0 = 255;
 			g0 = 255;
 			r0 = 255;
@@ -167,9 +145,10 @@ function OnUpdate() {
 
 function UpdateButton() {
 	local idx = self.GetInt(0);
-	activeTime = getconsttable()["biochemist_next_active_time"];
-	isHealUsed = isHealUsed ? true : getconsttable()["biochemist_is_heal_used"];
-	isKillUsed = isKillUsed ? true : getconsttable()["biochemist_is_kill_used"];
+	activeTime = getconsttable()["infector_next_active_time"];
+	isSkillUsed = isSkillUsed ? true : getconsttable()["infector_is_skill_used"];
+	isSkillActive = isSkillActive ? true : getconsttable()["infector_is_skill_active"];
+
 	text = self.GetString(0);
 	isAlive = true;
 
@@ -178,6 +157,7 @@ function UpdateButton() {
 		if (isAlive) {
 			text = getconsttable()["marine_info"][idx].name;
 		}
+
 	}
 
 	text = TrimString(text, FONT_DEFAULTLARGE);

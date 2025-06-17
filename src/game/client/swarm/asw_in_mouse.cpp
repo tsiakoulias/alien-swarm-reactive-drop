@@ -15,8 +15,12 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-bool g_ultra_wide_screen = false;
-Rect_t g_clamp_area = {};
+// restricted area variables
+extern int g_nRestrictedAreaLeft;
+extern int g_nRestrictedAreaRight;
+extern int g_nScreenAreaWidth;
+extern int g_nScreenAreaHeight;
+extern bool g_bUltraWideScreen;
 
 ConVar glow_outline_color_active( "glow_outline_color_active", "153 153 204", FCVAR_NONE );
 ConVar glow_outline_color_inactive( "glow_outline_color_inactive", "77 77 77", FCVAR_NONE );
@@ -89,33 +93,11 @@ void CASWInput::ApplyMouse( int nSlot, QAngle& viewangles, CUserCmd *cmd, float 
 	GetMousePos(current_posx, current_posy);
 
 	// restrict cursor to 16:9 area to prevent ultra-wide fov cheat
-	g_ultra_wide_screen = false;
 	C_ASW_Player* asw_player = C_ASW_Player::GetLocalASWPlayer();
 
-	if (asw_player && !asw_player->GetSpectatingNPC()) {
-		int screen_w = ScreenWidth();
-		int screen_h = ScreenHeight();
-		float aspect = static_cast<float>(screen_w) / screen_h;
-
-		constexpr float ratio169 = 16.0f / 9.0f;
-
-		if (aspect > ratio169) {
-			g_ultra_wide_screen = true;
-
-			int target_h = screen_h;
-			int target_w = static_cast<int>(screen_h * ratio169);
-
-			int left = (screen_w - target_w) / 2;
-			int top = 0;
-
-			g_clamp_area.x = left;
-			g_clamp_area.y = top;
-			g_clamp_area.width = left + target_w;
-			g_clamp_area.height = top + target_h;
-
-			current_posx = clamp(current_posx, g_clamp_area.x, g_clamp_area.width);
-			current_posy = clamp(current_posy, g_clamp_area.y, g_clamp_area.height);
-		}
+	if (asw_player && !asw_player->GetSpectatingNPC()) 
+	{
+		current_posx = clamp(current_posx, g_nRestrictedAreaLeft, g_nRestrictedAreaRight);
 	}
 
 	if ( ASWInput()->ControllerModeActiveMouse() )

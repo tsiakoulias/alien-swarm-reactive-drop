@@ -2,11 +2,9 @@
 	int		0  - 按钮序号
 	int		1  - 士兵entindex
 	int		2  - 总人数
-	int		3  - 是否是自己
-	int		4  - 士兵角色
+	int		3  - 能否被沉默
 
-	float	0  - 允许扫描的开始时间
-	float	1  - 扫描cd
+	float	0  - 允许使用技能的开始时间
 
 	string	0  - 名字
 
@@ -20,7 +18,7 @@
 	Default
 	DefaultBlur
 	DefaultShadowed
-	DefaultUnderline
+efaultUnderline
 	DefaultMedium
 	DefaultMediumBlur
 	DefaultLarge
@@ -35,7 +33,7 @@
 */
 isServer <- false;
 IncludeScript("challenge_traitors_enums");
-IncludeScript("traitors_client_shared");
+IncludeScript("challenge_traitors_client_shared");
 
 FONT_DEFAULTLARGE <- self.LookupFont("DefaultLarge");
 rowHeight <- self.GetFontTall(FONT_DEFAULTLARGE);
@@ -57,9 +55,9 @@ r0 <- 0;
 b1 <- 0;
 g1 <- 0;
 r1 <- 0;
-activeTime <- 0.0;
-role <- ROLE.NONE;
 isMouseDown <- false;
+activeTime <- 0.0;
+isSkillUsed <- false;
 isAlive <- true;
 
 function Paint() {
@@ -76,44 +74,44 @@ function Paint() {
 
 function Control(tbl) {
 	UpdateButton();
-	if (Time() > activeTime) {
-		if (tbl.mouse_left) {
-			isMouseDown = true;
-		} else if (isMouseDown == true) {
-			if (!getconsttable()["marine_info"][self.GetInt(0)].scannerIsRevealed && getconsttable()["marine_info"][self.GetInt(0)].scannerIsWithinRange && tbl.mouse_x > x0 && tbl.mouse_x < x1 && tbl.mouse_y > y0 && tbl.mouse_y < y1 && self.GetInt(3) != 1) {
-				getconsttable()["marine_info"][self.GetInt(0)].scannerIsRevealed = true;
-				getconsttable()["scanner_next_active_time"] = Time() + 60;
-				self.SendInput(VGUI_ACTION.SCANNER_SCAN | self.GetInt(1));
-			}
-			isMouseDown = false;
-		}
-	} //
-	if (self.GetInt(3) == 1 || (!getconsttable()["marine_info"][self.GetInt(0)].scannerIsWithinRange && !getconsttable()["marine_info"][self.GetInt(0)].scannerIsRevealed)) {
+
+	if (!isAlive && !getconsttable()["marine_info"][self.GetInt(0)].silencerIsSilenced) {
 		b1 = 50;
 		g1 = 50;
 		r1 = 50;
 		b0 = 10;
 		g0 = 10;
 		r0 = 10;
-	} else if (getconsttable()["marine_info"][self.GetInt(0)].scannerIsRevealed) {
-		if (role == ROLE.NONE) {
-			b0 = 255;
-			g0 = 0;
-			r0 = 0;
-		} else if (role > ROLE.NONE && role <= ROLE.MAX_IAF_TEAM) {
-			b0 = 0;
-			g0 = 255;
-			r0 = 0;
-		} else if (role > ROLE.MAX_IAF_TEAM && role < ROLE.MAX_TRAITOR_TEAM) {
-			b0 = 0;
-			g0 = 0;
-			r0 = 255;
+		return;
+	}
+	if (!isSkillUsed && Time() > activeTime) {
+		if (tbl.mouse_left) {
+			isMouseDown = true;
+		} else if (isMouseDown == true) {
+			if (tbl.mouse_x > x0 && tbl.mouse_x < x1 && tbl.mouse_y > y0 && tbl.mouse_y < y1 && self.GetInt(3) != 0) {
+				getconsttable()["marine_info"][self.GetInt(0)].silencerIsSilenced = true;
+				getconsttable()["silencer_is_skill_used"] = true;
+				self.SendInput(VGUI_ACTION.SILENCER_SILENCE | self.GetInt(1));
+			}
+			isMouseDown = false;
 		}
+	}
+	if (getconsttable()["marine_info"][self.GetInt(0)].silencerIsSilenced) {
+		b0 = 0;
+		g0 = 0;
+		r0 = 255;
 		b1 = 0;
 		g1 = 0;
 		r1 = 0;
+	} else if (self.GetInt(3) == 0) {
+		b1 = 50;
+		g1 = 50;
+		r1 = 50;
+		b0 = 10;
+		g0 = 10;
+		r0 = 10;
 	} else {
-		if (Time() > activeTime && tbl.mouse_x > x0 && tbl.mouse_x < x1 && tbl.mouse_y > y0 && tbl.mouse_y < y1) {
+		if (!isSkillUsed && Time() > activeTime && tbl.mouse_x > x0 && tbl.mouse_x < x1 && tbl.mouse_y > y0 && tbl.mouse_y < y1) {
 			b0 = 255;
 			g0 = 255;
 			r0 = 255;
@@ -145,15 +143,16 @@ function OnUpdate() {
 
 function UpdateButton() {
 	local idx = self.GetInt(0);
-	activeTime = getconsttable()["scanner_next_active_time"];
+	activeTime = getconsttable()["silencer_next_active_time"];
+	isSkillUsed = isSkillUsed ? true : getconsttable()["silencer_is_skill_used"];
 	text = self.GetString(0);
 	isAlive = true;
+
 	if (("marine_info" in getconsttable()) && getconsttable()["marine_info"] != null && (idx < getconsttable()["marine_info"].len()) && getconsttable()["marine_info"][idx] != null) {
 		isAlive = getconsttable()["marine_info"][idx].isAlive;
 		if (isAlive) {
 			text = getconsttable()["marine_info"][idx].name;
 		}
-		role = getconsttable()["marine_info"][idx].role;
 	}
 
 	text = TrimString(text, FONT_DEFAULTLARGE);

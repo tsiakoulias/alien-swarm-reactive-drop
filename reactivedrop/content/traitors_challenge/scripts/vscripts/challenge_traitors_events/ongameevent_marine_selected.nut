@@ -106,6 +106,7 @@ function ResetHudAndChatForIafPlayer(hMarine) {
 	if (hMarine == null) {
 		return;
 	}
+	hMarine.ValidateScriptScope();
 	local role = hMarine.GetScriptScope().Role;
 	local strRole = GetRoleString(role);
 	local hPlayer = hMarine.GetCommander();

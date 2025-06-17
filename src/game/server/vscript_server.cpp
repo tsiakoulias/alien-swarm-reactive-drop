@@ -54,6 +54,10 @@ constexpr int CLAMP_COLOR(int value)
 	return value < 0 ? 0 : value > 255 ? 255 : value;
 }
 
+#include <random>
+std::random_device g_RandomDevice;  // Non-deterministic random number generator
+std::mt19937 g_mt19937 = std::mt19937(g_RandomDevice()); // Mersenne Twister engine seeded with the random device
+
 //-----------------------------------------------------------------------------
 // Iterate through keys in a table and assign KeyValues on entity for spawn
 //-----------------------------------------------------------------------------
@@ -1528,6 +1532,50 @@ static const char *Script_FileToString( const char *pszFileName )
 	return pszString;
 }
 
+// Sets the seed for the random number generator using a specific seed value
+static void Script_RandomHQSetSeed(int seed) {
+	g_mt19937.seed((unsigned int)seed);
+}
+
+// Sets the seed for the random number generator using a random device
+static void Script_RandomHQSetRandomDevice() {
+	g_mt19937.seed(g_RandomDevice());
+}
+
+// Returns a uniformly distributed random integer in the range [min, max]
+static int Script_RandomHQUniformIntDistribution(int min, int max) {
+	if (min > max) {
+		// XOR swap
+		min ^= max;
+		max ^= min;
+		min ^= max;
+	}
+	std::uniform_int_distribution<int> dist(min, max);
+	return dist(g_mt19937);
+}
+
+// Returns a uniformly distributed random float in the range [min, max]
+static float Script_RandomHQUniformFloatDistribution(float min, float max) {
+	if (min > max) {
+		// swap
+		float temp = min;
+		min = max;
+		max = temp;
+	}
+	std::uniform_real_distribution<float> dist(min, max);
+	return dist(g_mt19937);
+}
+
+// Returns a normally distributed random float with the specified mean and standard deviation
+static float Script_RandomHQNormalDistribution(float mean, float std_dev) {
+	if (std_dev <= 0.0f) {
+		// If stddev is zero or negative, return the mean
+		std_dev = 1.0f;
+	}
+	std::normal_distribution<float> dist(mean, std_dev);
+	return dist(g_mt19937);
+}
+
 static void Script_ScreenShake( const Vector &center, float amplitude, float frequency, float duration, float radius, int eCommand, bool bAirShake )
 {
 	UTIL_ScreenShake( center, amplitude, frequency, duration, radius, (ShakeCommand_t)eCommand, bAirShake );
@@ -1742,6 +1790,11 @@ bool VScriptServerInit()
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_StringToFile, "StringToFile", "Stores the string into the file." );
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_FileToString, "FileToString", "Reads a string from file. Returns the string from the file, null if no file or file is too big." );
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_AddThinkToEnt, "AddThinkToEnt", "Adds a late bound think function to the C++ think tables for the obj" );
+				ScriptRegisterFunctionNamed(g_pScriptVM, Script_RandomHQSetSeed, "RandomHQSetSeed", "High Quality Random Number Generator using MT19937 algorithm. By default, you don't need to call this function, as it will automatically seed the generator to a non-deterministic state upon game initialization. This function is used to set a specific seed value for reproducibility.");
+				ScriptRegisterFunctionNamed(g_pScriptVM, Script_RandomHQSetRandomDevice, "RandomHQSetRandomDevice", "High Quality Random Number Generator using MT19937 algorithm. By default, you don't need to call this function, as it will automatically seed the generator to a non-deterministic state upon game initialization. This function is useful to reset the generator to a non-deterministic state.");
+				ScriptRegisterFunctionNamed(g_pScriptVM, Script_RandomHQUniformIntDistribution, "RandomHQUniformIntDistribution", "High Quality Random Number Generator using MT19937 algorithm. Returns a uniformly distributed random integer in the range [min, max]. If min > max, the values are swapped.");
+				ScriptRegisterFunctionNamed(g_pScriptVM, Script_RandomHQUniformFloatDistribution, "RandomHQUniformFloatDistribution", "High Quality Random Number Generator using MT19937 algorithm. Returns a uniformly distributed random float in the range [min, max]. If min > max, the values are swapped.");
+				ScriptRegisterFunctionNamed(g_pScriptVM, Script_RandomHQNormalDistribution, "RandomHQNormalDistribution", "High Quality Random Number Generator using MT19937 algorithm. Returns a normally(Gaussian) distributed random float with the specified mean and standard deviation. If std_dev <= 0.0f, it sets stddev to 1.0f.");
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_ScreenShake, "ScreenShake", "Start a screenshake with the following parameters. vecCenter, flAmplitude, flFrequency, flDuration, flRadius, eCommand( SHAKE_START = 0, SHAKE_STOP = 1 ), bAirShake" );
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_ScreenFade, "ScreenFade", "Start a screenfade with the following parameters. player, red, green, blue, alpha, flFadeTime, flFadeHold, flags" );
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_ChangeLevel, "ChangeLevel", "Tell engine to change level." );

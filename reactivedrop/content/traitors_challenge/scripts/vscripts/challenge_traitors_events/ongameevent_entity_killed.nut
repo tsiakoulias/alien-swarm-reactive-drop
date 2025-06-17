@@ -33,7 +33,7 @@ function OnGameEvent_entity_killed(params) {
 				EntFireByHandle(explosion, "Kill", "", 3, null, null); // 销毁爆炸实体
 				victim.PrecacheSoundScript("Traitors.Boomer_Explode");
 				victim.EmitSound("Traitors.Boomer_Explode");
-				ApplyExplosionDamageToMarines(victim, deathPos, 150, RandFloatNormalDistribution(0.95, 0.05));
+				ApplyExplosionDamageToMarines(victim, deathPos, 150, RandomHQNormalDistribution(0.95, 0.05));
 			}
 
 			local tempList = [];
