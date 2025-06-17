@@ -54,8 +54,8 @@ bool g_bUltraWideScreen;
 // restricted area cvars
 ConVar rd_draw_restricted_borders( "rd_draw_restricted_borders", "1", FCVAR_ARCHIVE, "Display the restricted cursor area when using ultra-wide resolution" );
 ConVar rd_draw_restricted_borders_color("rd_draw_restricted_borders_color", "128 128 128 128", 0, "Color of the restricted cursor area borders");
-ConVar rd_draw_restricted_rectangles_coop("rd_draw_restricted_rectangles_coop", "1", FCVAR_ARCHIVE | FCVAR_REPLICATED | FCVAR_NOTIFY, "Fill extra side FOVs with black on ultra-wide resolution in coop mode.");
-ConVar rd_draw_restricted_rectangles_dm("rd_draw_restricted_rectangles_dm", "1", FCVAR_ARCHIVE | FCVAR_REPLICATED | FCVAR_CHEAT | FCVAR_NOTIFY, "Fill extra side FOVs with black on ultra-wide resolution in deathmatch mode.");
+ConVar rd_draw_restricted_rectangles_coop("rd_draw_restricted_rectangles_coop", "1", FCVAR_REPLICATED, "Fill extra side FOVs with black on ultra-wide resolution in coop mode.");
+ConVar rd_draw_restricted_rectangles_dm("rd_draw_restricted_rectangles_dm", "1", FCVAR_REPLICATED | FCVAR_CHEAT, "Fill extra side FOVs with black on ultra-wide resolution in deathmatch mode.");
 
 using namespace vgui;
 
