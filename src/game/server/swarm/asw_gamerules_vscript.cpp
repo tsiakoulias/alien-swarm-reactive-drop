@@ -579,13 +579,17 @@ class CASW_Mission_Chooser_VScript
 
 			FOR_EACH_VEC( pMission->Links, j )
 			{
-				ArrayPush( linksArray, pMission->Links[j] );
+				char szKey[ 16 ];
+				V_snprintf( szKey, sizeof( szKey ), "%d", j );
+				g_pScriptVM->SetValue( linksArray, szKey, pMission->Links[ j ] );
 			}
 
 			g_pScriptVM->SetValue( missionTable, "links", linksArray );
 			g_pScriptVM->ReleaseValue( linksArray );
 
-			ArrayPush( missionsArray, missionTable );
+			char szKey[ 16 ];
+			V_snprintf( szKey, sizeof( szKey ), "%d", i );
+			g_pScriptVM->SetValue( missionsArray, szKey, missionTable );
 			g_pScriptVM->ReleaseValue( missionTable );
 		}
 
@@ -597,7 +601,9 @@ class CASW_Mission_Chooser_VScript
 
 		FOR_EACH_VEC( pCampaign->Tags, i )
 		{
-			ArrayPush( tagsArray, STRING( pCampaign->Tags[i] ) );
+			char szKey[ 16 ];
+			V_snprintf( szKey, sizeof( szKey ), "%d", i );
+			g_pScriptVM->SetValue( tagsArray, szKey, STRING( pCampaign->Tags[ i ] ) );
 		}
 
 		g_pScriptVM->SetValue( table, "tags", tagsArray );
@@ -637,7 +643,9 @@ class CASW_Mission_Chooser_VScript
 			g_pScriptVM->SetValue( sectionTable, "altitude_min", pMission->VerticalSections[i].AltitudeMin );
 			g_pScriptVM->SetValue( sectionTable, "altitude_max", pMission->VerticalSections[i].AltitudeMax );
 
-			ArrayPush( verticalSectionsArray, sectionTable );
+			char szKey[ 16 ];
+			V_snprintf( szKey, sizeof( szKey ), "%d", i );
+			g_pScriptVM->SetValue( verticalSectionsArray, szKey, sectionTable );
 			g_pScriptVM->ReleaseValue( sectionTable );
 		}
 
@@ -659,7 +667,9 @@ class CASW_Mission_Chooser_VScript
 
 		FOR_EACH_VEC( pMission->Tags, i )
 		{
-			ArrayPush( tagsArray, STRING( pMission->Tags[i] ) );
+			char szKey[ 16 ];
+			V_snprintf( szKey, sizeof( szKey ), "%d", i );
+			g_pScriptVM->SetValue( tagsArray, szKey, STRING( pMission->Tags[ i ] ) );
 		}
 
 		g_pScriptVM->SetValue( table, "tags", tagsArray );
