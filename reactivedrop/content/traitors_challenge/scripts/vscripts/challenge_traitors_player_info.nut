@@ -81,11 +81,6 @@ function PaintMsg(point, role, font, message) {
 	local textHalfWidth = 0.5 * self.GetTextWide(font, message);
 	SetMargin();
 	local alpha = 255;
-	if (xMargin != 0) {
-		self.PaintRectangle(0, 0, xMargin, ScreenHeight() * 0.91, 0, 0, 0, alpha);
-		self.PaintRectangle(ScreenHeight() * 0.315, ScreenHeight() * 0.91, xMargin, ScreenHeight(), 0, 0, 0, alpha);
-		self.PaintRectangle(ScreenWidth() - xMargin, 0, ScreenWidth(), ScreenHeight(), 0, 0, 0, alpha);
-	}
 	local xOffset = point[0] >= textHalfWidth + 20 ? 0 : textHalfWidth + 20 - point[0];
 	point[0] += xOffset;
 	if (role <= ROLE.MAX_IAF_TEAM) {
