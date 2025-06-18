@@ -142,7 +142,7 @@ public:
 };
 
 
-DECLARE_HUDELEMENT( CASWHudMinimap );
+DECLARE_HUDELEMENT_DEPTH( CASWHudMinimap, 40 );
 
 CASWHudMinimapLinePanel::CASWHudMinimapLinePanel( Panel *parent, const char *panelName, CASWHudMinimap *pMap ) :
 	vgui::Panel( parent, panelName ),
