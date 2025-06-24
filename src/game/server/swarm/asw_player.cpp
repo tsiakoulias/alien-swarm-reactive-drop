@@ -77,6 +77,7 @@ extern ConVar asw_default_campaign;
 extern ConVar rd_lock_onslaught;
 extern ConVar rd_lock_hardcoreff;
 extern ConVar rd_lock_challenge;
+extern ConVar rd_add_index_to_name;
 
 ConVar rm_welcome_message("rm_welcome_message", "", FCVAR_NONE, "This message is displayed to a player after they join the game");
 ConVar rm_welcome_message_delay("rm_welcome_message_delay", "10", FCVAR_NONE, "The number of seconds the welcome message is delayed.", true, 0, true, 30);
@@ -2589,6 +2590,61 @@ void CASW_Player::LeaveMarines()
 	m_hInhabiting = NULL;
 }
 
+static inline bool _IsUtf8ContinuationByte(char b)
+{
+	// check if the byte is a valid UTF-8 continuation byte (10xxxxxx)
+	return (b & 0xC0) == 0x80;
+}
+
+static int _Utf8CharLength(char first_byte)
+{
+	if ((first_byte & 0x80) == 0x00) return 1;      // 0xxxxxxx
+	if ((first_byte & 0xE0) == 0xC0) return 2;      // 110xxxxx
+	if ((first_byte & 0xF0) == 0xE0) return 3;      // 1110xxxx
+	if ((first_byte & 0xF8) == 0xF0) return 4;      // 11110xxx
+	return 0; // Invalid UTF-8 start byte, return 0 to indicate an error
+}
+
+static void _SafeUtf8Truncate(char* str, size_t max_size)
+{
+	if (!str || max_size == 0) return;
+
+	const size_t MAX_CONTENT_SIZE = max_size - 1;
+	str[MAX_CONTENT_SIZE] = '\0';
+
+	size_t len = strlen(str);
+	if (len <= MAX_CONTENT_SIZE) return;
+
+	size_t truncate_pos = 0;
+	while (truncate_pos < MAX_CONTENT_SIZE)
+	{
+		char byte = str[truncate_pos];
+		int char_len = _Utf8CharLength(byte);
+
+		if (char_len == 0) {
+			truncate_pos++;
+			continue;
+		}
+
+		size_t next_pos = truncate_pos + char_len;
+		if (next_pos > len) break;
+
+		bool valid = true;
+		for (int i = 1; i < char_len; ++i) {
+			if (!_IsUtf8ContinuationByte(static_cast<uint8_t>(str[truncate_pos + i]))) {
+				valid = false;
+				break;
+			}
+		}
+
+		if (!valid || next_pos > MAX_CONTENT_SIZE)
+			break;
+
+		truncate_pos = next_pos; // 移动到完整字符后
+	}
+	str[truncate_pos] = '\0'; // 安全截断
+}
+
 void CASW_Player::ChangeName( const char *pszNewName )
 {
 	// make sure name is not too long
@@ -2597,18 +2653,33 @@ void CASW_Player::ChangeName( const char *pszNewName )
 
 	const char *pszOldName = GetPlayerName();
 
+	bool bShouldFireEvent = true;
+	if (rd_add_index_to_name.GetBool())
+	{
+		char tempName[MAX_PLAYER_NAME_LENGTH];
+		int n = V_snprintf(tempName, sizeof(tempName) - 1, "%d-%s", ENTINDEX(edict()), pszNewName);
+		_SafeUtf8Truncate(tempName, sizeof(tempName));
+		if (V_strncmp(pszOldName, tempName, sizeof(tempName)) == 0)
+		{
+			bShouldFireEvent = false;
+		}
+	}
+
 	//char text[256];
 	//Q_snprintf( text,sizeof(text), "%s changed name (CASW_Player::ChangeName) to %s\n", pszOldName, trimmedName );
 	//UTIL_ClientPrintAll( HUD_PRINTTALK, text );
 
 	// broadcast event
-	IGameEvent * event = gameeventmanager->CreateEvent( "player_changename" );
-	if ( event )
+	if (bShouldFireEvent)
 	{
-		event->SetInt( "userid", GetUserID() );
-		event->SetString( "oldname", pszOldName );
-		event->SetString( "newname", trimmedName );
-		gameeventmanager->FireEvent( event );
+		IGameEvent* event = gameeventmanager->CreateEvent("player_changename");
+		if (event)
+		{
+			event->SetInt("userid", GetUserID());
+			event->SetString("oldname", pszOldName);
+			event->SetString("newname", trimmedName);
+			gameeventmanager->FireEvent(event);
+		}
 	}
 
 	// change shared player name
