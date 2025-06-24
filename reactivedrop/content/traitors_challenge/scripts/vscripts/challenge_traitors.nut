@@ -408,19 +408,18 @@ function RefreshMenu(hMarine) {
 	foreach(tempMarine in g_marine_Total_Unshuffled) {
 		i++;
 		local strVGuiRefresh = "VGui_Refresh" + i.tostring();
-		local hVGuiRefresh = Entities.FindByName(null, strVGuiRefresh);
-		if (hVGuiRefresh != null) {
-			hVGuiRefresh.Destroy();
+		local hVGuiRefresh = null;
+		if (!(hVGuiRefresh = Entities.FindByName(hVGuiRefresh, strVGuiRefresh))) {
+			hVGuiRefresh = Entities.CreateByClassname("rd_vgui_vscript");
+			hVGuiRefresh.__KeyValueFromString("client_vscript", "challenge_traitors_client_refresh_menu.nut");
+			hVGuiRefresh.ValidateScriptScope();
+			hVGuiRefresh.GetScriptScope().Input <- Input;
+			hVGuiRefresh.Spawn();
+			hVGuiRefresh.SetName(strVGuiRefresh);
+			hVGuiRefresh.Activate();
+			hVGuiRefresh.SetEntity(0, hMarine);
+			hVGuiRefresh.SetInteracter(null);
 		}
-		hVGuiRefresh = Entities.CreateByClassname("rd_vgui_vscript");
-		hVGuiRefresh.__KeyValueFromString("client_vscript", "challenge_traitors_client_refresh_menu.nut");
-		hVGuiRefresh.ValidateScriptScope();
-		hVGuiRefresh.GetScriptScope().Input <- Input;
-		hVGuiRefresh.Spawn();
-		hVGuiRefresh.SetName(strVGuiRefresh);
-		hVGuiRefresh.Activate();
-		hVGuiRefresh.SetEntity(0, hMarine);
-		hVGuiRefresh.SetInteracter(null);
 
 		hVGuiRefresh.SetInt(0, i);
 		hVGuiRefresh.SetInt(1, (g_lst_MenuProps[i].scannerIsRevealed) ? g_lst_MenuProps[i].role : ROLE.NONE);
