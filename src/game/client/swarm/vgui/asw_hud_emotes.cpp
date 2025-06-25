@@ -75,12 +75,12 @@ public:
 	CPanelAnimationVarAliasType( int, m_nReviveMarineTexture, "ReviveMarineTexture", "vgui/swarm/ClassIcons/revivemarine", "textureid" );
 
 	// Traitors emotes
-	CPanelAnimationVarAliasType(int, m_nTraitorEmoteTexture, "TraitorEmoteTexture", "vgui/swarm/Emotes/EmoteExclaim", "textureid");
-	CPanelAnimationVarAliasType(int, m_nTraitorLeaderEmoteTexture, "TraitorLeaderEmoteTexture", "vgui/swarm/Emotes/EmoteExclaim", "textureid");
-	CPanelAnimationVarAliasType(int, m_nInfectorEmoteTexture, "InfectorEmoteTexture", "vgui/swarm/Emotes/EmoteExclaim", "textureid");
-	CPanelAnimationVarAliasType(int, m_nBoomerEmoteTexture, "BoomerEmoteTexture", "vgui/swarm/Emotes/EmoteExclaim", "textureid");
-	CPanelAnimationVarAliasType(int, m_nSilencerEmoteTexture, "SilencerEmoteTexture", "vgui/swarm/Emotes/EmoteExclaim", "textureid");
-	CPanelAnimationVarAliasType(int, m_nMimicEmoteTexture, "MimicEmoteTexture", "vgui/swarm/Emotes/EmoteExclaim", "textureid");
+	CPanelAnimationVarAliasType(int, m_nTraitorEmoteTexture, "TraitorEmoteTexture", "vgui/swarm/Emotes/EmoteTraitor", "textureid");
+	CPanelAnimationVarAliasType(int, m_nTraitorLeaderEmoteTexture, "TraitorLeaderEmoteTexture", "vgui/swarm/Emotes/EmoteTraitorLeader", "textureid");
+	CPanelAnimationVarAliasType(int, m_nInfectorEmoteTexture, "InfectorEmoteTexture", "vgui/swarm/Emotes/EmoteInfector", "textureid");
+	CPanelAnimationVarAliasType(int, m_nBoomerEmoteTexture, "BoomerEmoteTexture", "vgui/swarm/Emotes/EmoteBoomer", "textureid");
+	CPanelAnimationVarAliasType(int, m_nSilencerEmoteTexture, "SilencerEmoteTexture", "vgui/swarm/Emotes/EmoteSilencer", "textureid");
+	CPanelAnimationVarAliasType(int, m_nMimicEmoteTexture, "MimicEmoteTexture", "vgui/swarm/Emotes/EmoteMimic", "textureid");
 };
 
 DECLARE_HUDELEMENT( CASWHudEmotes );
