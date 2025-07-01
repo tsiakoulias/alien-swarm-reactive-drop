@@ -699,7 +699,7 @@ void rd_addbot_svf(const CCommand& args) {
 	CASW_Player* pLeader = ASWGameResource() ? ASWGameResource()->GetLeader() : NULL;
 	if (pLeader && ASWGameResource() && ASWGameRules()) {
 		if (!rd_player_bots_allowed.GetBool()) {
-			ClientPrint(pLeader, HUD_PRINTTALK, "#rd_no_bots_allowed");
+			Msg("Failed to add a bot, rd_no_bots_allowed is set to 0\n");
 			return;
 		}
 
