@@ -81,7 +81,7 @@ ConVar rd_marine_gib_lifetime( "rd_marine_gib_lifetime", "36000.0", FCVAR_NONE, 
 ConVar rd_marine_gib_lifetime_dm( "rd_marine_gib_lifetime_dm", "15.0", FCVAR_NONE, "number of seconds before marine gibs fade in deathmatch mode" );
 ConVar rd_marine_gib_spin( "rd_marine_gib_spin", "500", FCVAR_NONE, "how much do marine gibs spin?" );
 ConVar rd_client_marine_backpacks( "rd_client_marine_backpacks", "0", FCVAR_NONE, "Show marine's un-equipped weapon on their back." );
-ConVar rd_server_marine_backpacks( "rd_server_marine_backpacks", "0", FCVAR_REPLICATED | FCVAR_CHEAT, "Attach unactive weapon model to marine's back" );
+ConVar rd_server_marine_backpacks( "rd_server_marine_backpacks", "0", FCVAR_REPLICATED, "Attach unactive weapon model to marine's back" );
 ConVar rd_projected_texture_min_z( "rd_projected_texture_min_z", "-64", FCVAR_REPLICATED | FCVAR_CHEAT, "Projected textures that do not reach at least as high as this distance from the current marine's feet are considered non-visible." );
 
 extern ConVar asw_DebugAutoAim;
