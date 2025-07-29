@@ -55,7 +55,7 @@ static void On_rd_devastator_bullet_spread_duck_Changed( IConVar* var, const cha
 
 ConVar rd_devastator_dynamic_bullet_spread( "rd_devastator_dynamic_bullet_spread", "1", FCVAR_REPLICATED | FCVAR_CHEAT, "Controls if crouching decreases bullet spread for devastator" );
 ConVar rd_devastator_bullet_spread_duck (   "rd_devastator_bullet_spread_duck",   "14", FCVAR_REPLICATED | FCVAR_CHEAT, "Devastator's bullet spread when ducking (crouching)",  true, 1.0f, true, 60.0f, &On_rd_devastator_bullet_spread_duck_Changed );
-ConVar rd_devastator_lockmode_enabled(		"rd_devastator_lockmode_enabled",	   "0", FCVAR_REPLICATED | FCVAR_CHEAT, "Enables lock-mode secondary attack. Marine is locked in place but weapon fire rate and penetration gets higher" );
+ConVar rd_devastator_lockmode_enabled(		"rd_devastator_lockmode_enabled",	   "1", FCVAR_REPLICATED | FCVAR_CHEAT, "Enables lock-mode secondary attack. Marine is locked in place but weapon fire rate and penetration gets higher" );
 ConVar rd_devastator_lockmode_firerate(     "rd_devastator_lockmode_firerate",   "1.3", FCVAR_REPLICATED | FCVAR_CHEAT, "Scale factor of the fire rate in lock-mode",			true, 0.2f, true, 3.0f );
 
 CASW_Weapon_Devastator::CASW_Weapon_Devastator()
