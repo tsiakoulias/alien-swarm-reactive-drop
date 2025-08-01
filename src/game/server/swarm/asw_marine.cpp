@@ -4358,6 +4358,44 @@ void CASW_Marine::Event_Killed( const CTakeDamageInfo &info )
 	if ( ASWDeathmatchMode() )
 		ASWDeathmatchMode()->OnMarineKilled( info, this );
 
+	m_bSlowHeal = false;	// no healing if we're dead!
+
+	PrintDeathMessage( info );
+}
+
+void CASW_Marine::PrintDeathMessage( const CTakeDamageInfo &info )
+{
+	CASW_Marine_Resource *pMR = GetMarineResource();
+	
+	// print a custom death message if we have one
+	CAlienSwarm *pAlienSwarm = ASWGameRules();
+	if ( pAlienSwarm )
+	{
+		ScriptVariant_t args[7];
+		ScriptVariant_t retvalue;
+
+		args[0] = ToHScript( this );
+		args[1] = ToHScript( info.GetInflictor() );
+		args[2] = ToHScript( info.GetAttacker() );
+		args[3] = ToHScript( info.GetWeapon() );
+		args[4] = info.GetDamage();
+		args[5] = info.GetDamageType();
+		args[6] = info.GetAmmoName();
+
+		pAlienSwarm->RunScriptFunctionInListenerScopes( "AlterDeathMessage", &retvalue, NELEMS( args ), args );
+		
+		if ( retvalue.m_type == FIELD_CSTRING )
+		{
+			char szName[256];
+			pMR->GetDisplayName( szName, sizeof( szName ) );
+			
+			UTIL_ClientPrintAll( ASW_HUD_PRINTTALKANDCONSOLE, retvalue.m_pszString, szName );
+
+			return;
+		}
+	}
+
+	CBaseEntity *pAttacker = info.GetAttacker();
 	// print a message if marine was killed by another marine
 	if ( pAttacker && pAttacker->Classify() == CLASS_ASW_MARINE )
 	{
@@ -4411,8 +4449,6 @@ void CASW_Marine::Event_Killed( const CTakeDamageInfo &info )
 			UTIL_ClientPrintAll( ASW_HUD_PRINTTALKANDCONSOLE, "#asw_chat_died", szName );
 		}
 	}
-
-	m_bSlowHeal = false;	// no healing if we're dead!
 }
 
 void CASW_Marine::AimGun()
