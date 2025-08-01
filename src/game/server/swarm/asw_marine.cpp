@@ -117,7 +117,7 @@ extern ConVar rd_burning_interval;
 extern ConVar rd_burning_marine_damage;
 ConVar rd_marine_ff_fist_scale( "rd_marine_ff_fist_scale", "1", FCVAR_CHEAT, "Scale CLUB type damage done to marines (requires rd_ff_marine_fist)" );
 
-ConVar rd_server_marine_backpacks("rd_server_marine_backpacks", "0", FCVAR_REPLICATED | FCVAR_CHEAT, "Attach unactive weapon model to marine's back");
+ConVar rd_server_marine_backpacks("rd_server_marine_backpacks", "0", FCVAR_REPLICATED, "Attach unactive weapon model to marine's back");
 
 ConVar rda_marine_strafe_allow_air("rda_marine_strafe_allow_air", "0", FCVAR_CHEAT, "If set to 1 marine able to strafe jump once in the air");
 ConVar rda_marine_strafe_push_hor_velocity("rda_marine_strafe_push_hor_velocity", "520", FCVAR_CHEAT, "Horizontal velocity for strafe push");
