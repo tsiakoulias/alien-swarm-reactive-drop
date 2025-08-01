@@ -227,7 +227,7 @@ IMPLEMENT_SERVERCLASS_ST(CASW_Marine, DT_ASW_Marine)
 	SendPropBool	(SENDINFO(m_bOnFire)),
 
 	// emotes
-	SendPropInt		( SENDINFO( m_iEmote ), 8, SPROP_UNSIGNED ),
+	SendPropInt		( SENDINFO( m_iEmote ), 16, SPROP_UNSIGNED ),
 	SendPropFloat	( SENDINFO( m_flLastMedicCall ) ),
 	SendPropFloat	( SENDINFO( m_flLastAmmoCall ) ),
 
