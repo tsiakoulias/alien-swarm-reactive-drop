@@ -47,6 +47,8 @@ public:
 	virtual Class_T		Classify(void) { return (Class_T)CLASS_ASW_DEVASTATOR; }
 protected:
 	CNetworkVar( bool, m_bLockedFire );
+
+	void DisableLockFire();
 };
 
 #endif // asw_weapon_devastator_shared_h__
