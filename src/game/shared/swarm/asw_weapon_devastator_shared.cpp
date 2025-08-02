@@ -270,3 +270,24 @@ void CASW_Weapon_Devastator::DisableLockFire()
 		WeaponSound( BURST );
 	}
 }
+
+#ifdef CLIENT_DLL
+void CASW_Weapon_Devastator::ClientThink()
+{
+	BaseClass::ClientThink();
+
+	if ( m_bLockedFire != m_hLockedFireParticle.IsValid() )
+	{
+		if ( m_bLockedFire )
+		{
+			m_hLockedFireParticle.Set( ParticleProp()->Create( "buffgrenade_attach_arc", PATTACH_POINT_FOLLOW, "eject1" ) );
+			ParticleProp()->AddControlPoint( m_hLockedFireParticle, 1, this, PATTACH_POINT_FOLLOW, "muzzle" );
+		}
+		else
+		{
+			ParticleProp()->StopEmissionAndDestroyImmediately( m_hLockedFireParticle.GetObject() );
+			m_hLockedFireParticle.Set( NULL );
+		}
+	}
+}
+#endif
