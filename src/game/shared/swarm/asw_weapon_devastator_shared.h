@@ -51,7 +51,7 @@ protected:
 	CNetworkVar( bool, m_bLockedFire );
 
 #ifdef CLIENT_DLL
-	HPARTICLEFFECT m_hFastFireParticle;
+	HPARTICLEFFECT m_hLockedFireParticle;
 #endif
 
 	void DisableLockFire();
