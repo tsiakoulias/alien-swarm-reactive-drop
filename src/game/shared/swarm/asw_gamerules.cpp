@@ -9934,8 +9934,10 @@ void CAlienSwarm::EnableChallenge( const char *szChallengeName )
 	KeyValues::AutoDelete pKV( "CHALLENGE" );
 	bool bEnabled = ReactiveDropChallenges::ReadData( pKV, szChallengeName );
 
-	rd_challenge_changing.SetValue(true);
+	rd_challenge_changing.SetValue(1);
 	ResetChallengeConVars();
+	rd_challenge_changing.SetValue(2);
+
 	if ( ASWDeathmatchMode() )
 	{
 		ASWDeathmatchMode()->ApplyDeathmatchConVars();
@@ -9958,6 +9960,8 @@ void CAlienSwarm::EnableChallenge( const char *szChallengeName )
 		ApplyChallengeConVars( pKV );
 		EnforceWeaponSelectionRules();
 	}
+
+	rd_challenge_changing.SetValue(3);
 
 	if ( !bEnabled )
 	{
@@ -9990,7 +9994,7 @@ void CAlienSwarm::EnableChallenge( const char *szChallengeName )
 		V_strncpy( m_szGameDescription, "Alien Swarm: Reactive Drop", sizeof( m_szGameDescription ) );
 	}
 
-	rd_challenge_changing.SetValue(false);
+	rd_challenge_changing.SetValue(0);
 }
 
 void CAlienSwarm::CheckChallengeConVars()
