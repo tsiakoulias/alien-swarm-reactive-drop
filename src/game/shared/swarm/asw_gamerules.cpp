@@ -9932,11 +9932,9 @@ void CAlienSwarm::EnableChallenge( const char *szChallengeName )
 	KeyValues::AutoDelete pKV( "CHALLENGE" );
 	bool bEnabled = ReactiveDropChallenges::ReadData( pKV, szChallengeName );
 
-	if ( bChanged ) {
-		rd_challenge.SetValue("0");
-		ResetChallengeConVars();
-		rd_challenge.SetValue(szChallengeName);
-	}
+	rd_challenge.SetValue("");
+	ResetChallengeConVars();
+	rd_challenge.SetValue(szChallengeName);
 
 	if ( ASWDeathmatchMode() )
 	{
@@ -9958,6 +9956,7 @@ void CAlienSwarm::EnableChallenge( const char *szChallengeName )
 	if ( bEnabled )
 	{
 		ApplyChallengeConVars( pKV );
+		EnforceWeaponSelectionRules();
 	}
 
 	if ( !bEnabled )
@@ -9976,7 +9975,6 @@ void CAlienSwarm::EnableChallenge( const char *szChallengeName )
 	// if rd_max_marines changed we need to update marines limits using SetMaxMarines
 	SetMaxMarines();
 	EnforceMaxMarines();
-	EnforceWeaponSelectionRules();
 	OnSkillLevelChanged( m_iSkillLevel );
 
 	if ( V_strcmp( rd_challenge.GetString(), "0" ) )
