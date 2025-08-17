@@ -837,6 +837,11 @@ int CASW_Buzzer::TranslateSchedule( int scheduleType )
 			return TranslateSchedule( SCHED_CHASE_ENEMY );
 			break;
 		}
+	case SCHED_ASW_BUZZER_SWARM_FAILURE:
+		{
+		ClearAlienOrders();	// without clearing orders buzzer will never enter Sleep state
+		break;
+		}
 
 	}
 	return BaseClass::TranslateSchedule(scheduleType);
@@ -2352,7 +2357,8 @@ void CASW_Buzzer::StartTask( const Task_t *pTask )
 					// HACKHACK: Call through TranslateNavGoal to fixup this goal position
 					// UNDONE: Remove this and have NPCs that need this functionality fix up paths in the 
 					// movement system instead of when they are specified.
-					AI_NavGoal_t goal(pGoalEnt->GetAbsOrigin(), bIsFlying ? ACT_FLY : ACT_WALK, AIN_DEF_TOLERANCE, AIN_YAW_TO_DEST);
+					AI_NavGoal_t goal( pGoalEnt->GetAbsOrigin() );	// using default parameters here seem to be more resilient
+																	// for situations when there is no air node graph, but only ground nodes
 					TranslateNavGoal( pGoalEnt, goal.dest );
 					
 					if (!GetNavigator()->SetGoal( goal ))
@@ -2383,7 +2389,8 @@ void CASW_Buzzer::StartTask( const Task_t *pTask )
 						{
 							TaskComplete();
 						}
-						TaskFail(FAIL_NO_ROUTE);
+						else
+							TaskFail(FAIL_NO_ROUTE);
 					}
 				}
 				else
@@ -3405,7 +3412,8 @@ DEFINE_SCHEDULE
 	SCHED_ASW_BUZZER_ORDER_MOVE,
 
 	"	Tasks"
-	"		TASK_ASW_BUZZER_BUILD_PATH_TO_ORDER	0"
+	"		TASK_SET_FAIL_SCHEDULE						SCHEDULE:SCHED_ASW_BUZZER_SWARM_FAILURE"		// this allows to clear orders and go to Sleep() if we cannot find route
+	"		TASK_ASW_BUZZER_BUILD_PATH_TO_ORDER	1" 	// setting 1 here sets flTaskData and prevents buzzer from wandering under the map from one skybox wall to another
 	"		TASK_WALK_PATH			9999"
 	"		TASK_WAIT_FOR_MOVEMENT	0"		// 0 is spread if fail to build path
 	"		TASK_WAIT_PVS			0"
