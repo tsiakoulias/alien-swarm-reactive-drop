@@ -795,11 +795,10 @@ static CASW_EquipItem s_ExtraEquips[ASW_NUM_EQUIP_EXTRA] =
 		0, 0,
 	},
 
-#ifdef RD_7A_WEAPONS
 	// item-unlockable equipment
 	{
 		ASW_EQUIP_STUN_GRENADES, WEAPON_NAME( stun_grenades ),
-		false, true, true, "", "",
+		true, false, true, "", "",
 		"swarm/EquipIcons/EquipStunGrenade",
 		&asw_ammo_count_stun_grenades, &asw_ammo_count_stun_grenades,
 		NULL, NULL,
@@ -807,6 +806,7 @@ static CASW_EquipItem s_ExtraEquips[ASW_NUM_EQUIP_EXTRA] =
 		false, true, false, ASW_OFFHAND_THROW,
 		0, 0,
 	},
+#ifdef RD_7A_WEAPONS
 	{
 		ASW_EQUIP_INCENDIARY_GRENADES, WEAPON_NAME( incendiary_grenades ),
 		false, true, true, "", "",
