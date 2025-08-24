@@ -37,6 +37,10 @@ function SpawnRandomLoot()
 	local hLoot = Entities.CreateByClassname( strLoot );
 	hLoot.SetOrigin( self.GetOrigin() + Vector( 0.0, 0.0, 18.0 ) );
 	hLoot.SetAngles( 0.0, RandomFloat( -180.0, 180.0 ), 0.0 );
+	if ( strLoot == "asw_pickup_flares" )
+	{
+		NetProps.SetPropInt( hLoot, "m_iBulletsInGun", 8 );
+	}
 	hLoot.Spawn();
 	hLoot.Activate();
 	
