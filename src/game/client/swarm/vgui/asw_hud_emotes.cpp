@@ -154,6 +154,8 @@ void CASWHudEmotes::PaintEmotesFor( C_ASW_Marine *pMarine )
 		PaintEmote( pMarine, pMarine->m_fEmoteQuestionTime, m_nQuestionTexture );
 	if ( pMarine->m_iClientEmote & ( 1 << 14 ) )
 		PaintEmote( pMarine, pMarine->m_fEmoteThanksTime, m_nThanksTexture );
+	if (pMarine->m_iClientEmote & (1 << 15) )			
+		PaintEmote(pMarine, pMarine->m_fEmoteWeldTime, m_nWeldTexture, 1.5f);
 
 	if (_rd_traitors_challenge_enabled.GetBool())
 	{

@@ -25,7 +25,7 @@
 		}	
 		"SouthEast"
 		{
-			"command"	"cl_chatter 39"
+			"command"	"cl_emote 15"
 			"text"		"#asw_speech_rseal"
 		}	
 		"South"
