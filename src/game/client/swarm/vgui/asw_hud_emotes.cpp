@@ -68,11 +68,12 @@ public:
 	CPanelAnimationVarAliasType( int, m_nAnimeTexture, "AnimeEmoteTexture", "vgui/swarm/Emotes/EmoteAnime", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nQuestionTexture, "QuestionTexture", "vgui/swarm/Emotes/EmoteQuestion", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nThanksTexture, "ThanksTexture", "vgui/swarm/Emotes/EmoteThanks", "textureid" );
+	CPanelAnimationVarAliasType( int, m_nWeldEmoteTexture, "WeldEmoteTexture", "vgui/swarm/Emotes/EmoteWelder", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nWrenchTexture, "WrenchTexture", "vgui/swarm/ClassIcons/EngineerIcon", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nSentryUpTexture, "SentryUpTexture", "vgui/swarm/ClassIcons/SentryBuild", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nSentryDnTexture, "SentryDnTexture", "vgui/swarm/ClassIcons/SentryDismantle", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nHackTexture, "HackTexture", "vgui/swarm/ClassIcons/HackIcon", "textureid" );
-	CPanelAnimationVarAliasType(int, m_nWeldTexture, "WeldTexture", "vgui/swarm/Emotes/EmoteWelder", "textureid");
+	CPanelAnimationVarAliasType( int, m_nWeldTexture, "WeldTexture", "vgui/swarm/ClassIcons/WeldIcon", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nReviveMarineTexture, "ReviveMarineTexture", "vgui/swarm/ClassIcons/revivemarine", "textureid" );
 
 	// Traitors emotes
@@ -155,7 +156,7 @@ void CASWHudEmotes::PaintEmotesFor( C_ASW_Marine *pMarine )
 	if ( pMarine->m_iClientEmote & ( 1 << 14 ) )
 		PaintEmote( pMarine, pMarine->m_fEmoteThanksTime, m_nThanksTexture );
 	if (pMarine->m_iClientEmote & (1 << 15) )			
-		PaintEmote(pMarine, pMarine->m_fEmoteWeldTime, m_nWeldTexture);
+		PaintEmote(pMarine, pMarine->m_fEmoteWeldTime, m_nWeldEmoteTexture);
 
 	if (_rd_traitors_challenge_enabled.GetBool())
 	{
