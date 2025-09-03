@@ -38,7 +38,8 @@
 using namespace vgui;
 
 extern ConVar asw_draw_hud;
-ConVar _rd_traitors_challenge_enabled("_rd_traitors_challenge_enabled", "0", FCVAR_REPLICATED | FCVAR_HIDDEN, "An internal convar to indicate whether the traitors challenge is enabled or not. This is used to determine whether the traitor emotes should be shown or not.");
+extern ConVar _rd_traitors_challenge_enabled;
+
 
 //-----------------------------------------------------------------------------
 // Purpose: Shows the marines emote graphics
@@ -68,20 +69,22 @@ public:
 	CPanelAnimationVarAliasType( int, m_nAnimeTexture, "AnimeEmoteTexture", "vgui/swarm/Emotes/EmoteAnime", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nQuestionTexture, "QuestionTexture", "vgui/swarm/Emotes/EmoteQuestion", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nThanksTexture, "ThanksTexture", "vgui/swarm/Emotes/EmoteThanks", "textureid" );
+
 	CPanelAnimationVarAliasType( int, m_nWrenchTexture, "WrenchTexture", "vgui/swarm/ClassIcons/EngineerIcon", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nSentryUpTexture, "SentryUpTexture", "vgui/swarm/ClassIcons/SentryBuild", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nSentryDnTexture, "SentryDnTexture", "vgui/swarm/ClassIcons/SentryDismantle", "textureid" );
+
 	CPanelAnimationVarAliasType( int, m_nHackTexture, "HackTexture", "vgui/swarm/ClassIcons/HackIcon", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nWeldTexture, "WeldTexture", "vgui/swarm/ClassIcons/WeldIcon", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nReviveMarineTexture, "ReviveMarineTexture", "vgui/swarm/ClassIcons/revivemarine", "textureid" );
 
 	// Traitors emotes
-	CPanelAnimationVarAliasType(int, m_nTraitorEmoteTexture, "TraitorEmoteTexture", "vgui/swarm/Emotes/EmoteTraitor", "textureid");
-	CPanelAnimationVarAliasType(int, m_nTraitorLeaderEmoteTexture, "TraitorLeaderEmoteTexture", "vgui/swarm/Emotes/EmoteTraitorLeader", "textureid");
-	CPanelAnimationVarAliasType(int, m_nInfectorEmoteTexture, "InfectorEmoteTexture", "vgui/swarm/Emotes/EmoteInfector", "textureid");
-	CPanelAnimationVarAliasType(int, m_nBoomerEmoteTexture, "BoomerEmoteTexture", "vgui/swarm/Emotes/EmoteBoomer", "textureid");
-	CPanelAnimationVarAliasType(int, m_nSilencerEmoteTexture, "SilencerEmoteTexture", "vgui/swarm/Emotes/EmoteSilencer", "textureid");
-	CPanelAnimationVarAliasType(int, m_nMimicEmoteTexture, "MimicEmoteTexture", "vgui/swarm/Emotes/EmoteMimic", "textureid");
+	CPanelAnimationVarAliasType( int, m_nTraitorEmoteTexture, "TraitorEmoteTexture", "vgui/swarm/Emotes/EmoteTraitor", "textureid" );
+	CPanelAnimationVarAliasType( int, m_nTraitorLeaderEmoteTexture, "TraitorLeaderEmoteTexture", "vgui/swarm/Emotes/EmoteTraitorLeader", "textureid" );
+	CPanelAnimationVarAliasType( int, m_nInfectorEmoteTexture, "InfectorEmoteTexture", "vgui/swarm/Emotes/EmoteInfector", "textureid" );
+	CPanelAnimationVarAliasType( int, m_nBoomerEmoteTexture, "BoomerEmoteTexture", "vgui/swarm/Emotes/EmoteBoomer", "textureid" );
+	CPanelAnimationVarAliasType( int, m_nSilencerEmoteTexture, "SilencerEmoteTexture", "vgui/swarm/Emotes/EmoteSilencer", "textureid" );
+	CPanelAnimationVarAliasType( int, m_nMimicEmoteTexture, "MimicEmoteTexture", "vgui/swarm/Emotes/EmoteMimic", "textureid" );
 };
 
 DECLARE_HUDELEMENT( CASWHudEmotes );
@@ -155,23 +158,23 @@ void CASWHudEmotes::PaintEmotesFor( C_ASW_Marine *pMarine )
 	if ( pMarine->m_iClientEmote & ( 1 << 14 ) )
 		PaintEmote( pMarine, pMarine->m_fEmoteThanksTime, m_nThanksTexture );
 
-	if (_rd_traitors_challenge_enabled.GetBool())
+	if ( _rd_traitors_challenge_enabled.GetBool() )
 	{
-		C_ASW_Player* pPlayer = C_ASW_Player::GetLocalASWPlayer();
-		if (pPlayer && g_PR && g_PR->GetPlayerScore(pPlayer->entindex()) == 99)
+		CASW_Marine *pViewMarine = C_ASW_Marine::GetViewMarine();
+		if ( pViewMarine && pViewMarine->GetMarineResource() && ( pViewMarine->GetMarineResource()->m_iChallengeScratch & 1 ) )
 		{
-			if (pMarine->m_iEmote & (1 << 8))
-				PaintTraitorEmote(pMarine, m_nTraitorEmoteTexture, 0.35f);
-			if (pMarine->m_iEmote & (1 << 9))
-				PaintTraitorEmote(pMarine, m_nTraitorLeaderEmoteTexture, 0.35f);
-			if (pMarine->m_iEmote & (1 << 10))
-				PaintTraitorEmote(pMarine, m_nInfectorEmoteTexture, 0.35f);
-			if (pMarine->m_iEmote & (1 << 11))
-				PaintTraitorEmote(pMarine, m_nBoomerEmoteTexture, 0.35f);
-			if (pMarine->m_iEmote & (1 << 12))
-				PaintTraitorEmote(pMarine, m_nSilencerEmoteTexture, 0.35f);
-			if (pMarine->m_iEmote & (1 << 13))
-				PaintTraitorEmote(pMarine, m_nMimicEmoteTexture, 0.35f);
+			if ( pMarine->m_iEmote & ( 1 << 8 ) )
+				PaintTraitorEmote( pMarine, m_nTraitorEmoteTexture, 0.35f );
+			if ( pMarine->m_iEmote & ( 1 << 9 ) )
+				PaintTraitorEmote( pMarine, m_nTraitorLeaderEmoteTexture, 0.35f );
+			if ( pMarine->m_iEmote & ( 1 << 10 ) )
+				PaintTraitorEmote( pMarine, m_nInfectorEmoteTexture, 0.35f );
+			if ( pMarine->m_iEmote & ( 1 << 11 ) )
+				PaintTraitorEmote( pMarine, m_nBoomerEmoteTexture, 0.35f );
+			if ( pMarine->m_iEmote & ( 1 << 12 ) )
+				PaintTraitorEmote( pMarine, m_nSilencerEmoteTexture, 0.35f );
+			if ( pMarine->m_iEmote & ( 1 << 13 ) )
+				PaintTraitorEmote( pMarine, m_nMimicEmoteTexture, 0.35f );
 		}
 	}
 

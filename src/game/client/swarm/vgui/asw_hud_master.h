@@ -296,6 +296,10 @@ protected:
 	HotbarOrderEffectsList_t m_hHotbarOrderEffects;
 
 	vgui::Label *m_pLblTimer;
+
+public:
+	int m_nMouseMinX;
+	int m_nMouseMaxX;
 };
 
 

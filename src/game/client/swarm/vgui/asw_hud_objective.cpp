@@ -28,9 +28,6 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-// restricted area variables
-extern int g_nRestrictedAreaLeft;
-
 extern ConVar asw_draw_hud;
 extern ConVar asw_hud_alpha;
 extern ConVar rd_points_delay;
@@ -188,7 +185,7 @@ void CASWHudObjective::Paint( void )
 		m_pHeaderLabel->GetPos(tx, ty);
 		float fScale = ScreenWidth() / 1024.0f;
 		int width = 213 * fScale;
-		int left_side = tx - 4.0f * fScale + g_nRestrictedAreaLeft;
+		int left_side = tx - 4.0f * fScale;
 		int top = ty - 4.0f * fScale;
 		int height = th + 8.0f * fScale;
 		vgui::Vertex_t points[4] = 
@@ -197,7 +194,7 @@ void CASWHudObjective::Paint( void )
 		vgui::Vertex_t( Vector2D(left_side + width, top),		Vector2D(1,0) ), 
 		vgui::Vertex_t( Vector2D(left_side + width - height, top + height),		Vector2D(1,1) ), 
 		vgui::Vertex_t( Vector2D(left_side, top + height),	Vector2D(0,1) )
-		}; 
+		};
 		vgui::surface()->DrawTexturedPolygon( 4, points );
 	}
 
@@ -248,19 +245,6 @@ void CASWHudObjective::Paint( void )
 	}
 
 	BaseClass::Paint();
-
-	// allow custom painting
-	int ob_x = g_nRestrictedAreaLeft;
-	int ob_y = 0;
-	for (int i=0;i<ASW_MAX_OBJECTIVES;i++)
-	{
-		if (m_hObjectives[i].Get() != NULL && m_pObjectiveLabel[i])
-		{
-			m_pObjectiveLabel[i]->GetPos(ob_x, ob_y);
-			float f = ob_y;
-			m_hObjectives[i]->PaintObjective(f);
-		}
-	}
 }
 
 void CASWHudObjective::UpdateObjectiveList()
@@ -455,7 +439,7 @@ void CASWHudObjective::LayoutObjectives()
 	float fScale = (ScreenHeight() / 768.0f) * asw_hud_scale.GetFloat();
 	int icon_size = 16.0f * fScale;
 	int tick_size = 16.0f * fScale;
-	int border = 14.0f * fScale + g_nRestrictedAreaLeft;
+	int border = 14.0f * fScale;
 	int label_x = border + tick_size + icon_size;
 	int font_tall = vgui::surface()->GetFontTall(m_font);
 	int header_y = 14.0f * fScale;

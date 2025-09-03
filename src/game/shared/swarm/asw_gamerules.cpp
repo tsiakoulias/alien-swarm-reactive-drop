@@ -573,6 +573,10 @@ ConVar asw_vote_limit("asw_vote_limit", "2", FCVAR_NONE, "How many recent map vo
 ConVar asw_vote_spam_time("asw_vote_spam_time", "30", FCVAR_NONE, "How much time has to pass from previous map vote from the same user so that the next map vote does not count as recent (spam).", true, 1.0f, false, 1000.0f);
 #endif
 
+ConVar rd_restrict_aspect_width( "rd_restrict_aspect_width", "-1", FCVAR_REPLICATED, "Limit aspect ratio width-to-height ratio by clamping the mouse position and optionally blocking vision of the sides of the screen. Zero or negative means no restriction. 1.7777777 is 16:9." );
+ConVar rd_draw_restricted_rectangles_coop( "rd_draw_restricted_rectangles_coop", "0", FCVAR_REPLICATED, "Fill extra side FOVs with black on ultra-wide resolution in coop mode." );
+ConVar rd_draw_restricted_rectangles_dm( "rd_draw_restricted_rectangles_dm", "0", FCVAR_REPLICATED, "Fill extra side FOVs with black on ultra-wide resolution in deathmatch mode." );
+
 #ifdef CLIENT_DLL
 ConVar asw_marine_death_cam("asw_marine_death_cam", "1", FCVAR_ARCHIVE | FCVAR_DEMO, "Use death cam");
 #else
@@ -679,6 +683,8 @@ ConVar asw_marines_max_by_class[NUM_MARINE_CLASSES]
 	{ "asw_marines_max_medic", "2", FCVAR_REPLICATED | FCVAR_CHEAT, "Maximum number of Medic-class marines in a co-op mission" },
 	{ "asw_marines_max_tech", "2", FCVAR_REPLICATED | FCVAR_CHEAT, "Maximum number of Tech-class marines in a co-op mission" },
 };
+
+ConVar _rd_traitors_challenge_enabled( "_rd_traitors_challenge_enabled", "0", FCVAR_REPLICATED | FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "An internal convar to indicate whether the traitors challenge is enabled or not. This is used to determine whether the traitor emotes should be shown or not." );
 
 #ifdef CLIENT_DLL
 ConVar rd_skip_all_dialogue( "rd_skip_all_dialogue", "0", FCVAR_ARCHIVE | FCVAR_USERINFO, "Tell the server not to send audio from asw_voiceover_dialogue." );

@@ -18,9 +18,6 @@ public:
 	const char *GetInfoIcon( int i );
 	const char *GetObjectiveIconName( void );
 
-	// allows this objective to paint its status on the HUD
-	virtual void PaintObjective( float &current_y );
-
 	virtual bool IsObjectiveComplete() { return m_bComplete; }
 	virtual bool IsObjectiveFailed() { return m_bFailed; }
 	virtual bool IsObjectiveOptional() { return m_bOptional; }
