@@ -228,7 +228,7 @@ function SetTraitorIcon(interval = 10) {
 		if (hPlayer == null || !hPlayer.IsValid()) {
 			continue;
 		}
-		NetProps.SetPropInt(hPlayer, "m_iFrags", 99);
+		NetProps.SetPropInt(hPlayer, "m_iChallengeScratch", 1);
 	}
 }
 

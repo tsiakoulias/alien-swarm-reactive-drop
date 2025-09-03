@@ -359,6 +359,8 @@ public:
 	STEAM_CALLBACK( C_ASW_Player, Steam_OnUserStatsStored, UserStatsStored_t );
 #endif
 
+	int m_iChallengeScratch;
+
 private:
 	C_ASW_Player( const C_ASW_Player & );
 };

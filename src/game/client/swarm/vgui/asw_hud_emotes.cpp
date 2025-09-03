@@ -160,8 +160,8 @@ void CASWHudEmotes::PaintEmotesFor( C_ASW_Marine *pMarine )
 
 	if ( _rd_traitors_challenge_enabled.GetBool() )
 	{
-		CASW_Marine *pViewMarine = C_ASW_Marine::GetViewMarine();
-		if ( pViewMarine && pViewMarine->GetMarineResource() && ( pViewMarine->GetMarineResource()->m_iChallengeScratch & 1 ) )
+		C_ASW_Player *pLocalPlayer = C_ASW_Player::GetLocalASWPlayer();
+		if ( pLocalPlayer && ( pLocalPlayer->m_iChallengeScratch & 1 ) )
 		{
 			if ( pMarine->m_iEmote & ( 1 << 8 ) )
 				PaintTraitorEmote( pMarine, m_nTraitorEmoteTexture, 0.35f );

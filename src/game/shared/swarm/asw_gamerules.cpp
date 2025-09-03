@@ -9981,6 +9981,15 @@ void CAlienSwarm::EnableChallenge( const char *szChallengeName )
 	else if ( bChanged )
 	{
 		UTIL_ClientPrintAll( ASW_HUD_PRINTTALKANDCONSOLE, "#rd_challenge_enabled", pKV->GetString( "name", szChallengeName ) );
+		for ( int i = 1; i <= MAX_PLAYERS; i++ )
+		{
+			CASW_Player *pPlayer = ToASW_Player( UTIL_PlayerByIndex( i ) );
+			if ( pPlayer )
+			{
+				// Reset to 0 before the challenge activates.
+				pPlayer->m_iChallengeScratch = 0;
+			}
+		}
 	}
 	// if rd_max_marines changed we need to update marines limits using SetMaxMarines
 	SetMaxMarines();
