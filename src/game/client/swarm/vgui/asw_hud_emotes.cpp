@@ -38,7 +38,8 @@
 using namespace vgui;
 
 extern ConVar asw_draw_hud;
-ConVar _rd_traitors_challenge_enabled("_rd_traitors_challenge_enabled", "0", FCVAR_REPLICATED | FCVAR_HIDDEN, "An internal convar to indicate whether the traitors challenge is enabled or not. This is used to determine whether the traitor emotes should be shown or not.");
+extern ConVar _rd_traitors_challenge_enabled;
+
 
 //-----------------------------------------------------------------------------
 // Purpose: Shows the marines emote graphics
@@ -67,9 +68,11 @@ public:
 	CPanelAnimationVarAliasType( int, m_nAnimeTexture, "AnimeEmoteTexture", "vgui/swarm/Emotes/EmoteAnime", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nQuestionTexture, "QuestionTexture", "vgui/swarm/Emotes/EmoteQuestion", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nThanksTexture, "ThanksTexture", "vgui/swarm/Emotes/EmoteThanks", "textureid" );
+
 	CPanelAnimationVarAliasType( int, m_nWrenchTexture, "WrenchTexture", "vgui/swarm/ClassIcons/EngineerIcon", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nSentryUpTexture, "SentryUpTexture", "vgui/swarm/ClassIcons/SentryBuild", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nSentryDnTexture, "SentryDnTexture", "vgui/swarm/ClassIcons/SentryDismantle", "textureid" );
+
 	CPanelAnimationVarAliasType( int, m_nHackTexture, "HackTexture", "vgui/swarm/ClassIcons/HackIcon", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nWeldTexture, "WeldTexture", "vgui/swarm/ClassIcons/WeldIcon", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nReviveMarineTexture, "ReviveMarineTexture", "vgui/swarm/ClassIcons/revivemarine", "textureid" );

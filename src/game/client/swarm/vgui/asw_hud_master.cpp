@@ -45,17 +45,12 @@ ConVar rd_draw_timer( "rd_draw_timer", "0", FCVAR_ARCHIVE, "Display the current 
 ConVar rd_draw_timer_color( "rd_draw_timer_color", "255 255 255 255", FCVAR_ARCHIVE, "The color of the current mission time" );
 ConVar rd_draw_marine_health_counter( "rd_draw_marine_health_counter", "0", FCVAR_ARCHIVE, "Display a numeric counter for marine health on the HUD" );
 
-// restricted area variables
-int g_nRestrictedAreaLeft;
-int g_nRestrictedAreaRight;
-int g_nScreenAreaWidth;
-int g_nScreenAreaHeight;
-bool g_bUltraWideScreen;
 // restricted area cvars
 ConVar rd_draw_restricted_borders( "rd_draw_restricted_borders", "1", FCVAR_ARCHIVE, "Display the restricted cursor area when using ultra-wide resolution" );
 ConVar rd_draw_restricted_borders_color("rd_draw_restricted_borders_color", "128 128 128 128", 0, "Color of the restricted cursor area borders");
-ConVar rd_draw_restricted_rectangles_coop("rd_draw_restricted_rectangles_coop", "1", FCVAR_REPLICATED, "Fill extra side FOVs with black on ultra-wide resolution in coop mode.");
-ConVar rd_draw_restricted_rectangles_dm("rd_draw_restricted_rectangles_dm", "1", FCVAR_REPLICATED | FCVAR_CHEAT, "Fill extra side FOVs with black on ultra-wide resolution in deathmatch mode.");
+extern ConVar rd_restrict_aspect_width;
+extern ConVar rd_draw_restricted_rectangles_coop;
+extern ConVar rd_draw_restricted_rectangles_dm;
 
 using namespace vgui;
 
@@ -445,24 +440,20 @@ void CASW_Hud_Master::OnThink()
 		}
 	}
 
-	g_nScreenAreaWidth = ScreenWidth();
-	g_nScreenAreaHeight = ScreenHeight();
-	int nStandardWidth = (int)(g_nScreenAreaHeight * 16.0f / 9.0f ) + 1;
-	if (g_nScreenAreaWidth > nStandardWidth)
+	int w, h;
+	GetHudSize( w, h );
+
+	int nMaxWidth = rd_restrict_aspect_width.GetFloat() <= 0 ? INT32_MAX : (int)( h * rd_restrict_aspect_width.GetFloat() + 1 );
+	if ( w > nMaxWidth )
 	{
-		g_nRestrictedAreaLeft = (g_nScreenAreaWidth - nStandardWidth) >> 1;
-		g_nRestrictedAreaRight = g_nScreenAreaWidth - g_nRestrictedAreaLeft;
-		g_bUltraWideScreen = true;
-		m_nMarinePortrait_x = g_nRestrictedAreaLeft;
+		m_nMouseMinX = ( w - nMaxWidth ) / 2;
+		m_nMouseMaxX = w - m_nMouseMinX;
 	}
 	else
 	{
-		g_nRestrictedAreaLeft = 0;
-		g_nRestrictedAreaRight = g_nScreenAreaWidth;
-		g_bUltraWideScreen = false;
-		m_nMarinePortrait_x = 0;
+		m_nMouseMinX = 0;
+		m_nMouseMaxX = w;
 	}
-
 }
 
 void CASW_Hud_Master::Paint( void )
@@ -516,26 +507,19 @@ void CASW_Hud_Master::Paint( void )
 	if ( m_pLocalMarineResource )
 	{
 		// Block extra side FOVs
-		if (g_bUltraWideScreen && ((rd_draw_restricted_rectangles_coop.GetBool() && !ASWDeathmatchMode()) || (rd_draw_restricted_rectangles_dm.GetBool() && ASWDeathmatchMode())) && !pPlayer->GetSpectatingNPC()) {
-			//	(0,0)-----(L,0)       (R,0)-----(W,0)
-			//	  |//////////|            |/////////|
-			//	  |//////////|            |/////////|
-			//	(0,H)-----(L,H)       (R,H)-----(W,H)
-			surface()->DrawSetColor(Color(0, 0, 0, 255));
-			surface()->DrawFilledRect(0, 0, g_nRestrictedAreaLeft, g_nScreenAreaHeight);
-			surface()->DrawFilledRect(g_nRestrictedAreaRight, 0, g_nScreenAreaWidth, g_nScreenAreaHeight);
-			//Msg("%d\t%d\n", x1, x2);
+		if ( ( ASWDeathmatchMode() ? rd_draw_restricted_rectangles_dm.GetBool() : rd_draw_restricted_rectangles_dm.GetBool() ) && !pPlayer->GetSpectatingNPC() )
+		{
+			surface()->DrawSetColor( Color( 0, 0, 0, 255 ) );
+			surface()->DrawFilledRect( 0, 0, m_nMouseMinX, ScreenHeight() );
+			surface()->DrawFilledRect( m_nMouseMaxX, 0, ScreenWidth(), ScreenHeight() );
 		}
 
 		// draw restricted borders for ultra-wide screen
-		if (g_bUltraWideScreen && rd_draw_restricted_borders.GetBool() && !pPlayer->GetSpectatingNPC()) {
-			//	(L,0)-----------(R,0)
-			//	  |               |
-			//	  |               |
-			//	(L,H)-----------(R,H)
-			surface()->DrawSetColor(rd_draw_restricted_borders_color.GetColor());
-			surface()->DrawLine(g_nRestrictedAreaLeft, 0, g_nRestrictedAreaLeft, g_nScreenAreaHeight);
-			surface()->DrawLine(g_nRestrictedAreaRight, 0, g_nRestrictedAreaRight, g_nScreenAreaHeight);
+		if ( m_nMouseMinX != 0 && rd_draw_restricted_borders.GetBool() && !pPlayer->GetSpectatingNPC() )
+		{
+			surface()->DrawSetColor( rd_draw_restricted_borders_color.GetColor() );
+			surface()->DrawLine( m_nMouseMinX, 0, m_nMouseMinX, ScreenHeight() );
+			surface()->DrawLine( m_nMouseMaxX, 0, m_nMouseMaxX, ScreenHeight() );
 		}
 
 		C_ASW_Marine_Resource *pMR = m_pLocalMarineResource;

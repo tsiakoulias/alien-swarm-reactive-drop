@@ -245,6 +245,7 @@ IMPLEMENT_SERVERCLASS_ST( CASW_Player, DT_ASW_Player )
 	SendPropQAngles( SENDINFO( m_angMarineAutoAimFromClient ), 10, SPROP_CHANGES_OFTEN ),
 	SendPropFloat( SENDINFO( m_flInactiveKickWarning ) ),
 	SendPropDataTable( SENDINFO_DT( m_EquippedItemData ), &REFERENCE_SEND_TABLE( DT_RD_ItemInstances_Player ) ),
+	SendPropInt( SENDINFO( m_iChallengeScratch ) ),
 END_SEND_TABLE()
 
 BEGIN_DATADESC( CASW_Player )
@@ -275,6 +276,7 @@ BEGIN_DATADESC( CASW_Player )
 	DEFINE_FIELD( m_angMarineAutoAimFromClient, FIELD_VECTOR ),
 	DEFINE_FIELD( m_flLastActiveTime, FIELD_TIME ),
 	DEFINE_FIELD( m_flInactiveKickWarning, FIELD_TIME ),
+	DEFINE_FIELD( m_iChallengeScratch, FIELD_INTEGER ),
 END_DATADESC()
 
 BEGIN_ENT_SCRIPTDESC( CASW_Player, CBasePlayer, "The player entity." )
@@ -436,6 +438,7 @@ CASW_Player::CASW_Player()
 	m_iRecentMapVotesCount = 0;
 	m_fMapVoteCooldownEndTime = 0.0f;
 	m_fLastMapVoteTime = -1000.0f;
+	m_iChallengeScratch = 0;
 }
 
 

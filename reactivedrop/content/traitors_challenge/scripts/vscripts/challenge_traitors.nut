@@ -236,7 +236,7 @@ function SetTraitorIcon(interval = 10) {
 			continue;
 		}
 
-		local hHud2 = Entities.FindByName(null, hPlayer.GetScriptScope().strHudName2);
+    local hHud2 = Entities.FindByName(null, hPlayer.GetScriptScope().strHudName2);
 		for(local i = 6;i<21;i++) {
 			hHud2.SetInt(i, list[i]);
 		}

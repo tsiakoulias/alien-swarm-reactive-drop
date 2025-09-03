@@ -1,6 +1,7 @@
 #include "cbase.h"
 #include "asw_input.h"
 #include "vgui/asw_vgui_ingame_panel.h"
+#include "asw_hud_master.h"
 #include "asw_hud_crosshair.h"
 #include "c_asw_player.h"
 #include "c_asw_marine.h"
@@ -14,13 +15,6 @@
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
-
-// restricted area variables
-extern int g_nRestrictedAreaLeft;
-extern int g_nRestrictedAreaRight;
-extern int g_nScreenAreaWidth;
-extern int g_nScreenAreaHeight;
-extern bool g_bUltraWideScreen;
 
 ConVar glow_outline_color_active( "glow_outline_color_active", "153 153 204", FCVAR_NONE );
 ConVar glow_outline_color_inactive( "glow_outline_color_inactive", "77 77 77", FCVAR_NONE );
@@ -92,16 +86,14 @@ void CASWInput::ApplyMouse( int nSlot, QAngle& viewangles, CUserCmd *cmd, float 
 	int current_posx, current_posy;
 	GetMousePos(current_posx, current_posy);
 
-	// restrict cursor to 16:9 area to prevent ultra-wide fov cheat
-	C_ASW_Player* asw_player = C_ASW_Player::GetLocalASWPlayer();
-
-	if (asw_player && !asw_player->GetSpectatingNPC()) 
-	{
-		current_posx = clamp(current_posx, g_nRestrictedAreaLeft, g_nRestrictedAreaRight);
-	}
-
 	if ( ASWInput()->ControllerModeActiveMouse() )
 		return;
+
+	CASW_Hud_Master *pHUDMaster = GET_HUDELEMENT( CASW_Hud_Master );
+	if ( pHUDMaster )
+	{
+		current_posx = clamp( current_posx, pHUDMaster->m_nMouseMinX, pHUDMaster->m_nMouseMaxX );
+	}
 
 	if ( MarineControllingTurret() )
 	{

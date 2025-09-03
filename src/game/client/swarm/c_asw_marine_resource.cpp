@@ -54,6 +54,7 @@ IMPLEMENT_CLIENTCLASS_DT( C_ASW_Marine_Resource, DT_ASW_Marine_Resource, CASW_Ma
 	RecvPropIntWithMinusOneFlag( RECVINFO( m_iScore ) ),
 	RecvPropFloat( RECVINFO( m_flFinishedMissionTime ) ),
 	RecvPropDataTable( RECVINFO_DT( m_EquippedItemData ), 0, &REFERENCE_RECV_TABLE( DT_RD_ItemInstances_Marine_Resource ) ),
+	RecvPropInt( RECVINFO( m_iChallengeScratch ) ),
 END_RECV_TABLE();
 
 extern ConVar asw_leadership_radius;
@@ -81,6 +82,7 @@ C_ASW_Marine_Resource::C_ASW_Marine_Resource()
 	m_flFinishedMissionTime = -1;
 	memset( m_iWeaponsInSlots, -1, sizeof( m_iWeaponsInSlots ) );
 	memset( m_iWeaponsInSlotsLastSeen, -1, sizeof( m_iWeaponsInSlotsLastSeen ) );
+	m_iChallengeScratch = 0;
 }
 
 C_ASW_Marine_Resource::~C_ASW_Marine_Resource()
