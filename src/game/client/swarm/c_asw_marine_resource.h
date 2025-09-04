@@ -114,12 +114,13 @@ public:
 	float m_flScoreLastChanged;
 	int m_iPrevScore;
 	int m_iCurScore;
+	int m_iChallengeScratch;
 
 	CNetworkVarEmbedded( CRD_ItemInstances_Marine_Resource, m_EquippedItemData );
 	void ClearInvalidEquipData();
 
 private:
-	C_ASW_Marine_Resource( const C_ASW_Marine_Resource & ); // not defined, not accessible
+	C_ASW_Marine_Resource( const C_ASW_Marine_Resource & ) = delete;
 };
 
 #endif /* _INCLUDED_C_ASW_MARINE_RESOURCE_H */

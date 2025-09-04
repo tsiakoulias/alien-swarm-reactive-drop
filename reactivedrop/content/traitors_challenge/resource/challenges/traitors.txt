@@ -6,6 +6,7 @@
 		"_rd_traitors_challenge_enabled" "1"
 		"rd_player_bots_allowed" "0"
 		"rd_add_index_to_name" "1"
+		"rd_restrict_aspect_width" "1.77777777"
 		"rd_draw_restricted_rectangles_coop" "1"
 		
 		"rd_auto_fast_restart" "1"

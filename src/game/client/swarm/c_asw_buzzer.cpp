@@ -29,6 +29,11 @@ END_RECV_TABLE()
 C_ASW_Buzzer::C_ASW_Buzzer()
 {
 	m_pEngineSound1 = NULL;
+
+	// reactivedrop: workaround to fix aliens red blood
+	// m_bloodColor is not networked
+	// so setting SetBloodColor() on server doesn't affect client 
+	SetBloodColor( BLOOD_COLOR_GREEN );
 }
 
 C_ASW_Buzzer::~C_ASW_Buzzer()

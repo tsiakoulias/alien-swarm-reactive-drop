@@ -329,8 +329,6 @@ public:
 	CUtlVector<ReactiveDropInventory::ItemInstance_t> m_CraftingMaterialInstances;
 #endif
 
-private:
-
 	// Copyed from EyeAngles() so we can send it to the client.
 	CNetworkQAngle( m_angEyeAngles );	
 	Vector m_vecCrosshairTracePos;			// the world location directly beneath the player's crosshair
@@ -338,6 +336,8 @@ private:
 
 	IPlayerAnimState *m_PlayerAnimState;
 	bool m_bFirstInhabit;
+
+	CNetworkVar( int, m_iChallengeScratch );
 };
 
 extern void TE_MarineAnimEvent( CASW_Marine *pMarine, PlayerAnimEvent_t event );

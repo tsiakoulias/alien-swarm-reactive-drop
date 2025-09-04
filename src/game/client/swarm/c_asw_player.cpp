@@ -270,6 +270,7 @@ BEGIN_NETWORK_TABLE( C_ASW_Player, DT_ASW_Player )
 	RecvPropQAngles( RECVINFO( m_angMarineAutoAimFromClient ) ),
 	RecvPropFloat( RECVINFO( m_flInactiveKickWarning ) ),
 	RecvPropDataTable( RECVINFO_DT( m_EquippedItemData ), 0, &REFERENCE_RECV_TABLE( DT_RD_ItemInstances_Player ) ),
+	RecvPropInt( RECVINFO( m_iChallengeScratch ) ),
 END_RECV_TABLE()
 
 BEGIN_PREDICTION_DATA( C_ASW_Player )
@@ -357,6 +358,7 @@ C_ASW_Player::C_ASW_Player() :
 	m_flInactiveKickWarning = 0.0f;
 	m_nLastInactiveKickWarning = 0;
 	m_flNextServerInfoUpdate = 0.0f;
+	m_iChallengeScratch = 0;
 }
 
 

@@ -236,6 +236,9 @@ public:
 	CNetworkVarEmbedded( CRD_ItemInstances_Marine_Resource, m_EquippedItemData );
 	void ClearInvalidEquipData();
 
+	// Unused by the game; free for use for challenge shenanigans.
+	CNetworkVar( int, m_iChallengeScratch );
+
 private:
 	CASW_Intensity* m_pIntensity;
 };

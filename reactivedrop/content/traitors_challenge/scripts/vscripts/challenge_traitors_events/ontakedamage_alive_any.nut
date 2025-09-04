@@ -46,14 +46,14 @@ function OnTakeDamage_Alive_Any(victim, inflictor, attacker, weapon, damage, dam
 					factor3 = 0.10;
 					break;
 				case "asw_weapon_devastator": //毁灭者霰弹
-					factor1 = 0.33;
-					factor2 = 0.23;
-					factor3 = 0.46;
+					factor1 = 0.31;
+					factor2 = 0.21;
+					factor3 = 0.41;
 					break;
 				case "asw_weapon_vindicator": //复仇者霰弹
-					factor1 = 0.16;
-					factor2 = 0.12;
-					factor3 = 0.20;
+					factor1 = 0.20;
+					factor2 = 0.15;
+					factor3 = 0.25;
 					break;
 				default:
 					factor1 = 0.08;
@@ -105,9 +105,9 @@ function OnTakeDamage_Alive_Any(victim, inflictor, attacker, weapon, damage, dam
 					factor3 = 0.40;
 					break;
 				case "asw_weapon_minigun": //迷你机枪
-					factor1 = 0.26;
-					factor2 = 0.20;
-					factor3 = 0.32;
+					factor1 = 0.24;
+					factor2 = 0.18;
+					factor3 = 0.30;
 					break;
 				case "asw_weapon_deagle": //斗牛犬
 					factor1 = 0.26;
@@ -137,9 +137,9 @@ function OnTakeDamage_Alive_Any(victim, inflictor, attacker, weapon, damage, dam
 					factor3 = 0.145;
 					break;
 				case "asw_weapon_medrifle": //医疗冲锋枪
-					factor1 = 0.55;
-					factor2 = 0.45;
-					factor3 = 0.65;
+					factor1 = 0.50;
+					factor2 = 0.40;
+					factor3 = 0.60;
 					break;
 				case "asw_weapon_laser_mines": //激光地雷
 					damage = 6;

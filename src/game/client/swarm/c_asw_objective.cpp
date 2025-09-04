@@ -132,8 +132,3 @@ const char *C_ASW_Objective::GetInfoIcon( int i )
 	}
 	return NULL;
 }
-
-// allows this objective to paint its status on the HUD
-void C_ASW_Objective::PaintObjective( float &current_y )
-{
-}

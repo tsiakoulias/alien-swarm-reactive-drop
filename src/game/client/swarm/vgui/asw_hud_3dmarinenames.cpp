@@ -37,6 +37,7 @@
 #include "c_playerresource.h"
 #include "datacache/imdlcache.h"
 #include "asw_util_shared.h"
+#include "asw_hud_master.h"
 #include "asw_hud_objective.h"
 #include "voice_status.h"
 #include "cdll_bounded_cvars.h"
@@ -45,12 +46,6 @@
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
-
-// restricted area variables and cvars
-extern int g_nRestrictedAreaLeft;
-extern bool g_bUltraWideScreen;
-extern ConVar rd_draw_restricted_rectangles_coop;
-extern ConVar rd_draw_restricted_rectangles_dm;
 
 extern ConVar asw_draw_hud;
 extern ConVar asw_hud_alpha;
@@ -105,6 +100,8 @@ ConVar rd_strange_notification_timing_2( "rd_strange_notification_timing_2", "0.
 ConVar rd_strange_notification_timing_3( "rd_strange_notification_timing_3", "1", FCVAR_NONE, "Fade-in time" );
 ConVar rd_strange_notification_timing_4( "rd_strange_notification_timing_4", "0.4", FCVAR_NONE, "Glow flare time" );
 ConVar rd_strange_notification_timing_5( "rd_strange_notification_timing_5", "0.5", FCVAR_NONE, "Fade-out time" );
+extern ConVar rd_draw_restricted_rectangles_coop;
+extern ConVar rd_draw_restricted_rectangles_dm;
 
 #define ASW_MIN_MARINE_ARROW_SIZE 20
 #define ASW_MAX_MARINE_ARROW_SIZE 60
@@ -616,13 +613,13 @@ void CASWHud3DMarineNames::PaintMarineLabel( int iMyMarineNum, C_ASW_Marine *RES
 		*/
 		// the presence or absence and size of these elements depends on a variety of factors.
 		// first, is the marine on screen?
-		bool bMarineOnScreen = (screenPos.x >= 0) && (screenPos.x <= nMaxX) &&
-			(screenPos.y >= 0) && (screenPos.y <= nMaxY);
+		bool bMarineOnScreen = ( screenPos.x >= 0 ) && ( screenPos.x <= nMaxX ) && ( screenPos.y >= 0 ) && ( screenPos.y <= nMaxY );
 		int nRestrictedAreaOffset = 0;
-		if (g_bUltraWideScreen && ((rd_draw_restricted_rectangles_coop.GetBool() && !ASWDeathmatchMode()) || (rd_draw_restricted_rectangles_dm.GetBool() && ASWDeathmatchMode()))) {
-			bMarineOnScreen = (screenPos.x >= g_nRestrictedAreaLeft) && (screenPos.x <= nMaxX - g_nRestrictedAreaLeft) &&
-				(screenPos.y >= 0) && (screenPos.y <= nMaxY);
-			nRestrictedAreaOffset = g_nRestrictedAreaLeft;
+		CASW_Hud_Master *pHUDMaster = GET_HUDELEMENT( CASW_Hud_Master );
+		if ( pHUDMaster && ( ASWDeathmatchMode() ? rd_draw_restricted_rectangles_dm.GetBool() : rd_draw_restricted_rectangles_coop.GetBool() ) )
+		{
+			bMarineOnScreen = ( screenPos.x >= pHUDMaster->m_nMouseMinX ) && ( screenPos.x <= pHUDMaster->m_nMouseMaxX ) && ( screenPos.y >= 0 ) && ( screenPos.y <= nMaxY );
+			nRestrictedAreaOffset = pHUDMaster->m_nMouseMinX;
 		}
 
 		// COPYPASTA: if the marine isn't on screen, compute an appropriate screen point to use

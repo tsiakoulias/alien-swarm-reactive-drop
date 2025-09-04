@@ -1,4 +1,4 @@
-DEBUG <- true; // Debug flags 调试标识
+DEBUG <- false; // Debug flags 调试标识
 INT_MAX <- 2147483647; // Constant 常量
 isServer <- true; // If the code is running server side or client side 指示代码是在服务端运行的还是在客户端运行的
 IsPaused <- false; // Not actually being used 没有实际用处
@@ -190,7 +190,14 @@ function SetTraitorIcon(interval = 10) {
 	if (g_int_Counter % interval != 0) {
 		return;
 	}
-	foreach(hMarine in g_marine_Total) {
+
+
+	local list = {};
+	for (local i = 6; i < 21; i++) {
+		list[i] <- 0;
+	}
+	local i = 11;
+	foreach(hMarine in g_marine_Traitor) {
 		if (hMarine == null || !hMarine.IsValid()) {
 			continue;
 		}
@@ -205,30 +212,34 @@ function SetTraitorIcon(interval = 10) {
 			case ROLE.INFECTED_SNIPER:
 			case ROLE.INFECTED_DEMO:
 			case ROLE.INFECTED_DESERTER:
-				NetProps.SetPropInt(hMarine, "m_iEmote", NetProps.GetPropInt(hMarine, "m_iEmote") | (1 << 8));
+				list[i] = hMarine.entindex();
+				i++;
 				break;
 			case ROLE.TRAITOR_LEADER:
-				NetProps.SetPropInt(hMarine, "m_iEmote", NetProps.GetPropInt(hMarine, "m_iEmote") | (1 << 9));
+				list[6] = hMarine.entindex();
 				break;
 			case ROLE.INFECTOR:
-				NetProps.SetPropInt(hMarine, "m_iEmote", NetProps.GetPropInt(hMarine, "m_iEmote") | (1 << 10));
+				list[7] = hMarine.entindex();
 				break;
 			case ROLE.BOOMER:
-				NetProps.SetPropInt(hMarine, "m_iEmote", NetProps.GetPropInt(hMarine, "m_iEmote") | (1 << 11));
+				list[8] = hMarine.entindex();
 				break;
 			case ROLE.SILENCER:
-				NetProps.SetPropInt(hMarine, "m_iEmote", NetProps.GetPropInt(hMarine, "m_iEmote") | (1 << 12));
+				list[9] = hMarine.entindex();
 				break;
 			case ROLE.MIMIC:
-				NetProps.SetPropInt(hMarine, "m_iEmote", NetProps.GetPropInt(hMarine, "m_iEmote") | (1 << 13));
-				break;
+				list[10] = hMarine.entindex();
 		}
 	}
 	foreach(hPlayer in g_player_TraitorHistory) {
 		if (hPlayer == null || !hPlayer.IsValid()) {
 			continue;
 		}
-		NetProps.SetPropInt(hPlayer, "m_iFrags", 99);
+
+    local hHud2 = Entities.FindByName(null, hPlayer.GetScriptScope().strHudName2);
+		for(local i = 6;i<21;i++) {
+			hHud2.SetInt(i, list[i]);
+		}
 	}
 }
 
@@ -1158,10 +1169,10 @@ function DeterminRoleCount() {
 					//g_bool_HasInfector = true;
 					break;
 				case 1:
-					g_bool_HasBoomer = true;
+			g_bool_HasBoomer = true;
 					break;
 				case 2:
-					g_bool_HasSilencer = true;
+			g_bool_HasSilencer = true;
 					break;
 			}
 			g_bool_HasShield = (RandomHQUniformIntDistribution(0, 8) == 0);
@@ -1461,6 +1472,9 @@ function CreatePlayerHud(hPlayer) {
 	hHud1.SetEntity(0, hPlayer);
 	local strHud1 = "HUD_" + UniqueString();
 	hHud1.SetName(strHud1);
+	for (local i = 6; i < 21; i++) {
+		hHud1.SetInt(i, 0);
+	}
 
 	hPlayer.GetScriptScope().strHudName1 <- strHud1;
 	hHud1.SetInt(0, ROLE.SPECTATOR);
@@ -1488,6 +1502,9 @@ function CreatePlayerHud(hPlayer) {
 	hHud2.SetEntity(0, hPlayer);
 	local strHud2 = "HUD_" + UniqueString();
 	hHud2.SetName(strHud2);
+	for (local i = 6; i < 21; i++) {
+		hHud2.SetInt(i, 0);
+	}
 
 	hPlayer.ValidateScriptScope();
 	hPlayer.GetScriptScope().strHudName2 <- strHud2;
@@ -1516,6 +1533,9 @@ function CreatePlayerHud(hPlayer) {
 	hHud4.SetEntity(0, hPlayer);
 	local strHud4 = "HUD_" + UniqueString();
 	hHud4.SetName(strHud4);
+	for (local i = 6; i < 21; i++) {
+		hHud4.SetInt(i, 0);
+	}
 
 	hPlayer.GetScriptScope().strHudName4 <- strHud4;
 	hHud4.SetInt(0, ROLE.SPECTATOR);
@@ -1543,6 +1563,9 @@ function CreatePlayerHud(hPlayer) {
 	hHud3.SetEntity(0, hPlayer);
 	local strhHud3 = "HUD_" + UniqueString();
 	hHud3.SetName(strhHud3);
+	for (local i = 6; i < 21; i++) {
+		hHud3.SetInt(i, 0);
+	}
 
 	hPlayer.ValidateScriptScope();
 	hPlayer.GetScriptScope().strHudName3 <- strhHud3;

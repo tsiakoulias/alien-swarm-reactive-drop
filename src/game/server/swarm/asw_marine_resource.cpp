@@ -80,6 +80,7 @@ BEGIN_DATADESC( CASW_Marine_Resource )
 	DEFINE_FIELD( m_iAliensKilledByBouncingBullets, FIELD_INTEGER ),
 	DEFINE_FIELD( m_iScore, FIELD_INTEGER ),
 	DEFINE_FIELD( m_flFinishedMissionTime, FIELD_FLOAT ),
+	DEFINE_FIELD( m_iChallengeScratch, FIELD_INTEGER ),
 END_DATADESC()
 
 static void *SendProxy_SendMarineResourceTimelinesDataTable( const SendProp *pProp, const void *pStruct, const void *pVarData, CSendProxyRecipients *pRecipients, int objectID )
@@ -134,6 +135,7 @@ IMPLEMENT_SERVERCLASS_ST( CASW_Marine_Resource, DT_ASW_Marine_Resource )
 	SendPropIntWithMinusOneFlag( SENDINFO( m_iScore ) ),
 	SendPropFloat( SENDINFO( m_flFinishedMissionTime ) ),
 	SendPropDataTable( SENDINFO_DT( m_EquippedItemData ), &REFERENCE_SEND_TABLE( DT_RD_ItemInstances_Marine_Resource ) ),
+	SendPropInt( SENDINFO( m_iChallengeScratch ) ),
 END_SEND_TABLE();
 
 extern ConVar asw_leadership_radius;
@@ -259,6 +261,8 @@ CASW_Marine_Resource::CASW_Marine_Resource()
 		m_iWeaponsInSlots.GetForModify( i ) = -1;
 		m_iInitialWeaponsInSlots.GetForModify( i ) = -1;
 	}
+
+	m_iChallengeScratch = 0;
 }
 
 
