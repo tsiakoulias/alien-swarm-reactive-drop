@@ -1,4 +1,4 @@
-DEBUG <- false; // Debug flags 调试标识
+DEBUG <- true; // Debug flags 调试标识
 INT_MAX <- 2147483647; // Constant 常量
 isServer <- true; // If the code is running server side or client side 指示代码是在服务端运行的还是在客户端运行的
 IsPaused <- false; // Not actually being used 没有实际用处
