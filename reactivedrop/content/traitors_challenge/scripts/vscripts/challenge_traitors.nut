@@ -1,4 +1,4 @@
-DEBUG <- false; // Debug flags 调试标识
+DEBUG <- true; // Debug flags 调试标识
 INT_MAX <- 2147483647; // Constant 常量
 isServer <- true; // If the code is running server side or client side 指示代码是在服务端运行的还是在客户端运行的
 IsPaused <- false; // Not actually being used 没有实际用处
@@ -236,8 +236,8 @@ function SetTraitorIcon(interval = 10) {
 			continue;
 		}
 
-    local hHud2 = Entities.FindByName(null, hPlayer.GetScriptScope().strHudName2);
-		for(local i = 6;i<21;i++) {
+		local hHud2 = Entities.FindByName(null, hPlayer.GetScriptScope().strHudName2);
+		for (local i = 6; i < 21; i++) {
 			hHud2.SetInt(i, list[i]);
 		}
 	}
@@ -1169,10 +1169,10 @@ function DeterminRoleCount() {
 					//g_bool_HasInfector = true;
 					break;
 				case 1:
-			g_bool_HasBoomer = true;
+					g_bool_HasBoomer = true;
 					break;
 				case 2:
-			g_bool_HasSilencer = true;
+					g_bool_HasSilencer = true;
 					break;
 			}
 			g_bool_HasShield = (RandomHQUniformIntDistribution(0, 8) == 0);
