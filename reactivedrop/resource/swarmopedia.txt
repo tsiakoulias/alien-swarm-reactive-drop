@@ -3584,9 +3584,9 @@
 				"Icon" "swarm/swarmopedia/fact/throwable"
 				"Caption" "#rd_weapon_fact_throwable"
 			}
-			"Generic" {
-				"Icon" "swarm/swarmopedia/fact/damage_shock"
-				"Caption" "#rd_weapon_fact_shocks_nearby_aliens"
+			"FireRate" {
+				"UseWeaponInfo" "0"
+				"Base" "1.4"
 			}
 			"HammerUnits" {
 				"Icon" "swarm/swarmopedia/fact/blast_radius"
@@ -3594,21 +3594,21 @@
 				"Skill" "ASW_MARINE_SKILL_GRENADES"
 				"SubSkill" "ASW_MARINE_SUBSKILL_GRENADE_RADIUS"
 			}
+			"DamagePerShot" {
+				"UseWeaponInfo" "0"
+				"Icon" "swarm/swarmopedia/fact/damage_shock"
+				"Caption" "#rd_weapon_fact_damage_per_shot_shock"
+				"Base" "1"
+			}
+			"Generic" {
+				"Icon" "swarm/swarmopedia/fact/damage_shock"
+				"Caption" "#rd_weapon_fact_shocks_nearby_aliens"
+			}
 			"Numeric" {
 				"Icon" "swarm/swarmopedia/fact/duration"
 				"Caption" "#rd_weapon_fact_duration"
 				"CVar" "asw_stun_grenade_time"
 			}
-			// "DamagePerShot" {
-				// "UseWeaponInfo" "0"
-				// "Icon" "swarm/swarmopedia/fact/damage_shock"
-				// "Caption" "#rd_weapon_fact_damage_per_shot_shock"
-				// "Base" "1"
-			// }
-			// "FireRate" {
-				// "UseWeaponInfo" "0"
-				// "Base" "1.4"
-			// }
 		}
 	}
 	"WEAPON" {
@@ -3645,8 +3645,9 @@
 				"Icon" "swarm/swarmopedia/fact/throwable"
 				"Caption" "#rd_weapon_fact_throwable"
 			}
-			"Generic" {
-				"Caption" "#rd_weapon_fact_ignites"
+			"FireRate" {
+				"UseWeaponInfo" "0"
+				"Base" "1.4"
 			}
 			"HammerUnits" {
 				"Icon" "swarm/swarmopedia/fact/blast_radius"
@@ -3654,17 +3655,19 @@
 				"Skill" "ASW_MARINE_SKILL_GRENADES"
 				"SubSkill" "ASW_MARINE_SUBSKILL_GRENADE_RADIUS"
 			}
-			// "DamagePerShot" {
-				// "UseWeaponInfo" "0"
-				// "Icon" "swarm/swarmopedia/fact/damage_burn"
-				// "Caption" "#rd_weapon_fact_damage_per_shot_burn"
-				// "Skill" "ASW_MARINE_SKILL_GRENADES"
-				// "SubSkill" "ASW_MARINE_SUBSKILL_GRENADE_INCENDIARY_DMG"
-			// }
-			// "FireRate" {
-				// "UseWeaponInfo" "0"
-				// "Base" "1.4"
-			// }
+			"DamagePerShot" {
+				"UseWeaponInfo" "0"
+				"Icon" "swarm/swarmopedia/fact/damage_burn"
+				"Caption" "#rd_weapon_fact_damage_per_shot_burn"
+				"Skill" "ASW_MARINE_SKILL_GRENADES"
+				"SubSkill" "ASW_MARINE_SUBSKILL_GRENADE_INCENDIARY_DMG"
+			}
+			"Generic" {
+				"Caption" "#rd_weapon_fact_ignites"
+			}
+			"Generic" {
+				"Caption" "#rd_weapon_fact_burning_dps"
+			}
 		}
 	}
 	"WEAPON" {
