@@ -193,10 +193,10 @@ function SetTraitorIcon(interval = 10) {
 
 
 	local list = {};
-	for (local i = 6; i < 21; i++) {
+	for (local i = 1; i < 16; i++) {
 		list[i] <- 0;
 	}
-	local i = 11;
+	local i = 6;
 	foreach(hMarine in g_marine_Traitor) {
 		if (hMarine == null || !hMarine.IsValid()) {
 			continue;
@@ -212,23 +212,23 @@ function SetTraitorIcon(interval = 10) {
 			case ROLE.INFECTED_SNIPER:
 			case ROLE.INFECTED_DEMO:
 			case ROLE.INFECTED_DESERTER:
-				list[i] = hMarine.entindex();
+				list[i] = hMarine;
 				i++;
 				break;
 			case ROLE.TRAITOR_LEADER:
-				list[6] = hMarine.entindex();
+				list[1] = hMarine;
 				break;
 			case ROLE.INFECTOR:
-				list[7] = hMarine.entindex();
+				list[2] = hMarine;
 				break;
 			case ROLE.BOOMER:
-				list[8] = hMarine.entindex();
+				list[3] = hMarine;
 				break;
 			case ROLE.SILENCER:
-				list[9] = hMarine.entindex();
+				list[4] = hMarine;
 				break;
 			case ROLE.MIMIC:
-				list[10] = hMarine.entindex();
+				list[5] = hMarine;
 		}
 	}
 	foreach(hPlayer in g_player_TraitorHistory) {
@@ -237,8 +237,8 @@ function SetTraitorIcon(interval = 10) {
 		}
 
 		local hHud2 = Entities.FindByName(null, hPlayer.GetScriptScope().strHudName2);
-		for (local i = 6; i < 21; i++) {
-			hHud2.SetInt(i, list[i]);
+		for (local i = 1; i < 16; i++) {
+			hHud2.SetEntity(i, list[i]);
 		}
 	}
 }
@@ -1472,8 +1472,8 @@ function CreatePlayerHud(hPlayer) {
 	hHud1.SetEntity(0, hPlayer);
 	local strHud1 = "HUD_" + UniqueString();
 	hHud1.SetName(strHud1);
-	for (local i = 6; i < 21; i++) {
-		hHud1.SetInt(i, 0);
+	for (local i = 1; i < 16; i++) {
+		hHud1.SetEntity(i, null);
 	}
 
 	hPlayer.GetScriptScope().strHudName1 <- strHud1;
@@ -1502,8 +1502,8 @@ function CreatePlayerHud(hPlayer) {
 	hHud2.SetEntity(0, hPlayer);
 	local strHud2 = "HUD_" + UniqueString();
 	hHud2.SetName(strHud2);
-	for (local i = 6; i < 21; i++) {
-		hHud2.SetInt(i, 0);
+	for (local i = 1; i < 16; i++) {
+		hHud2.SetEntity(i, null);
 	}
 
 	hPlayer.ValidateScriptScope();
@@ -1533,8 +1533,8 @@ function CreatePlayerHud(hPlayer) {
 	hHud4.SetEntity(0, hPlayer);
 	local strHud4 = "HUD_" + UniqueString();
 	hHud4.SetName(strHud4);
-	for (local i = 6; i < 21; i++) {
-		hHud4.SetInt(i, 0);
+	for (local i = 1; i < 16; i++) {
+		hHud4.SetEntity(i, null);
 	}
 
 	hPlayer.GetScriptScope().strHudName4 <- strHud4;
@@ -1563,8 +1563,8 @@ function CreatePlayerHud(hPlayer) {
 	hHud3.SetEntity(0, hPlayer);
 	local strhHud3 = "HUD_" + UniqueString();
 	hHud3.SetName(strhHud3);
-	for (local i = 6; i < 21; i++) {
-		hHud3.SetInt(i, 0);
+	for (local i = 1; i < 16; i++) {
+		hHud3.SetEntity(i, null);
 	}
 
 	hPlayer.ValidateScriptScope();

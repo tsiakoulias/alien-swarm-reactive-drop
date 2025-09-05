@@ -5,15 +5,6 @@
 	int	 3  - 投降，当前人数
 	int	 4  - 投降，总人数
 
-	int  6  - TRAITOR_LEADER 对应的marine index
-	int  7  - INFECTOR 对应的marine index
-	int  8  - BOOMER 对应的marine index
-	int  9  - SILENCER 对应的marine index
-	int  10 - MIMIC 对应的marine index
-	int  11 - TRAITOR 对应的marine index
-	...
-	int  20 - TRAITOR 对应的marine index
-
 	int	 63 - 标识，1和2代表显示的是内鬼提示1和提示2。3代表显示的是内鬼开始投票，4代表投票中，5代表投票停止
 
 	float   0  - HUD信息显示的起始时间
@@ -28,6 +19,14 @@
 
 
 	entity 0 - marine
+	entity 1 - TRAITOR_LEADER 对应的marine
+	entity 2 - INFECTOR 对应的marine
+	entity 3 - BOOMER 对应的marine
+	entity 4 - SILENCER 对应的marine
+	entity 5 - MIMIC 对应的marine
+	entity 6 - TRAITOR 对应的marine
+	...
+	entity 15 - TRAITOR 对应的marine
 
 	DefaultVerySmall
 	DefaultVerySmallBlur
@@ -57,21 +56,21 @@ FONT_DEFAULTLARGE <- self.LookupFont("DefaultMedium");
 
 TEXTURE_TRAITOR <- self.LookupTexture("vgui/swarm/Emotes/EmoteTraitor");
 TEXTURE_TRAITORS <- {
-	[6] = self.LookupTexture("vgui/swarm/Emotes/EmoteTraitorLeader"),
-	[7] = self.LookupTexture("vgui/swarm/Emotes/EmoteInfector"),
-	[8] = self.LookupTexture("vgui/swarm/Emotes/EmoteBoomer"),
-	[9] = self.LookupTexture("vgui/swarm/Emotes/EmoteSilencer"),
-	[10] = self.LookupTexture("vgui/swarm/Emotes/EmoteMimic"),
+	[1] = self.LookupTexture("vgui/swarm/Emotes/EmoteTraitorLeader"),
+	[2] = self.LookupTexture("vgui/swarm/Emotes/EmoteInfector"),
+	[3] = self.LookupTexture("vgui/swarm/Emotes/EmoteBoomer"),
+	[4] = self.LookupTexture("vgui/swarm/Emotes/EmoteSilencer"),
+	[5] = self.LookupTexture("vgui/swarm/Emotes/EmoteMimic"),
+	[6] = TEXTURE_TRAITOR,
+	[7] = TEXTURE_TRAITOR,
+	[8] = TEXTURE_TRAITOR,
+	[9] = TEXTURE_TRAITOR,
+	[10] = TEXTURE_TRAITOR,
 	[11] = TEXTURE_TRAITOR,
 	[12] = TEXTURE_TRAITOR,
 	[13] = TEXTURE_TRAITOR,
 	[14] = TEXTURE_TRAITOR,
 	[15] = TEXTURE_TRAITOR,
-	[16] = TEXTURE_TRAITOR,
-	[17] = TEXTURE_TRAITOR,
-	[18] = TEXTURE_TRAITOR,
-	[19] = TEXTURE_TRAITOR,
-	[20] = TEXTURE_TRAITOR,
 };
 
 xMargin <- 0;
@@ -79,7 +78,7 @@ xMargin <- 0;
 function Paint() {
 	//如果正在控制士兵，显示信息。
 	if (self.GetEntity(0) == GetLocalPlayer()) {
-		for (local i = 6; i < 21; i++) {
+		for (local i = 1; i < 16; i++) {
 			PaintTraitorIcon(i);
 		}
 		local message = self.GetString(0);
@@ -130,11 +129,11 @@ function PaintMsg(point, role, font, message) {
 
 function PaintTraitorIcon(idx) {
 
-	if (self.GetInt(idx) <= 0 || TEXTURE_TRAITORS[idx] == -1 || self.GetInt(0) <= ROLE.MAX_IAF_TEAM || self.GetInt(0) > ROLE.MAX_TRAITOR_TEAM) {
+	if (!self.GetEntity(idx) || TEXTURE_TRAITORS[idx] == -1 || self.GetInt(0) <= ROLE.MAX_IAF_TEAM || self.GetInt(0) > ROLE.MAX_TRAITOR_TEAM) {
 		return;
 	}
-	local screenPos = self.ClientGetEntityScreenPos(self.GetInt(idx));
-	if (screenPos.z < 0.5) { //无效屏幕坐标
+	local screenPos = self.ClientGetEntityScreenPos(self.GetEntity(idx), true);
+	if (!screenPos) {
 		return;
 	}
 
