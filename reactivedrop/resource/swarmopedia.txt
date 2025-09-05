@@ -2401,6 +2401,10 @@
 			"BulletSpread" {
 				"Base" "3"
 			}
+			"Generic" {
+				"Icon" "swarm/swarmopedia/fact/accurate_crouch"
+				"Caption" "#rd_weapon_fact_more_accurate_while_crouching"
+			}
 			"FireRate" {}
 			"Ammo" {}
 			"ReloadTime" {}
@@ -3549,10 +3553,119 @@
 	"WEAPON" {
 		"ClassName" "asw_weapon_stun_grenades"
 		"Builtin" "1"
+		"BuiltinModelTransform" {
+			"Yaw" "270"
+		}
+		"GlobalStat" {
+			"StatName" "equips.asw_weapon_stun_grenades.total"
+			"Caption" "#rd_so_stat_equip_extra"
+		}
+		"GlobalStat" {
+			"StatName" "equips.asw_weapon_stun_grenades.shots_fired"
+			"Caption" "#rd_so_stat_shots_fired"
+		}
+		"GlobalStat" {
+			"StatName" "equips.asw_weapon_stun_grenades.shots_hit"
+			"Caption" "#rd_so_stat_shots_hit"
+		}
+		"GlobalStat" {
+			"StatName" "equips.asw_weapon_stun_grenades.damage"
+			"Caption" "#rd_so_stat_damage_dealt"
+		}
+		"GlobalStat" {
+			"StatName" "equips.asw_weapon_stun_grenades.ff_damage"
+			"Caption" "#rd_so_stat_friendly_fire_damage"
+		}
+		"Facts" {
+			"Ammo" {
+				"CVar" "asw_bonus_charges"
+			}
+			"Generic" {
+				"Icon" "swarm/swarmopedia/fact/throwable"
+				"Caption" "#rd_weapon_fact_throwable"
+			}
+			"Generic" {
+				"Icon" "swarm/swarmopedia/fact/damage_shock"
+				"Caption" "#rd_weapon_fact_shocks_nearby_aliens"
+			}
+			"HammerUnits" {
+				"Icon" "swarm/swarmopedia/fact/blast_radius"
+				"Caption" "#rd_weapon_fact_blast_radius"
+				"Skill" "ASW_MARINE_SKILL_GRENADES"
+				"SubSkill" "ASW_MARINE_SUBSKILL_GRENADE_RADIUS"
+			}
+			"Numeric" {
+				"Icon" "swarm/swarmopedia/fact/duration"
+				"Caption" "#rd_weapon_fact_duration"
+				"CVar" "asw_stun_grenade_time"
+			}
+			// "DamagePerShot" {
+				// "UseWeaponInfo" "0"
+				// "Icon" "swarm/swarmopedia/fact/damage_shock"
+				// "Caption" "#rd_weapon_fact_damage_per_shot_shock"
+				// "Base" "1"
+			// }
+			// "FireRate" {
+				// "UseWeaponInfo" "0"
+				// "Base" "1.4"
+			// }
+		}
 	}
 	"WEAPON" {
 		"ClassName" "asw_weapon_incendiary_grenades"
 		"Builtin" "1"
+		"BuiltinModelTransform" {
+			"Yaw" "270"
+		}
+		"GlobalStat" {
+			"StatName" "equips.asw_weapon_incendiary_grenades.total"
+			"Caption" "#rd_so_stat_equip_extra"
+		}
+		"GlobalStat" {
+			"StatName" "equips.asw_weapon_incendiary_grenades.shots_fired"
+			"Caption" "#rd_so_stat_shots_fired"
+		}
+		"GlobalStat" {
+			"StatName" "equips.asw_weapon_incendiary_grenades.shots_hit"
+			"Caption" "#rd_so_stat_shots_hit"
+		}
+		"GlobalStat" {
+			"StatName" "equips.asw_weapon_incendiary_grenades.damage"
+			"Caption" "#rd_so_stat_damage_dealt"
+		}
+		"GlobalStat" {
+			"StatName" "equips.asw_weapon_incendiary_grenades.ff_damage"
+			"Caption" "#rd_so_stat_friendly_fire_damage"
+		}
+		"Facts" {
+			"Ammo" {
+				"CVar" "asw_bonus_charges"
+			}
+			"Generic" {
+				"Icon" "swarm/swarmopedia/fact/throwable"
+				"Caption" "#rd_weapon_fact_throwable"
+			}
+			"Generic" {
+				"Caption" "#rd_weapon_fact_ignites"
+			}
+			"HammerUnits" {
+				"Icon" "swarm/swarmopedia/fact/blast_radius"
+				"Caption" "#rd_weapon_fact_blast_radius"
+				"Skill" "ASW_MARINE_SKILL_GRENADES"
+				"SubSkill" "ASW_MARINE_SUBSKILL_GRENADE_RADIUS"
+			}
+			// "DamagePerShot" {
+				// "UseWeaponInfo" "0"
+				// "Icon" "swarm/swarmopedia/fact/damage_burn"
+				// "Caption" "#rd_weapon_fact_damage_per_shot_burn"
+				// "Skill" "ASW_MARINE_SKILL_GRENADES"
+				// "SubSkill" "ASW_MARINE_SUBSKILL_GRENADE_INCENDIARY_DMG"
+			// }
+			// "FireRate" {
+				// "UseWeaponInfo" "0"
+				// "Base" "1.4"
+			// }
+		}
 	}
 	"WEAPON" {
 		"ClassName" "asw_weapon_speed_burst"
