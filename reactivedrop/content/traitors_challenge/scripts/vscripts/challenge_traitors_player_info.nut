@@ -77,12 +77,11 @@ TEXTURE_TRAITORS <- {
 xMargin <- 0;
 
 function Paint() {
-	for (local i = 6; i < 21; i++) {
-		PaintTraitorIcon(i);
-	}
-
 	//如果正在控制士兵，显示信息。
 	if (self.GetEntity(0) == GetLocalPlayer()) {
+		for (local i = 6; i < 21; i++) {
+			PaintTraitorIcon(i);
+		}
 		local message = self.GetString(0);
 		if (message == "") {
 			return;
@@ -131,7 +130,7 @@ function PaintMsg(point, role, font, message) {
 
 function PaintTraitorIcon(idx) {
 
-	if (self.GetInt(idx) <= 0 || TEXTURE_TRAITORS[idx] == -1) {
+	if (self.GetInt(idx) <= 0 || TEXTURE_TRAITORS[idx] == -1 || self.GetInt(0) <= ROLE.MAX_IAF_TEAM || self.GetInt(0) > ROLE.MAX_TRAITOR_TEAM) {
 		return;
 	}
 	local screenPos = self.ClientGetEntityScreenPos(self.GetInt(idx));
