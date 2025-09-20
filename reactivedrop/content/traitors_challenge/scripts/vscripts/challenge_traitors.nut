@@ -280,10 +280,16 @@ function DropWeapon() {
 					accurateWeaponCount += 1;
 					break;
 				case "asw_weapon_minigun": //迷你机枪
+					veryHighDamageWeaponCount += 1;
+					highFiringRateWeaponCount += 1;
+					accurateWeaponCount += 1;
 					break;
 				case "asw_weapon_deagle": //斗牛犬
 					break;
 				case "asw_weapon_devastator": //毁灭者
+					veryHighDamageWeaponCount += 1;
+					highFiringRateWeaponCount += 1;
+					accurateWeaponCount += 0;
 					break;
 				case "asw_weapon_combat_rifle": //战斗步枪
 					break;
@@ -329,10 +335,16 @@ function DropWeapon() {
 					accurateWeaponCount += 1;
 					break;
 				case "asw_weapon_minigun": //迷你机枪
+					veryHighDamageWeaponCount += 1;
+					highFiringRateWeaponCount += 1;
+					accurateWeaponCount += 1;
 					break;
 				case "asw_weapon_deagle": //斗牛犬
 					break;
 				case "asw_weapon_devastator": //毁灭者
+					veryHighDamageWeaponCount += 1;
+					highFiringRateWeaponCount += 1;
+					accurateWeaponCount += 0;
 					break;
 				case "asw_weapon_combat_rifle": //战斗步枪
 					break;

@@ -654,6 +654,12 @@ function SetMapHandler() {
 					if (temp.z < (-1000) && hMarine.IsInhabited()) { //防止下地底
 						hMarine.TakeDamage(5, DAMAGE_TYPE.DMG_FALL, null);
 					}
+					if (temp.x < 1800 && temp.y < -2800) {
+						hMarine.TakeDamage(5, DAMAGE_TYPE.DMG_FALL, null);
+					}
+					if (temp.x < 1500 && temp.y < -2800) {
+						hMarine.Die();
+					}
 				}
 				if (g_int_Counter % 49 != 0) {
 					return;
