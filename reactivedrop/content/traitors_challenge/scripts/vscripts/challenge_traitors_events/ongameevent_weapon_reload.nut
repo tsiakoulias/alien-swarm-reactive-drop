@@ -3,9 +3,15 @@ function OnGameEvent_weapon_reload(params) {
 	local hWeapon = NetProps.GetPropEntity(hMarine, "m_hActiveWeapon");
 
 	switch (hWeapon.GetClassname()) {
+		case "asw_weapon_railgun": //导轨步枪
+			//EntFireByHandle(hWeapon, "RunScriptCode", "NetProps.SetPropFloat( self, \"m_flNextPrimaryAttack\", " + (Time() + fFireRate).tostring() + " );", 0.0, null, null);
+			local time = Time() + RandomHQUniformFloatDistribution(1.5, 2.1);
+			EntFireByHandle(hWeapon, "RunScriptCode", "NetProps.SetPropFloat( self, \"m_fFastReloadStart\", " + time.tostring() + " );", 0.0, null, null);
+			EntFireByHandle(hWeapon, "RunScriptCode", "NetProps.SetPropFloat( self, \"m_fFastReloadEnd\", " + (time + 0.1).tostring() + " );", 0.0, null, null);
+			break;
 		case "asw_weapon_sniper_rifle": //神射手
 			//EntFireByHandle(hWeapon, "RunScriptCode", "NetProps.SetPropFloat( self, \"m_flNextPrimaryAttack\", " + (Time() + fFireRate).tostring() + " );", 0.0, null, null);
-			local time = Time() + RandomHQUniformFloatDistribution(1.0, 2.0);
+			local time = Time() + RandomHQUniformFloatDistribution(1.3, 2.0);
 			EntFireByHandle(hWeapon, "RunScriptCode", "NetProps.SetPropFloat( self, \"m_fFastReloadStart\", " + time.tostring() + " );", 0.0, null, null);
 			EntFireByHandle(hWeapon, "RunScriptCode", "NetProps.SetPropFloat( self, \"m_fFastReloadEnd\", " + (time + 0.1).tostring() + " );", 0.0, null, null);
 			break;
@@ -20,6 +26,4 @@ function OnGameEvent_weapon_reload(params) {
 			EntFireByHandle(hWeapon, "RunScriptCode", "NetProps.SetPropFloat( self, \"m_fFastReloadEnd\", " + (time + 0.05).tostring() + " );", 0.0, null, null);
 			break;
 	}
-
-
 }

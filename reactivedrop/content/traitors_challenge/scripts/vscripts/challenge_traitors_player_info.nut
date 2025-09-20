@@ -128,7 +128,6 @@ function PaintMsg(point, role, font, message) {
 }
 
 function PaintTraitorIcon(idx) {
-
 	if (!self.GetEntity(idx) || TEXTURE_TRAITORS[idx] == -1 || self.GetInt(0) <= ROLE.MAX_IAF_TEAM || self.GetInt(0) > ROLE.MAX_TRAITOR_TEAM) {
 		return;
 	}
@@ -145,13 +144,7 @@ function PaintTraitorIcon(idx) {
 	local HalfH = 128.0 * fScale * 0.5;
 	yPos += 100 * (ScreenHeight() / 768.0);
 
-	local points = [
-		{x = xPos - HalfW, y = yPos - HalfH, s = 0, t = 0},
-		{x = xPos + HalfW, y = yPos - HalfH, s = 1, t = 0},
-		{x = xPos + HalfW, y = yPos + HalfH, s = 1, t = 1},
-		{x = xPos - HalfW, y = yPos + HalfH, s = 0, t = 1}
-	];
-	self.PaintPolygon(points, 255, 255, 255, 255, TEXTURE_TRAITORS[idx]);
+	self.PaintTexturedRectangle( xPos - HalfW, yPos - HalfH, xPos + HalfW, yPos + HalfH, 255, 255, 255, 255, TEXTURE_TRAITORS[idx] );
 }
 
 function interp(i, t) {
