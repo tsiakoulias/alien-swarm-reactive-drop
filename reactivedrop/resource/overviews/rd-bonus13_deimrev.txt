@@ -1,0 +1,18 @@
+GAME
+{
+	"pos_x"	"-3900"
+	"pos_y"	"9731"
+	"scale"	"12.0"
+	"material" "vgui/swarm/Overviews/deimaOverview"
+	"briefingmaterial" "vgui/swarm/Overviews/deimaBriefingOverview"
+	"missiontitle"		"Reversed Deima Surface Bridge"
+	"description"	"#rd_mission_desc_asi-jac2-deima"
+	"image"		"swarm/ObjectivePics/obdeimaesc"
+	"version"		"1"
+	"author"		"Valve"
+	"website"		"http://www.alienswarm.com/"
+	"builtin"		"1"
+	"regional_material"	"unopened_synup_cola"
+	"regional_material"	"cryotic"
+	"tag" "bonus"
+}

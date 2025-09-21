@@ -59,6 +59,7 @@ VMFs = [
 ##		MapInfo("rd-bonus10_sewrev", "2500", "0", postcompiler=False),
 ##		MapInfo("rd-bonus11_synrev", "2500", "0", postcompiler=False),
 ##		MapInfo("rd-bonus12_rydrev", "2500", "0", postcompiler=False),
+##		MapInfo("rd-bonus13_deimrev", "2500", "0", postcompiler=False),
 ##		MapInfo("rd-bonus14_cargrev", "2500", "0", postcompiler=False),
 ##		MapInfo("rd-bonus15_landrev", "3000", "0", postcompiler=False),
 ##		MapInfo("rd-dc1_omega_city", "1500", "0"),
