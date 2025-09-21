@@ -1,0 +1,18 @@
+GAME
+{
+	"pos_x"	"-5993"
+	"pos_y"	"-1627"
+	"scale"	"9.3"
+	"material" "vgui/swarm/Overviews/residentialOverview"
+	"briefingmaterial" "vgui/swarm/Overviews/residentialBriefingOverview"
+	"missiontitle"		"Reversed Syntek Residential"
+	"description"	"#rd_mission_desc_asi-jac4-residential"
+	"image"		"swarm/ObjectivePics/obresidentialbio"
+	"version"		"1"
+	"author"		"Valve"
+	"website"		"http://www.alienswarm.com/"
+	"builtin"		"1"
+	"tag"			"bonus"
+	"regional_material"	"unopened_synup_cola"
+	"regional_material"	"roll_of_vent_tape"
+}
