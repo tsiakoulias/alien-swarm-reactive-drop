@@ -45,6 +45,7 @@ ConVar rd_show_leaderboard_debrief( "rd_show_leaderboard_debrief", "0", FCVAR_AR
 ConVar rd_suggest_difficulty( "rd_suggest_difficulty", "1", FCVAR_NONE, "Suggest increasing or decreasing difficulty." );
 ConVar rd_fail_advice( "rd_fail_advice", "1", FCVAR_ARCHIVE, "Show advice on mission failed." );
 extern ConVar rd_lock_difficulty;
+extern ConVar rd_challenge;
 
 MissionCompletePanel::MissionCompletePanel( Panel *parent, const char *name, bool bSuccess ) : vgui::EditablePanel( parent, name )
 {
@@ -149,7 +150,7 @@ MissionCompletePanel::MissionCompletePanel( Panel *parent, const char *name, boo
 
 	if ( !ASWGameRules()->IsTutorialMap() )
 	{
-		Msg( "Adding experience report\n" );
+		DevMsg( "Adding experience report\n" );
 		m_PropertySheet->AddPageCustomButton( m_pExperienceReport, "#asw_experience_report_tab", scheme );
 		if ( GetControllerFocus() )
 		{
@@ -211,6 +212,32 @@ MissionCompletePanel::~MissionCompletePanel()
 		C_BaseEntity::StopSound( 0, m_szStatsMusic );
 }
 
+// temp; safe to remove after feb 16 2026
+static void CheckPvPFest2026()
+{
+	// during Steam PvP Fest 2026
+	if ( !SteamUtils() || !SteamUser() || SteamUtils()->GetServerRealTime() < 1770660000u || SteamUtils()->GetServerRealTime() > 1771264800u )
+		return;
+
+	if ( engine->IsPlayingDemo() || !C_ASW_Player::GetLocalASWPlayer() )
+		return;
+
+	int iPlayerIndex = C_ASW_Player::GetLocalASWPlayer()->entindex();
+
+	// got a kill and/or a death (not a spectator for the whole match)
+	if ( !g_PR->GetPlayerScore( iPlayerIndex ) && !g_PR->GetDeaths( iPlayerIndex ) )
+		return;
+
+	// don't already have the medal (so we're not spamming the server with requests)
+	CUtlVector<ReactiveDropInventory::ItemInstance_t> medal;
+	ReactiveDropInventory::GetItemsForDef( medal, 109 );
+	if ( medal.Count() != 0 )
+		return;
+
+	// using a bundle so the timed script doesn't need to know about translations
+	ReactiveDropInventory::AddPromoItem( 110 );
+}
+
 void MissionCompletePanel::ShowImageAndPlaySound()
 {
 	C_AlienSwarm *pGameRules = ASWGameRules();
@@ -229,12 +256,16 @@ void MissionCompletePanel::ShowImageAndPlaySound()
 		{
 			eMessage = CMission_Complete_Message::CAMPAIGN_COMPLETE;
 		}
-#if 0
 		else if ( ASWDeathmatchMode() )
 		{
 			eMessage = CMission_Complete_Message::SKIRMISH_COMPLETE;
 		}
-#endif
+	}
+
+	// temp; safe to remove after feb 16 2026
+	if ( ASWDeathmatchMode() || FStrEq( rd_challenge.GetString(), "traitors" ) )
+	{
+		CheckPvPFest2026();
 	}
 
 	m_pResultImage = new CMission_Complete_Message( this, "MissionCompleteMessage" );
