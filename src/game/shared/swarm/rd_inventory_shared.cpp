@@ -3839,6 +3839,19 @@ namespace ReactiveDropInventory
 			{
 				s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5002, 1 ); // Aliens Killed
 				s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5007, 1 ); // Alien Kill Streak
+				s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5010, 1 ); // Aliens Killed (Twitch)
+			}
+		}
+		else
+		{
+			if ( pAttacker->IsInhabitableNPC() )
+			{
+				CASW_Inhabitable_NPC *pInhabitableAttacker = assert_cast<CASW_Inhabitable_NPC *>( pAttacker );
+				if ( pTarget && pTarget->Classify() == (Class_T)CLASS_ASW_MARINE && bKilled && pTarget != pInhabitableAttacker )
+				{
+					s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5009, 1 ); // Deathmatch Kills
+					s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5011, 1 ); // Deathmatch Kills (Twitch)
+				}
 			}
 		}
 	}

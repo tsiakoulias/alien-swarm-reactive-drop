@@ -307,7 +307,7 @@ void C_ASW_Marine_Resource::OnDataChanged(DataUpdateType_t updateType)
 		ACTIVE_SPLITSCREEN_PLAYER_GUARD( hh );
 
 		C_ASW_Player *pPlayer = C_ASW_Player::GetLocalASWPlayer();
-		if ( pPlayer && pPlayer == GetCommander() && ASWGameRules() && ASWGameRules()->GetGameState() <= ASW_GS_BRIEFING )
+		if ( pPlayer && pPlayer == GetCommander() && ASWGameRules() && ASWGameRules()->GetGameState() <= ( ASWDeathmatchMode() ? ASW_GS_INGAME : ASW_GS_BRIEFING ) )
 		{
 			if ( updateType == DATA_UPDATE_CREATED )
 			{
