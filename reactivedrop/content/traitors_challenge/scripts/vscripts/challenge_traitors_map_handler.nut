@@ -224,7 +224,7 @@ function SetMapHandler() {
 					if (g_int_Counter > g_int_MapKillCounter[1] && temp.y < 4950) {
 						hMarine.TakeDamage(4, DAMAGE_TYPE.DMG_FALL, null);
 					}
-					if (g_int_Counter > g_int_MapKillCounter[2] && temp.z < 6068) {
+					if (g_int_Counter > g_int_MapKillCounter[2] && temp.y < 6068) {
 						hMarine.TakeDamage(4, DAMAGE_TYPE.DMG_FALL, null);
 					}
 				}
@@ -657,7 +657,7 @@ function SetMapHandler() {
 					if (temp.x < 1800 && temp.y < -2800) {
 						hMarine.TakeDamage(5, DAMAGE_TYPE.DMG_FALL, null);
 					}
-					if (temp.x < 1500 && temp.y < -2800) {
+					if (temp.x > 500 && temp.x < 1500 && temp.y < -2800) {
 						hMarine.Die();
 					}
 				}

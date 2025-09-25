@@ -53,5 +53,7 @@
 		"asw_sentry_top_flamer_dmg_override" "50"
 		"asw_sentry_top_machinegun_dmg_override" "0"
 		"asw_sentry_top_machinegun_fire_rate" "0.1"
+		"rd_devastator_bullet_spread_duck" "30"
+		"rd_devastator_lockmode_enabled" "0"
 	}
 }

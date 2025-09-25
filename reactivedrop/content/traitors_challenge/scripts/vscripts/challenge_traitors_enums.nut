@@ -79,12 +79,24 @@ BOOMER_SOUND <- {
 
 MISSION_END_SOUND <- {
 	IAF = {
-		MUSIC = "Traitors.Music_IAF_Win",
-		VOICE = "Traitors.Announcer_IAF_Win",
+		MUSIC = [
+			"Traitors.Music_IAF_Win1",
+			"Traitors.Music_IAF_Win2",
+		],
+		VOICE = [
+			"Traitors.Announcer_IAF_Win1",
+			"Traitors.Announcer_IAF_Win2",
+		],
 	},
 	TRAITOR = {
-		MUSIC = "Traitors.Music_Traitor_Win",
-		VOICE = "Traitors.Announcer_Traitor_Win",
+		MUSIC = [
+			"Traitors.Music_Traitor_Win1",
+			"Traitors.Music_Traitor_Win2",
+		],
+		VOICE = [
+			"Traitors.Announcer_Traitor_Win1",
+			"Traitors.Announcer_Traitor_Win2",
+		],
 	},
 };
 

@@ -92,7 +92,7 @@
 	"wave"	"explosions/t7501.wav"
 }
 
-"Traitors.Music_IAF_Win"
+"Traitors.Music_IAF_Win1"
 {
 	"channel"	"CHAN_STATIC"
 	"volume"	"1.000"
@@ -100,14 +100,10 @@
 
 	"soundlevel"	"SNDLVL_NONE"
 
-	"rndwave"
-	{
-		"wave"	"*#music/cossack_sandvich.wav"
-		"wave"	"*#music/fortress_reel.wav"
-	}
+	"wave"	"*#music/cossack_sandvich.wav"
 }
 
-"Traitors.Music_Traitor_Win"
+"Traitors.Music_IAF_Win2"
 {
 	"channel"	"CHAN_STATIC"
 	"volume"	"1.000"
@@ -115,14 +111,32 @@
 
 	"soundlevel"	"SNDLVL_NONE"
 
-	"rndwave"
-	{
-		"wave"	"*#music/mvm_lost_wave.wav"
-		"wave"	"*#music/trombonetauntv2.mp3"
-	}
+	"wave"	"*#music/fortress_reel.wav"
 }
 
-"Traitors.Announcer_IAF_Win"
+"Traitors.Music_Traitor_Win1"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SNDLVL_NONE"
+
+	"wave"	"*#music/mvm_lost_wave.wav"
+}
+
+"Traitors.Music_Traitor_Win2"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SNDLVL_NONE"
+
+	"wave"	"*#music/trombonetauntv2.mp3"
+}
+
+"Traitors.Announcer_IAF_Win1"
 {
 	"channel"	"CHAN_VOICE"
 	"volume"	"1.000"
@@ -130,14 +144,10 @@
 
 	"soundlevel"	"SNDLVL_NONE"
 
-	"rndwave"
-	{
-		"wave"	"*#vo/traitors_challenge_command/announcer_victory.wav"
-		"wave"	"*#vo/traitors_challenge_command/announcer_we_succeeded.wav"
-	}
+	"wave"	"*#vo/traitors_challenge_command/announcer_victory.wav"
 }
 
-"Traitors.Announcer_Traitor_Win"
+"Traitors.Announcer_IAF_Win2"
 {
 	"channel"	"CHAN_VOICE"
 	"volume"	"1.000"
@@ -145,9 +155,27 @@
 
 	"soundlevel"	"SNDLVL_NONE"
 
-	"rndwave"
-	{
-		"wave"	"*#vo/traitors_challenge_command/announcer_you_failed.wav"
-		"wave"	"*#vo/traitors_challenge_command/announcer_traitors_won.wav"
-	}
+	"wave"	"*#vo/traitors_challenge_command/announcer_we_succeeded.wav"
+}
+
+"Traitors.Announcer_Traitor_Win1"
+{
+	"channel"	"CHAN_VOICE"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SNDLVL_NONE"
+
+	"wave"	"*#vo/traitors_challenge_command/announcer_you_failed.wav"
+}
+
+"Traitors.Announcer_Traitor_Win2"
+{
+	"channel"	"CHAN_VOICE"
+	"volume"	"1.000"
+	"pitch"		"100"
+
+	"soundlevel"	"SNDLVL_NONE"
+
+	"wave"	"*#vo/traitors_challenge_command/announcer_traitors_won.wav"
 }
