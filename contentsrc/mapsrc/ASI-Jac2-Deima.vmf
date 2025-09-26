@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "3316"
+	"mapversion" "3317"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -80,7 +80,7 @@ viewsettings
 world
 {
 	"id" "182379"
-	"mapversion" "3316"
+	"mapversion" "3317"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -140833,7 +140833,7 @@ entity
 	"teslablesp" "1"
 	"UnburrowActivity" "act_jump_down_low"
 	"UnburrowIdleActivity" "act_jump_down_low_idle"
-	"origin" "5024 6768 -63"
+	"origin" "5024 6770 -63"
 	editor
 	{
 		"color" "0 0 255"
@@ -140953,7 +140953,7 @@ entity
 	"teslablesp" "1"
 	"UnburrowActivity" "act_jump_down_low"
 	"UnburrowIdleActivity" "act_jump_down_low_idle"
-	"origin" "4208 6768 -63"
+	"origin" "4208 6769 -63"
 	editor
 	{
 		"color" "0 0 255"
@@ -169391,7 +169391,7 @@ entity
 	"teslablesp" "1"
 	"UnburrowActivity" "act_climb_out_wall"
 	"UnburrowIdleActivity" "act_roll_idle"
-	"origin" "1350 1352 -59.8932"
+	"origin" "1350 1352 -58.8932"
 	editor
 	{
 		"color" "0 0 255"
@@ -172387,8 +172387,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[8131.69 7464.35 552.658]"
-		"look" "[8291.69 7574 372.222]"
+		"position" "[1310.11 1306.29 252.945]"
+		"look" "[1331.07 1303.1 -11.1205]"
 	}
 }
 cordons
