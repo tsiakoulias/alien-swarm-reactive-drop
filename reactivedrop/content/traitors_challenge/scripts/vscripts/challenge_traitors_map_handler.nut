@@ -813,6 +813,16 @@ function SetMapHandler() {
 					if (temp.z > 250) {
 						hMarine.TakeDamage(1, DAMAGE_TYPE.DMG_FALL, null);
 					}
+					if (temp.x < 890 && ((temp.x>365&&temp.y>2662) || temp.y > 3085)) { //防止下地底
+						hMarine.TakeDamage(50, DAMAGE_TYPE.DMG_FALL, null);
+					}
+
+					if (g_int_MapKillCounter[0] == INT_MAX && (temp.x >= -4350 && temp.x <= -4100) && temp.y >= 2365) {
+						g_int_MapKillCounter[0] = g_int_Counter + 600;
+					}
+					if (g_int_Counter > g_int_MapKillCounter[0] && !(temp.x <= -3100 && temp.y >= 1400 && temp.z >= -500)) {
+						hMarine.TakeDamage(10, DAMAGE_TYPE.DMG_FALL, null);
+					}
 				}
 			};
 			break;
