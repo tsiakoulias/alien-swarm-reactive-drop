@@ -79,6 +79,21 @@ void CASW_Weapon_50CalMG::Precache()
 	BaseClass::Precache();
 }
 
+const Vector& CASW_Weapon_50CalMG::GetBulletSpread( void )
+{
+	static const Vector cone( 0.17365, 0.17365, 0.02 );					// VECTOR_CONE_20DEGREES with flattened Z
+	static const Vector cone_duck = Vector( 0.13053, 0.13053, 0.01 );	// VECTOR_CONE_15DEGREES with flattened Z
+
+	CASW_Marine* marine = GetMarine();
+
+	if ( marine )
+	{
+		if ( marine->GetLocalVelocity().IsZero() && marine->m_bWalking )
+			return cone_duck;
+	}
+	return cone;
+}
+
 // just dry fire by default
 void CASW_Weapon_50CalMG::SecondaryAttack()
 {

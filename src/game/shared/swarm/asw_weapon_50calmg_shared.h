@@ -30,11 +30,7 @@ public:
 		return cone;
 	}
 
-	virtual const Vector& GetBulletSpread( void )
-	{
-		static const Vector cone( 0.17365, 0.17365, 0.02 ); // VECTOR_CONE_20DEGREES with flattened Z
-		return cone;
-	}
+	virtual const Vector& GetBulletSpread( void );
 
 #ifndef CLIENT_DLL
 	DECLARE_DATADESC();

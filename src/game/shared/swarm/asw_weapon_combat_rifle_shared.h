@@ -24,6 +24,8 @@ public:
 
 	virtual void SecondaryAttack();
 
+	virtual const Vector& GetBulletSpread( void );
+
 	virtual const Vector& GetAngularBulletSpread()
 	{
 		static const Vector cone(60, 60, 10);

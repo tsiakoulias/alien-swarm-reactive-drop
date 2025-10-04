@@ -154,7 +154,7 @@ float CASW_Weapon_Heavy_Rifle::GetFireRate()
 const Vector &CASW_Weapon_Heavy_Rifle::GetBulletSpread( void )
 {
 	const static Vector vec15degrees = Vector( 0.13053, 0.02618, 0.13053 );	// VECTOR_CONE_15DEGREES with y as VECTOR_CONE_3DEGREES
-	const static Vector vec6degrees = Vector( 0.05234, 0.02618, 0.05234 );		// VECTOR_CONE_6DEGREES with y as VECTOR_CONE_3DEGREES
+	const static Vector vec6degrees = Vector( 0.05234, 0.02618, 0.05234 );	// VECTOR_CONE_6DEGREES with y as VECTOR_CONE_3DEGREES
 
 	CASW_Marine *marine = GetMarine();
 

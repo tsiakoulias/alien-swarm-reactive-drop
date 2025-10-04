@@ -833,6 +833,10 @@
 			"BulletSpread" {
 				"Base" "3"
 			}
+			"Generic" {
+				"Icon" "swarm/swarmopedia/fact/accurate_crouch"
+				"Caption" "#rd_weapon_fact_more_accurate_while_crouching"
+			}
 			"FireRate" {
 				"Skill" "ASW_MARINE_SKILL_ENGINEERING"
 				"SubSkill" "ASW_MARINE_SUBSKILL_ENGINEERING_FIRERATE"
@@ -967,6 +971,7 @@
 			"StoppingPower" {}
 			"BulletSpread" {
 				"Base" "22"
+				"Flattened" "1"
 			}
 			"Generic" {
 				"Icon" "swarm/swarmopedia/fact/accurate_crouch"
@@ -1350,6 +1355,7 @@
 			"StoppingPower" {}
 			"BulletSpread" {
 				"Base" "22"
+				"Flattened" "1"
 			}
 			"Generic" {
 				"Icon" "swarm/swarmopedia/fact/accurate_crouch"
@@ -1541,6 +1547,10 @@
 			"StoppingPower" {}
 			"BulletSpread" {
 				"Base" "3"
+			}
+			"Generic" {
+				"Icon" "swarm/swarmopedia/fact/accurate_crouch"
+				"Caption" "#rd_weapon_fact_more_accurate_while_crouching"
 			}
 			"FireRate" {}
 			"Ammo" {}
@@ -2210,6 +2220,13 @@
 				"SubSkill" "ASW_MARINE_SUBSKILL_ACCURACY_RIFLE_DMG"
 			}
 			"StoppingPower" {}
+			"BulletSpread" {
+				"Base"	"3"
+			}
+			"Generic" {
+				"Icon" "swarm/swarmopedia/fact/accurate_crouch"
+				"Caption" "#rd_weapon_fact_more_accurate_while_crouching"
+			}
 			"Ammo" {}
 			"ReloadTime" {}
 			"Secondary" {
@@ -2546,6 +2563,10 @@
 			"BulletSpread" {
 				"Base" "20"
 				"Flattened" "1"
+			}
+			"Generic" {
+				"Icon" "swarm/swarmopedia/fact/accurate_crouch"
+				"Caption" "#rd_weapon_fact_more_accurate_while_crouching"
 			}
 			"FireRate" {}
 			"Ammo" {

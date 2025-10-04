@@ -29,6 +29,7 @@ public:
 	virtual int GetWeaponSkillId();
 	virtual int GetWeaponSubSkillId();
 	virtual void SecondaryAttack();
+	virtual const Vector& GetBulletSpread( void );
 
 	#ifndef CLIENT_DLL
 		DECLARE_DATADESC();
