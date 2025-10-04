@@ -464,7 +464,7 @@ static CASW_EquipItem s_RegularEquips[ASW_NUM_EQUIP_REGULAR] =
 		ASW_EQUIP_FLECHETTE, WEAPON_NAME( flechette ),
 		false, false, false, "ASW_F", "",
 		"swarm/EquipIcons/EquipRailgun",
-		&asw_ammo_count_flamer, &asw_ammo_count_flamer,
+		&asw_ammo_count_flechette, &asw_ammo_count_flechette,
 		NULL, NULL,
 		0, 0.125f, 2.0f, 1, MARINE_CLASS_UNDEFINED,
 		false, false, false, ASW_OFFHAND_USE_IMMEDIATELY,
