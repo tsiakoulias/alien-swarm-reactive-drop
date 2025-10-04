@@ -53,8 +53,8 @@ public:
 	virtual bool ShouldFlareAutoaim() { return true; }
 	virtual bool SupportsDamageModifiers() { return true; }
 
-	virtual const Vector &GetBulletSpread( void );
-	virtual const Vector &GetAngularBulletSpread( void );
+	virtual const Vector& GetBulletSpread( void );
+	virtual const Vector& GetAngularBulletSpread( void );
 
 	#ifndef CLIENT_DLL
 		DECLARE_DATADESC();
