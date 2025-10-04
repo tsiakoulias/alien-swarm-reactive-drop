@@ -907,6 +907,11 @@
 			"StoppingPower" {}
 			"BulletSpread" {
 				"Base" "7"
+				"Flattened" "1"
+			}
+			"Generic" {
+				"Icon" "swarm/swarmopedia/fact/accurate_crouch"
+				"Caption" "#rd_weapon_fact_more_accurate_while_crouching"
 			}
 			"FireRate" {}
 			"Ammo" {}
@@ -962,6 +967,10 @@
 			"StoppingPower" {}
 			"BulletSpread" {
 				"Base" "22"
+			}
+			"Generic" {
+				"Icon" "swarm/swarmopedia/fact/accurate_crouch"
+				"Caption" "#rd_weapon_fact_more_accurate_while_crouching"
 			}
 			"FireRate" {}
 			"Ammo" {}
@@ -1341,6 +1350,10 @@
 			"StoppingPower" {}
 			"BulletSpread" {
 				"Base" "22"
+			}
+			"Generic" {
+				"Icon" "swarm/swarmopedia/fact/accurate_crouch"
+				"Caption" "#rd_weapon_fact_more_accurate_while_crouching"
 			}
 			"FireRate" {}
 			"Ammo" {}
@@ -2145,6 +2158,10 @@
 			"BulletSpread" {
 				"Base" "11"
 			}
+			"Generic" {
+				"Icon" "swarm/swarmopedia/fact/accurate_crouch"
+				"Caption" "#rd_weapon_fact_more_accurate_while_crouching"
+			}
 			"Piercing" {
 				"Precision" "1"
 				"Skill" "ASW_MARINE_SKILL_STOPPING_POWER"
@@ -2153,10 +2170,6 @@
 			"FireRate" {}
 			"Ammo" {}
 			"ReloadTime" {}
-			"Generic" {
-				"Icon" "swarm/swarmopedia/fact/accurate_crouch"
-				"Caption" "#rd_weapon_fact_more_accurate_while_crouching"
-			}
 			"Generic" {
 				"Icon" "swarm/swarmopedia/fact/heavy"
 				"Caption" "#rd_weapon_fact_slow_movement_while_held"

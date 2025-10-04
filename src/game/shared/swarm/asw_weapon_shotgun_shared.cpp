@@ -138,6 +138,37 @@ CASW_Weapon_Shotgun::~CASW_Weapon_Shotgun()
 
 }
 
+
+const Vector &CASW_Weapon_Shotgun::GetBulletSpread( void )
+{
+	static const Vector cone = VECTOR_CONE_20DEGREES;
+	static const Vector cone_duck = VECTOR_CONE_15DEGREES;
+
+	CASW_Marine *marine = GetMarine();
+
+	if ( marine )
+	{
+		if ( marine->GetLocalVelocity().IsZero() && marine->m_bWalking )
+			return cone_duck;
+	}
+	return cone;
+}
+
+const Vector &CASW_Weapon_Shotgun::GetAngularBulletSpread( void )
+{
+	static const Vector cone( 22, 22, 12 );
+	static const Vector cone_duck( 16, 16, 6 );
+
+	CASW_Marine *marine = GetMarine();
+
+	if ( marine )
+	{
+		if ( marine->GetLocalVelocity().IsZero() && marine->m_bWalking )
+			return cone_duck;
+	}
+	return cone;
+}
+
 Activity CASW_Weapon_Shotgun::GetPrimaryAttackActivity( void )
 {
 	return ACT_VM_PRIMARYATTACK;

@@ -177,7 +177,16 @@ int CASW_Weapon_Autogun::GetWeaponSubSkillId()
 
 const Vector& CASW_Weapon_Autogun::GetBulletSpread( void )
 {
-	static const Vector cone = VECTOR_CONE_7DEGREES;
+	static const Vector cone = Vector( 0.06105, 0.06105, 0.02);			// VECTOR_CONE_7DEGREES with flattened Z
+    static const Vector cone_duck = Vector( 0.03490, 0.03490, 0.01 );	// VECTOR_CONE_4DEGREES with flattened Z
+
+	CASW_Marine *marine = GetMarine();
+
+	if ( marine )
+	{
+		if ( marine->GetLocalVelocity().IsZero() && marine->m_bWalking )
+			return cone_duck;
+	}
 	return cone;
 }
 
