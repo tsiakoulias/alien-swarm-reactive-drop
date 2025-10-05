@@ -82,7 +82,7 @@ void CASW_Weapon_50CalMG::Precache()
 const Vector& CASW_Weapon_50CalMG::GetBulletSpread( void )
 {
     static const Vector cone( 0.17365, 0.08716, 0.17365 );					// VECTOR_CONE_20DEGREES with flattened Y (vertical) VECTOR_CONE_10DEGREES
-    static const Vector cone_duck = Vector( 0.13053, 0.04362, 0.13053 );	// VECTOR_CONE_15DEGREES with flattened Y (vertical) ECTOR_CONE_5DEGREES
+    static const Vector cone_duck = Vector( 0.08716, 0.04362, 0.08716 );	// VECTOR_CONE_10DEGREES with flattened Y (vertical) ECTOR_CONE_5DEGREES
 
 	CASW_Marine* marine = GetMarine();
 

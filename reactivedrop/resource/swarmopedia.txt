@@ -2248,6 +2248,7 @@
 				"StoppingPower" {}
 				"BulletSpread" {
 					"Base" "30"
+					"Flattened" "1"
 				}
 				"Ammo" {}
 			}
