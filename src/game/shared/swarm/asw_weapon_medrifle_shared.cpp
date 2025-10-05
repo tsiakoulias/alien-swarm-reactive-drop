@@ -347,8 +347,8 @@ void CASW_Weapon_MedRifle::WeaponIdle( void )
 
 const Vector& CASW_Weapon_MedRifle::GetBulletSpread( void )
 {
-	static const Vector cone = Vector( 0.13053, 0.02, 0.13053 );		// VECTOR_CONE_15DEGREES with flattened Y
-	const static Vector cone_duck = Vector( 0.05234, 0.01, 0.05234 );	// VECTOR_CONE_6DEGREES with flattened Y
+	static const Vector cone = Vector( 0.13053, 0.02, 0.13053 );		// VECTOR_CONE_15DEGREES with flattened Y (vertical)
+	const static Vector cone_duck = Vector( 0.05234, 0.01, 0.05234 );	// VECTOR_CONE_6DEGREES with flattened Y (vertical)
 
 	CASW_Marine* marine = GetMarine();
 
