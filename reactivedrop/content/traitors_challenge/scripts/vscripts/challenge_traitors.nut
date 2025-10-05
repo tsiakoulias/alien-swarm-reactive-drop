@@ -447,7 +447,7 @@ function RefreshSkillMenu(interval = 1) {
 	}
 }
 
-g_float_AbetRatio <- 1.5;
+g_float_AbetRatio <- 1.6;
 function RefreshMenu(hMarine) {
 	local i = -1;
 
@@ -945,8 +945,8 @@ function PlayMissionEndSound(strWinner) {
 	local hPlayer = null;
 	local music;
 	local voice;
-	music = MISSION_END_SOUND[strWinner].MUSIC;
-	voice = MISSION_END_SOUND[strWinner].VOICE;
+	music = MISSION_END_SOUND[strWinner].MUSIC[RandomHQUniformIntDistribution(0, 1)];
+	voice = MISSION_END_SOUND[strWinner].VOICE[RandomHQUniformIntDistribution(0, 1)];
 	while (hPlayer = Entities.FindByClassname(hPlayer, "player")) {
 		hPlayer.PrecacheSoundScript(music);
 		hPlayer.PrecacheSoundScript(voice);

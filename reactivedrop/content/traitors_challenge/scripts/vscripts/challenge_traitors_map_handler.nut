@@ -224,7 +224,7 @@ function SetMapHandler() {
 					if (g_int_Counter > g_int_MapKillCounter[1] && temp.y < 4950) {
 						hMarine.TakeDamage(4, DAMAGE_TYPE.DMG_FALL, null);
 					}
-					if (g_int_Counter > g_int_MapKillCounter[2] && temp.z < 6068) {
+					if (g_int_Counter > g_int_MapKillCounter[2] && temp.y < 6068) {
 						hMarine.TakeDamage(4, DAMAGE_TYPE.DMG_FALL, null);
 					}
 				}
@@ -657,7 +657,7 @@ function SetMapHandler() {
 					if (temp.x < 1800 && temp.y < -2800) {
 						hMarine.TakeDamage(5, DAMAGE_TYPE.DMG_FALL, null);
 					}
-					if (temp.x < 1500 && temp.y < -2800) {
+					if (temp.x > 500 && temp.x < 1500 && temp.y < -2800) {
 						hMarine.Die();
 					}
 				}
@@ -812,6 +812,16 @@ function SetMapHandler() {
 					local temp = hMarine.GetOrigin();
 					if (temp.z > 250) {
 						hMarine.TakeDamage(1, DAMAGE_TYPE.DMG_FALL, null);
+					}
+					if (temp.x < 890 && ((temp.x>365&&temp.y>2662) || temp.y > 3085)) { //防止下地底
+						hMarine.TakeDamage(50, DAMAGE_TYPE.DMG_FALL, null);
+					}
+
+					if (g_int_MapKillCounter[0] == INT_MAX && (temp.x >= -4350 && temp.x <= -4100) && temp.y >= 2365) {
+						g_int_MapKillCounter[0] = g_int_Counter + 600;
+					}
+					if (g_int_Counter > g_int_MapKillCounter[0] && !(temp.x <= -3100 && temp.y >= 1400 && temp.z >= -500)) {
+						hMarine.TakeDamage(10, DAMAGE_TYPE.DMG_FALL, null);
 					}
 				}
 			};
