@@ -26,11 +26,7 @@ public:
 	virtual void SecondaryAttack();
 	virtual bool SupportsBayonet();
 	virtual bool HasSecondaryExplosive( void ) const { return true; }
-	virtual const Vector& GetBulletSpread( void )
-	{
-		static Vector cone = VECTOR_CONE_3DEGREES;
-		return cone;
-	}
+	virtual const Vector& GetBulletSpread( void );
 
 	virtual bool SupportsGroundShooting() { return true; }
 

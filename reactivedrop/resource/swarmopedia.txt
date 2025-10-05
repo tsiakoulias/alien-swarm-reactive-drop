@@ -769,6 +769,10 @@
 			"BulletSpread" {
 				"Base" "3"
 			}
+			"Generic" {
+				"Icon" "swarm/swarmopedia/fact/accurate_crouch"
+				"Caption" "#rd_weapon_fact_more_accurate_while_crouching"
+			}
 			"FireRate" {}
 			"Ammo" {}
 			"ReloadTime" {}
