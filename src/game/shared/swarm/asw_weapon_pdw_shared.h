@@ -30,12 +30,8 @@ public:
 	virtual int GetWeaponSubSkillId();
 
 	virtual const float GetAutoAimAmount() { return AUTOAIM_2DEGREES; }	
-	virtual const Vector& GetBulletSpread( void )
-	{
-		static const Vector cone = VECTOR_CONE_3DEGREES; //VECTOR_CONE_20DEGREES;
+	virtual const Vector& GetBulletSpread( void );
 
-		return cone;
-	}
 	virtual bool ShouldFlareAutoaim() { return true; }
 
 	virtual void PrimaryAttack();

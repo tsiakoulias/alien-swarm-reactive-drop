@@ -29,11 +29,7 @@ public:
 	
 	void	DoImpactEffect( trace_t &tr, int nDamageType );
 
-	virtual const Vector& GetBulletSpread( void )
-	{
-		static Vector cone = VECTOR_CONE_3DEGREES;
-		return cone;
-	}
+	virtual const Vector& GetBulletSpread( void );
 
 	virtual const float GetAutoAimAmount() { return AUTOAIM_2DEGREES * 0.3f; }
 	virtual bool ShouldFlareAutoaim() { return true; }

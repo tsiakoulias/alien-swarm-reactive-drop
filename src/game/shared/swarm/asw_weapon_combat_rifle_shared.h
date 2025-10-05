@@ -24,9 +24,11 @@ public:
 
 	virtual void SecondaryAttack();
 
+	virtual const Vector& GetBulletSpread( void );
+
 	virtual const Vector& GetAngularBulletSpread()
 	{
-		static const Vector cone(60, 60, 10);
+		static const Vector cone( 10, 60, 10 );	// VECTOR CONE 60 degrees with flattened X/Z (vertical) 10 degrees
 		return cone;
 	}
 

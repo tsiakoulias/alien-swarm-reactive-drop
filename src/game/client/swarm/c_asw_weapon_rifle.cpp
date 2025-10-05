@@ -31,6 +31,22 @@ C_ASW_Weapon_Rifle::~C_ASW_Weapon_Rifle()
 
 }
 
+
+const Vector& C_ASW_Weapon_Rifle::GetBulletSpread( void )
+{
+	static const Vector cone = VECTOR_CONE_3DEGREES;
+	static const Vector cone_duck = VECTOR_CONE_1DEGREES;
+
+	CASW_Marine* marine = GetMarine();
+
+	if ( marine )
+	{
+		if ( marine->GetLocalVelocity().IsZero() && marine->m_bWalking )
+			return cone_duck;
+	}
+	return cone;
+}
+
 void C_ASW_Weapon_Rifle::SecondaryAttack( void )
 {
 	CASW_Player *pPlayer = GetCommander();

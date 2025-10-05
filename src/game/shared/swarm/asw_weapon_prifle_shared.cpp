@@ -78,6 +78,21 @@ void CASW_Weapon_PRifle::Precache()
 	BaseClass::Precache();
 }
 
+const Vector& CASW_Weapon_PRifle::GetBulletSpread( void )
+{
+	static const Vector cone = VECTOR_CONE_3DEGREES;
+	static const Vector cone_duck = VECTOR_CONE_1DEGREES;
+
+	CASW_Marine* marine = GetMarine();
+
+	if ( marine )
+	{
+		if ( marine->GetLocalVelocity().IsZero() && marine->m_bWalking )
+			return cone_duck;
+	}
+	return cone;
+}
+
 float CASW_Weapon_PRifle::GetFireRate()
 {
 	float flRate = BaseClass::GetFireRate();

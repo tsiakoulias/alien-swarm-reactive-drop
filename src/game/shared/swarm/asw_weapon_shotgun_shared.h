@@ -53,17 +53,8 @@ public:
 	virtual bool ShouldFlareAutoaim() { return true; }
 	virtual bool SupportsDamageModifiers() { return true; }
 
-	virtual const Vector& GetBulletSpread()
-	{
-		static const Vector cone = VECTOR_CONE_20DEGREES;
-		return cone;
-	}
-
-	virtual const Vector& GetAngularBulletSpread()
-	{
-		static const Vector cone(22,22,22);
-		return cone;
-	}
+	virtual const Vector& GetBulletSpread( void );
+	virtual const Vector& GetAngularBulletSpread( void );
 
 	#ifndef CLIENT_DLL
 		DECLARE_DATADESC();
