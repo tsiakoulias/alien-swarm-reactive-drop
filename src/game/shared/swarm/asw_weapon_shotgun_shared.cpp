@@ -156,7 +156,7 @@ const Vector& CASW_Weapon_Shotgun::GetBulletSpread( void )
 
 const Vector& CASW_Weapon_Shotgun::GetAngularBulletSpread( void )
 {
-	static const Vector cone( 2, 22, 2 );
+	static const Vector cone( 12, 22, 12 );
 	static const Vector cone_duck( 6, 16, 6 );
 
 	CASW_Marine* marine = GetMarine();
