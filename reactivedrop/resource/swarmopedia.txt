@@ -2430,6 +2430,7 @@
 			"StoppingPower" {}
 			"BulletSpread" {
 				"Base" "3"
+				"Flattened" "1"
 			}
 			"Generic" {
 				"Icon" "swarm/swarmopedia/fact/accurate_crouch"

@@ -141,8 +141,8 @@ CASW_Weapon_Shotgun::~CASW_Weapon_Shotgun()
 
 const Vector& CASW_Weapon_Shotgun::GetBulletSpread( void )
 {
-	static const Vector cone = VECTOR_CONE_20DEGREES;
-	static const Vector cone_duck = VECTOR_CONE_15DEGREES;
+    static const Vector cone = Vector( 0.17365, 0.02, 0.17365 );		// VECTOR_CONE_20DEGREES with flattened Y
+    static const Vector cone_duck = Vector( 0.05234, 0.01, 0.05234 );	// VECTOR_CONE_6DEGREES with flattened Y
 
 	CASW_Marine* marine = GetMarine();
 
@@ -156,8 +156,8 @@ const Vector& CASW_Weapon_Shotgun::GetBulletSpread( void )
 
 const Vector& CASW_Weapon_Shotgun::GetAngularBulletSpread( void )
 {
-	static const Vector cone( 22, 22, 12 );
-	static const Vector cone_duck( 16, 16, 6 );
+	static const Vector cone( 2, 22, 2 );
+	static const Vector cone_duck( 6, 16, 6 );
 
 	CASW_Marine* marine = GetMarine();
 

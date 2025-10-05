@@ -442,8 +442,8 @@ int CASW_Weapon_Minigun::GetWeaponSubSkillId()
 
 const Vector &CASW_Weapon_Minigun::GetBulletSpread( void )
 {
-	const static Vector cone = Vector( 0.13053, 0.13053, 0.02 );	// VECTOR_CONE_15DEGREES with flattened Z
-	const static Vector cone_duck = Vector( 0.05234, 0.05234, 0.01 ); // VECTOR_CONE_6DEGREES with flattened Z
+	const static Vector cone = Vector( 0.13053, 0.02, 0.13053 );		// VECTOR_CONE_15DEGREES with flattened Y
+	const static Vector cone_duck = Vector( 0.05234, 0.01, 0.05234 );	// VECTOR_CONE_6DEGREES with flattened Y
 
 	CASW_Marine *marine = GetMarine();
 

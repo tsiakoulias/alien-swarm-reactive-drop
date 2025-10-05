@@ -24,12 +24,7 @@ public:
 
 	virtual void SecondaryAttack();
 
-	virtual const Vector& GetAngularBulletSpread()
-	{
-		static const Vector cone(60, 60, 10);
-		return cone;
-	}
-
+	virtual const Vector& GetAngularBulletSpread( void );
 	virtual const Vector& GetBulletSpread( void );
 
 #ifndef CLIENT_DLL

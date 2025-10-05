@@ -81,8 +81,23 @@ void CASW_Weapon_50CalMG::Precache()
 
 const Vector& CASW_Weapon_50CalMG::GetBulletSpread( void )
 {
-	static const Vector cone( 0.17365, 0.17365, 0.02 );					// VECTOR_CONE_20DEGREES with flattened Z
-	static const Vector cone_duck = Vector( 0.13053, 0.13053, 0.01 );	// VECTOR_CONE_15DEGREES with flattened Z
+	static const Vector cone( 0.17365, 0.02, 0.17365 );					// VECTOR_CONE_20DEGREES with flattened Y
+	static const Vector cone_duck = Vector( 0.13053, 0.01, 0.13053 );	// VECTOR_CONE_15DEGREES with flattened Y
+
+	CASW_Marine* marine = GetMarine();
+
+	if ( marine )
+	{
+		if ( marine->GetLocalVelocity().IsZero() && marine->m_bWalking )
+			return cone_duck;
+	}
+	return cone;
+}
+
+const Vector& CASW_Weapon_50CalMG::GetAngularBulletSpread( void )
+{
+	static const Vector cone( 0, 60, 0 );
+	static const Vector cone_duck( 5, 40, 5 );
 
 	CASW_Marine* marine = GetMarine();
 
