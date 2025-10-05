@@ -153,8 +153,8 @@ float CASW_Weapon_Heavy_Rifle::GetFireRate()
 
 const Vector &CASW_Weapon_Heavy_Rifle::GetBulletSpread( void )
 {
-	const static Vector cone = Vector( 0.13053, 0.02, 0.13053 );		// VECTOR_CONE_15DEGREES with flattened Y (vertical)
-	const static Vector cone_duck = Vector( 0.05234, 0.01, 0.05234 );	// VECTOR_CONE_6DEGREES with flattened Y (vertical)
+	static const Vector cone = Vector( 0.13053, 0.02618, 0.13053 );			// VECTOR_CONE_15DEGREES with flattened Y (vertical) VECTOR_CONE_3DEGREES
+	static const Vector cone_duck = Vector( 0.05234, 0.00873, 0.05234 );	// VECTOR_CONE_6DEGREES with flattened Y (vertical) VECTOR_CONE_1DEGREES
 
 	CASW_Marine *marine = GetMarine();
 

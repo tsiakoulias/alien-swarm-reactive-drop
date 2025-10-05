@@ -177,8 +177,8 @@ int CASW_Weapon_Autogun::GetWeaponSubSkillId()
 
 const Vector& CASW_Weapon_Autogun::GetBulletSpread( void )
 {
-	static const Vector cone = Vector( 0.06105, 0.02, 0.06105 );		// VECTOR_CONE_7DEGREES with flattened Y (vertical)
-	static const Vector cone_duck = Vector( 0.03490, 0.01, 0.03490 );	// VECTOR_CONE_4DEGREES with flattened Y (vertical)
+	static const Vector cone = Vector( 0.06105, 0.02618, 0.06105 );			// VECTOR_CONE_7DEGREES with flattened Y (vertical) VECTOR_CONE_3DEGREES
+	static const Vector cone_duck = Vector( 0.03490, 0.00873, 0.03490 );	// VECTOR_CONE_4DEGREES with flattened Y (vertical) VECTOR_CONE_1DEGREES
 
 	CASW_Marine *marine = GetMarine();
 
