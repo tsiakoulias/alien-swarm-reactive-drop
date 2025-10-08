@@ -68,4 +68,10 @@ particles_manifest
 	"file"		"particles/ap_particles.pcf"
 	"file"		"particles/newcamp_particles.pcf"
 	"file"		"particles/rd-adanaxis_fx.pcf"
+
+	// This file includes 64 empty particle systems numbered mod_0 to mod_63.
+	// Use it if you run into some edge case where adding a particle system
+	// crashes the game but modifying one works fine.
+	// Pick a random number and hope you don't conflict with another mod.
+	"file"		"!particles/rd-mod_dummy.pcf"
 }
