@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "996"
+	"mapversion" "997"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -38,13 +38,13 @@ viewsettings
 	"bSnapToGrid" "1"
 	"bShowGrid" "1"
 	"bShowLogicalGrid" "0"
-	"nGridSpacing" "32"
+	"nGridSpacing" "1"
 	"bShow3DGrid" "0"
 }
 world
 {
 	"id" "1"
-	"mapversion" "996"
+	"mapversion" "997"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -89533,6 +89533,7 @@ entity
 	"skin" "0"
 	"spawnflags" "4"
 	"StartDisabled" "0"
+	"targetname" "ragdolls"
 	"origin" "-11424 -5648 -1888.51"
 	editor
 	{
@@ -133004,13 +133005,31 @@ entity
 		"logicalpos" "[0 500]"
 	}
 }
+entity
+{
+	"id" "444491"
+	"classname" "logic_auto"
+	"spawnflags" "1"
+	connections
+	{
+		"OnMapSpawn" "ragdollsDisableMotion3-1"
+	}
+	"origin" "-11312 -5696 -2044"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 0]"
+	}
+}
 cameras
 {
 	"activecamera" "0"
 	camera
 	{
-		"position" "[-11714.2 -3481.41 -1059.61]"
-		"look" "[-11733.4 -3248.58 -1385.46]"
+		"position" "[-11369.6 -5723.06 -1684.65]"
+		"look" "[-11369.6 -5580.16 -2059.26]"
 	}
 }
 cordons

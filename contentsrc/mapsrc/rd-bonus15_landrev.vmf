@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "3792"
+	"mapversion" "3793"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -80,7 +80,7 @@ viewsettings
 world
 {
 	"id" "394754"
-	"mapversion" "3792"
+	"mapversion" "3793"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -40157,6 +40157,7 @@ entity
 {
 	"id" "2638114"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "512"
 	"mapwidth" "512"
 	"objectivename" "DownloadData"
@@ -40745,6 +40746,7 @@ entity
 {
 	"id" "2638156"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "1024"
 	"mapwidth" "1024"
 	"objectivename" "AccessBay"
@@ -132817,6 +132819,7 @@ entity
 	"model" "models/aliens/drone/drone.mdl"
 	"skin" "0"
 	"spawnflags" "4"
+	"targetname" "ragdolls"
 	"origin" "-5981.43 -5654.37 680.484"
 	editor
 	{
@@ -133274,6 +133277,7 @@ entity
 	"model" "models/aliens/drone/drone.mdl"
 	"skin" "0"
 	"spawnflags" "4"
+	"targetname" "ragdolls"
 	"origin" "-5832 -5216 916.278"
 	editor
 	{
@@ -169366,6 +169370,7 @@ entity
 {
 	"id" "3110920"
 	"classname" "asw_tech_marine_req"
+	"StatsMusicFailure" "asw_song.StatsFailTech"
 	"targetname" "Tech_req"
 	"origin" "-4896 1088 1128"
 	editor
@@ -177041,6 +177046,7 @@ entity
 	"classname" "asw_jukebox"
 	"FadeInTime" "1.0"
 	"FadeOutTime" "5.0"
+	"InterruptCustomTrack" "1"
 	"targetname" "jukebox"
 	"origin" "-6422 1216 883.031"
 	editor
@@ -180112,7 +180118,7 @@ entity
 	"origin" "-4818.4 870.19 834"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1500]"
@@ -180126,7 +180132,7 @@ entity
 	"origin" "-4793 973 834"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1500]"
@@ -180140,7 +180146,7 @@ entity
 	"origin" "-4893 921 837"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1500]"
@@ -180154,7 +180160,7 @@ entity
 	"origin" "-4951 857 834"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1500]"
@@ -180168,7 +180174,7 @@ entity
 	"origin" "-4999 889 834"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1500]"
@@ -180182,7 +180188,7 @@ entity
 	"origin" "-5073 873 834"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1500]"
@@ -180196,7 +180202,7 @@ entity
 	"origin" "-5073 985 834"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1500]"
@@ -180210,7 +180216,7 @@ entity
 	"origin" "-5013 969 834"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1500]"
@@ -180224,7 +180230,7 @@ entity
 	"origin" "-4943 989 834"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1500]"
@@ -180330,6 +180336,7 @@ entity
 {
 	"id" "3393991"
 	"classname" "asw_marker"
+	"angles" "0 0 0"
 	"mapheight" "256"
 	"mapwidth" "256"
 	"objectivename" "ExitZone"
@@ -182049,13 +182056,31 @@ entity
 		"logicalpos" "[-16268 0]"
 	}
 }
+entity
+{
+	"id" "3445996"
+	"classname" "logic_auto"
+	"spawnflags" "1"
+	connections
+	{
+		"OnMapSpawn" "ragdollsDisableMotion3-1"
+	}
+	"origin" "-5136 -8920 1001"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 0]"
+	}
+}
 cameras
 {
 	"activecamera" "0"
 	camera
 	{
-		"position" "[-6826.67 -2216.15 1106.41]"
-		"look" "[-6852.32 -2477.51 1052.51]"
+		"position" "[-5900.73 -5413.47 1203.55]"
+		"look" "[-5909.67 -5254.4 987.941]"
 	}
 }
 cordons
