@@ -11,22 +11,21 @@
 LINK_ENTITY_TO_CLASS( func_asw_fade, CFunc_ASW_Fade );
 
 BEGIN_DATADESC( CFunc_ASW_Fade )
-DEFINE_FIELD( m_bHasProxies, FIELD_BOOLEAN ),
-DEFINE_KEYFIELD( m_nFadeOpacity, FIELD_CHARACTER, "fade_opacity" ),
-DEFINE_KEYFIELD( m_iCollideWithGrenades, FIELD_CHARACTER, "CollideWithGrenades" ),
-DEFINE_KEYFIELD( m_bCollideWithMarines, FIELD_BOOLEAN, "CollideWithMarines" ),
-DEFINE_KEYFIELD( m_bAllowFade, FIELD_BOOLEAN, "AllowFade" ),
-
-DEFINE_INPUTFUNC( FIELD_INTEGER, "SetCollideWithGrenades", InputSetCollideWithGrenades ),
-DEFINE_INPUTFUNC( FIELD_BOOLEAN, "SetCollideWithMarines", InputSetCollideWithMarines ),
+	DEFINE_FIELD( m_bHasProxies, FIELD_BOOLEAN ),
+	DEFINE_KEYFIELD( m_nFadeOpacity, FIELD_CHARACTER, "fade_opacity" ),
+	DEFINE_KEYFIELD( m_iCollideWithGrenades, FIELD_CHARACTER, "CollideWithGrenades" ),
+	DEFINE_KEYFIELD( m_bCollideWithMarines, FIELD_BOOLEAN, "CollideWithMarines" ),
+	DEFINE_INPUT( m_bAllowFade, FIELD_BOOLEAN, "AllowFade" ),
+	DEFINE_INPUTFUNC( FIELD_INTEGER, "SetCollideWithGrenades", InputSetCollideWithGrenades ),
+	DEFINE_INPUTFUNC( FIELD_BOOLEAN, "SetCollideWithMarines", InputSetCollideWithMarines ),
 END_DATADESC()
 
 IMPLEMENT_SERVERCLASS_ST( CFunc_ASW_Fade, DT_Func_ASW_Fade )
-SendPropInt( SENDINFO( m_nFadeOpacity ), 8, SPROP_UNSIGNED ),
-SendPropInt( SENDINFO( m_iCollideWithGrenades ), 2, SPROP_UNSIGNED ),
-SendPropBool( SENDINFO( m_bCollideWithMarines ) ),
-SendPropBool( SENDINFO( m_bAllowFade ) ),
-SendPropBool( SENDINFO( m_bHasProxies ) ),
+	SendPropInt( SENDINFO( m_nFadeOpacity ), 8, SPROP_UNSIGNED ),
+	SendPropInt( SENDINFO( m_iCollideWithGrenades ), 2, SPROP_UNSIGNED ),
+	SendPropBool( SENDINFO( m_bCollideWithMarines ) ),
+	SendPropBool( SENDINFO( m_bAllowFade ) ),
+	SendPropBool( SENDINFO( m_bHasProxies ) ),
 END_SEND_TABLE()
 
 CFunc_ASW_Fade::CFunc_ASW_Fade()
