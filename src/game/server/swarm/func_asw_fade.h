@@ -28,7 +28,7 @@ public:
 	// 0 = only when grenade spawns above the brush
 	// 1 = always
 	// 2 = never
-	byte m_iCollideWithGrenades;
+	CNetworkVar( byte, m_iCollideWithGrenades );
 	CNetworkVar( bool, m_bCollideWithMarines );
 	CNetworkVar( byte, m_nFadeOpacity );
 	CNetworkVar( bool, m_bAllowFade );
