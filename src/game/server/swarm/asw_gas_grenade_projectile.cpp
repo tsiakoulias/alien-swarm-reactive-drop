@@ -11,6 +11,7 @@
 #include "particle_parse.h"
 #include "asw_generic_emitter_entity.h"
 #include "asw_radiation_volume.h"
+#include "func_asw_fade.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -102,6 +103,8 @@ void CASW_Gas_Grenade_Projectile::Spawn( void )
 	AddFlag( FL_OBJECT );
 	
 	SetCollisionGroup( ASW_COLLISION_GROUP_IGNORE_NPCS );
+
+	CFunc_ASW_Fade::DisableCollisionsWithGrenade( this );
 
 	// Tumble in air
 	QAngle vecAngVelocity( 0, random->RandomFloat ( -100, -500 ), 0 );

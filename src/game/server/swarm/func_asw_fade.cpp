@@ -88,6 +88,7 @@ void CFunc_ASW_Fade::InputSetCollideWithGrenades( inputdata_t& inputdata )
 		"asw_flare_projectile",
 		"asw_laser_mine",
 		"asw_grenade_vindicator",
+		"asw_gas_grenade_projectile",
 		nullptr
 	};
 
