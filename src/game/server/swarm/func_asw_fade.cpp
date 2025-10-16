@@ -80,7 +80,7 @@ void CFunc_ASW_Fade::InputSetCollideWithGrenades( inputdata_t& inputdata )
 
 	static const char* pszExplosiveClasses[] = {
 		"asw_mine",
-		"npc_zombine",
+		"npc_grenade_frag",
 		"asw_rocket",
         "grenadespit",
 		"asw_missile_round",
