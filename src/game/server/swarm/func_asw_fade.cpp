@@ -57,6 +57,10 @@ void CFunc_ASW_Fade::DisableCollisionsWithGrenade( CBaseEntity *pGrenade )
 		{
 			PhysDisableEntityCollisions( pCeiling, pGrenade );
 		}
+		else
+		{
+			PhysEnableEntityCollisions( pCeiling, pGrenade );
+        }
 	}
 }
 
@@ -71,6 +75,10 @@ void CFunc_ASW_Fade::DisableCollisionsWithMarine( CBaseEntity *pMarine )
 		{
 			PhysDisableEntityCollisions( pCeiling, pMarine );
 		}
+		else
+		{
+			PhysEnableEntityCollisions( pCeiling, pMarine );
+        }
 	}
 }
 
