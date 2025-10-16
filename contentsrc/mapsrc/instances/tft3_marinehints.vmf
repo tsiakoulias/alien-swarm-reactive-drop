@@ -1,8 +1,8 @@
 versioninfo
 {
 	"editorversion" "400"
-	"editorbuild" "5032"
-	"mapversion" "9"
+	"editorbuild" "7397"
+	"mapversion" "10"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -20,7 +20,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "9"
+	"mapversion" "10"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -3769,8 +3769,8 @@ entity
 {
 	"id" "536"
 	"classname" "info_marine_hint"
-	"angles" "0 335 0"
-	"origin" "-188 -3236 928"
+	"angles" "0 350 0"
+	"origin" "-205 -3259 928"
 	editor
 	{
 		"color" "8 64 232"
@@ -3785,20 +3785,6 @@ entity
 	"classname" "info_marine_hint"
 	"angles" "0 58 0"
 	"origin" "224 -3304 1088"
-	editor
-	{
-		"color" "8 64 232"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[0 4000]"
-	}
-}
-entity
-{
-	"id" "540"
-	"classname" "info_marine_hint"
-	"angles" "0 8 0"
-	"origin" "-220 -3412 928"
 	editor
 	{
 		"color" "8 64 232"
@@ -4765,20 +4751,6 @@ entity
 	"classname" "info_marine_hint"
 	"angles" "0 316.5 0"
 	"origin" "64 -3252 1020"
-	editor
-	{
-		"color" "8 64 232"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[0 4000]"
-	}
-}
-entity
-{
-	"id" "698"
-	"classname" "info_marine_hint"
-	"angles" "0 58 0"
-	"origin" "-128 -3364 928"
 	editor
 	{
 		"color" "8 64 232"
