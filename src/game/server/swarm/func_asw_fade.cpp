@@ -45,42 +45,54 @@ void CFunc_ASW_Fade::Spawn()
 	Assert( m_iCollideWithGrenades <= 2 );
 }
 
-void CFunc_ASW_Fade::DisableCollisionsWithGrenade( CBaseEntity *pGrenade )
+void CFunc_ASW_Fade::DisableCollisionsWithGrenade( CBaseEntity* pGrenade )
 {
-	float flGrenadeZ = pGrenade->GetAbsOrigin().z;
-	string_t iszClassName = AllocPooledString( "func_asw_fade" );
+	const float flGrenadeZ = pGrenade->GetAbsOrigin().z;
+	const string_t iszClassName = AllocPooledString( "func_asw_fade" );
 
-	CFunc_ASW_Fade *pCeiling = NULL;
-	while ( ( pCeiling = assert_cast< CFunc_ASW_Fade * >( gEntList.FindEntityByClassnameFast( pCeiling, iszClassName ) ) ) != NULL )
+	CFunc_ASW_Fade* pCeiling = nullptr;
+	while ( ( pCeiling = assert_cast<CFunc_ASW_Fade*>(
+		gEntList.FindEntityByClassnameFast( pCeiling, iszClassName ) ) ) != nullptr )
 	{
-		if ( ( pCeiling->m_iCollideWithGrenades == 0 && pCeiling->GetAbsOrigin().z >= flGrenadeZ ) || pCeiling->m_iCollideWithGrenades == 2 )
+		const bool bShouldDisable =
+			( pCeiling->m_iCollideWithGrenades == 0 && pCeiling->GetAbsOrigin().z >= flGrenadeZ ) ||
+			( pCeiling->m_iCollideWithGrenades == 2 );
+
+		const bool bCurrentlyDisabled = PhysEntityCollisionsAreDisabled( pCeiling, pGrenade );
+
+		if ( bShouldDisable && !bCurrentlyDisabled )
 		{
 			PhysDisableEntityCollisions( pCeiling, pGrenade );
 		}
-		else
+		else if ( !bShouldDisable && bCurrentlyDisabled )
 		{
 			PhysEnableEntityCollisions( pCeiling, pGrenade );
-        }
+		}
 	}
 }
 
-void CFunc_ASW_Fade::DisableCollisionsWithMarine( CBaseEntity *pMarine )
+void CFunc_ASW_Fade::DisableCollisionsWithMarine( CBaseEntity* pMarine )
 {
-	string_t iszClassName = AllocPooledString( "func_asw_fade" );
+	const string_t iszClassName = AllocPooledString( "func_asw_fade" );
 
-	CFunc_ASW_Fade *pCeiling = NULL;
-	while ( ( pCeiling = assert_cast< CFunc_ASW_Fade * >( gEntList.FindEntityByClassnameFast( pCeiling, iszClassName ) ) ) != NULL )
+	CFunc_ASW_Fade* pCeiling = nullptr;
+	while ( ( pCeiling = assert_cast<CFunc_ASW_Fade*>(
+		gEntList.FindEntityByClassnameFast( pCeiling, iszClassName ) ) ) != nullptr )
 	{
-		if ( !pCeiling->m_bCollideWithMarines )
+		const bool bShouldDisable = !pCeiling->m_bCollideWithMarines;
+		const bool bCurrentlyDisabled = PhysEntityCollisionsAreDisabled( pCeiling, pMarine );
+
+		if ( bShouldDisable && !bCurrentlyDisabled )
 		{
 			PhysDisableEntityCollisions( pCeiling, pMarine );
 		}
-		else
+		else if ( !bShouldDisable && bCurrentlyDisabled )
 		{
 			PhysEnableEntityCollisions( pCeiling, pMarine );
-        }
+		}
 	}
 }
+
 
 void CFunc_ASW_Fade::InputSetCollideWithGrenades( inputdata_t& inputdata )
 {
