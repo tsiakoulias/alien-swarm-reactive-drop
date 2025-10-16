@@ -24,6 +24,9 @@ public:
 	static void DisableCollisionsWithGrenade( CBaseEntity *pGrenade );
 	static void DisableCollisionsWithMarine( CBaseEntity *pMarine );
 
+	void InputSetCollideWithGrenades( inputdata_t& inputdata );
+	void InputSetCollideWithMarines( inputdata_t& inputdata );
+
 	CNetworkVar( bool, m_bHasProxies );
 	// 0 = only when grenade spawns above the brush
 	// 1 = always

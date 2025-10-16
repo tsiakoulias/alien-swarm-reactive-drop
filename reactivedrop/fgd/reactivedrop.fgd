@@ -149,8 +149,8 @@
 	input SetExcluded( string ) : "Change the NPC class excluded from collisions"
 	input SetInvert( integer ) : "Set the state of inversion for NPC class exclusion (0 or 1)"
 	input AllowFade( integer ) : "Enable or disable fading (0 or 1)"
-	input CollideWithGrenades( integer ) : "Change CollideWithGrenades at runtime (0, 1 or 2)"
-	input CollideWithMarines( integer ) : "Change CollideWithMarines at runtime (0 or 1)"
+	input SetCollideWithGrenades(integer) : "Change CollideWithGrenades at runtime (0, 1 or 2)"
+	input SetCollideWithMarines(integer) : "Enable or disable marine collisions (0 or 1)"
 ]
 
 @PointClass base(prop_dynamic_base, EnableDisable) sphere(fademindist) sphere(fademaxdist) studioprop() = prop_asw_fade :

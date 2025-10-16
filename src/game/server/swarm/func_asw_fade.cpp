@@ -11,19 +11,22 @@
 LINK_ENTITY_TO_CLASS( func_asw_fade, CFunc_ASW_Fade );
 
 BEGIN_DATADESC( CFunc_ASW_Fade )
-	DEFINE_FIELD( m_bHasProxies, FIELD_BOOLEAN ),
-	DEFINE_KEYFIELD( m_nFadeOpacity, FIELD_CHARACTER, "fade_opacity" ),
-	DEFINE_INPUT( m_iCollideWithGrenades, FIELD_CHARACTER, "CollideWithGrenades" ),
-	DEFINE_INPUT( m_bCollideWithMarines, FIELD_BOOLEAN, "CollideWithMarines" ),
-	DEFINE_INPUT( m_bAllowFade, FIELD_BOOLEAN, "AllowFade" ),
+DEFINE_FIELD( m_bHasProxies, FIELD_BOOLEAN ),
+DEFINE_KEYFIELD( m_nFadeOpacity, FIELD_CHARACTER, "fade_opacity" ),
+DEFINE_KEYFIELD( m_iCollideWithGrenades, FIELD_CHARACTER, "CollideWithGrenades" ),
+DEFINE_KEYFIELD( m_bCollideWithMarines, FIELD_BOOLEAN, "CollideWithMarines" ),
+DEFINE_KEYFIELD( m_bAllowFade, FIELD_BOOLEAN, "AllowFade" ),
+
+DEFINE_INPUTFUNC( FIELD_INTEGER, "SetCollideWithGrenades", InputSetCollideWithGrenades ),
+DEFINE_INPUTFUNC( FIELD_BOOLEAN, "SetCollideWithMarines", InputSetCollideWithMarines ),
 END_DATADESC()
 
 IMPLEMENT_SERVERCLASS_ST( CFunc_ASW_Fade, DT_Func_ASW_Fade )
-	SendPropInt( SENDINFO( m_nFadeOpacity ), 8, SPROP_UNSIGNED ),
-	SendPropInt( SENDINFO( m_iCollideWithGrenades ), 2, SPROP_UNSIGNED ),
-	SendPropBool( SENDINFO( m_bCollideWithMarines ) ),
-	SendPropBool( SENDINFO( m_bAllowFade ) ),
-	SendPropBool( SENDINFO( m_bHasProxies ) ),
+SendPropInt( SENDINFO( m_nFadeOpacity ), 8, SPROP_UNSIGNED ),
+SendPropInt( SENDINFO( m_iCollideWithGrenades ), 2, SPROP_UNSIGNED ),
+SendPropBool( SENDINFO( m_bCollideWithMarines ) ),
+SendPropBool( SENDINFO( m_bAllowFade ) ),
+SendPropBool( SENDINFO( m_bHasProxies ) ),
 END_SEND_TABLE()
 
 CFunc_ASW_Fade::CFunc_ASW_Fade()
@@ -69,6 +72,44 @@ void CFunc_ASW_Fade::DisableCollisionsWithMarine( CBaseEntity *pMarine )
 		{
 			PhysDisableEntityCollisions( pCeiling, pMarine );
 		}
+	}
+}
+
+void CFunc_ASW_Fade::InputSetCollideWithGrenades( inputdata_t& inputdata )
+{
+	m_iCollideWithGrenades = clamp( inputdata.value.Int(), 0, 2 );
+
+	static const char* pszExplosiveClasses[] = {
+		"asw_mine",
+		"npc_zombine",
+		"asw_rocket",
+        "grenadespit",
+		"asw_missile_round",
+		"asw_grenade_cluster",
+		"asw_flare_projectile",
+		"asw_laser_mine",
+		"asw_grenade_vindicator",
+		nullptr
+	};
+
+	for ( const char** pszClass = pszExplosiveClasses; *pszClass; ++pszClass )
+	{
+		CBaseEntity* pGrenade = NULL;
+		while ( ( pGrenade = gEntList.FindEntityByClassname( pGrenade, *pszClass ) ) != NULL )
+		{
+			DisableCollisionsWithGrenade( pGrenade );
+		}
+	}
+}
+
+void CFunc_ASW_Fade::InputSetCollideWithMarines( inputdata_t& inputdata )
+{
+	m_bCollideWithMarines = !!inputdata.value.Int();
+
+	CBaseEntity* pMarine = NULL;
+	while ( ( pMarine = gEntList.FindEntityByClassname( pMarine, "asw_marine" ) ) != NULL )
+	{
+		DisableCollisionsWithMarine( pMarine );
 	}
 }
 
