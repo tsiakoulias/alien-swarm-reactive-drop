@@ -22,8 +22,6 @@ END_DATADESC()
 
 IMPLEMENT_SERVERCLASS_ST( CFunc_ASW_Fade, DT_Func_ASW_Fade )
 	SendPropInt( SENDINFO( m_nFadeOpacity ), 8, SPROP_UNSIGNED ),
-	SendPropInt( SENDINFO( m_iCollideWithGrenades ), 2, SPROP_UNSIGNED ),
-	SendPropBool( SENDINFO( m_bCollideWithMarines ) ),
 	SendPropBool( SENDINFO( m_bAllowFade ) ),
 	SendPropBool( SENDINFO( m_bHasProxies ) ),
 	SendPropBool( SENDINFO( m_bCollideWithMarines ) ),
