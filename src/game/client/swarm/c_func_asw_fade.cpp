@@ -6,7 +6,6 @@
 
 IMPLEMENT_CLIENTCLASS_DT( C_Func_ASW_Fade, DT_Func_ASW_Fade, CFunc_ASW_Fade )
 	RecvPropInt( RECVINFO( m_nFadeOpacity ) ),
-    RecvPropInt( RECVINFO( m_iCollideWithGrenades ) ),
 	RecvPropBool( RECVINFO( m_bAllowFade ) ),
 	RecvPropBool( RECVINFO( m_bHasProxies ) ),
 	RecvPropBool( RECVINFO( m_bCollideWithMarines ) ),
