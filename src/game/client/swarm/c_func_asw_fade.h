@@ -17,7 +17,6 @@ public:
 
 	IMPLEMENT_ASW_FADE_LIST( GetAbsOrigin() );
 	CNetworkVar( bool, m_bCollideWithMarines );
-    CNetworkVar( byte, m_iCollideWithGrenades );
 };
 
 #endif	// _INCLUDED_C_FUNC_ASW_FADE_H
