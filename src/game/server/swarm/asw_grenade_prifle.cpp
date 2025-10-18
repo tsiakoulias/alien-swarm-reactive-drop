@@ -12,6 +12,7 @@
 #include "particle_parse.h"
 #include "asw_player.h"
 #include "asw_achievements.h"
+#include "func_asw_fade.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -48,6 +49,7 @@ void CASW_Grenade_PRifle::Spawn()
 {
 	BaseClass::Spawn();
 	SetModel( STUN_GRENADE_MODEL );
+	CFunc_ASW_Fade::ApplyGrenadeCollisionRules( this );
 }
 
 void CASW_Grenade_PRifle::Detonate()

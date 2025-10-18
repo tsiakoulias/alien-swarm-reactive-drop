@@ -92,7 +92,6 @@ void CFunc_ASW_Fade::ApplyMarineCollisionRules( CBaseEntity* pMarine )
 	}
 }
 
-
 void CFunc_ASW_Fade::SetGrenadeCollisionRules( inputdata_t& inputdata )
 {
 	m_iCollideWithGrenades = clamp( inputdata.value.Int(), 0, 2 );
@@ -108,6 +107,8 @@ void CFunc_ASW_Fade::SetGrenadeCollisionRules( inputdata_t& inputdata )
 		"asw_laser_mine",
 		"asw_grenade_vindicator",
 		"asw_gas_grenade_projectile",
+        "asw_bait",
+        "asw_grenade_prifle",
 		nullptr
 	};
 
