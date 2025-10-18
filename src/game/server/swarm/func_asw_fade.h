@@ -21,8 +21,11 @@ public:
 	virtual void Spawn() override;
 	bool ShouldFade( CASW_Inhabitable_NPC *pNPC );
 
-	static void DisableCollisionsWithGrenade( CBaseEntity *pGrenade );
-	static void DisableCollisionsWithMarine( CBaseEntity *pMarine );
+	static void ApplyGrenadeCollisionRules( CBaseEntity *pGrenade );
+	static void ApplyMarineCollisionRules( CBaseEntity *pMarine );
+
+	void SetGrenadeCollisionRules( inputdata_t& inputdata );
+	void SetMarineCollisionRules( inputdata_t& inputdata );
 
 	CNetworkVar( bool, m_bHasProxies );
 	// 0 = only when grenade spawns above the brush

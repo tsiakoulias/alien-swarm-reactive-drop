@@ -12,10 +12,12 @@ LINK_ENTITY_TO_CLASS( func_asw_fade, CFunc_ASW_Fade );
 
 BEGIN_DATADESC( CFunc_ASW_Fade )
 	DEFINE_FIELD( m_bHasProxies, FIELD_BOOLEAN ),
+	DEFINE_KEYFIELD( m_nFadeOpacity, FIELD_CHARACTER, "fade_opacity" ),
 	DEFINE_KEYFIELD( m_iCollideWithGrenades, FIELD_CHARACTER, "CollideWithGrenades" ),
 	DEFINE_KEYFIELD( m_bCollideWithMarines, FIELD_BOOLEAN, "CollideWithMarines" ),
-	DEFINE_KEYFIELD( m_nFadeOpacity, FIELD_CHARACTER, "fade_opacity" ),
 	DEFINE_INPUT( m_bAllowFade, FIELD_BOOLEAN, "AllowFade" ),
+	DEFINE_INPUTFUNC( FIELD_INTEGER, "SetCollideWithGrenades", SetGrenadeCollisionRules ),
+	DEFINE_INPUTFUNC( FIELD_BOOLEAN, "SetCollideWithMarines", SetMarineCollisionRules ),
 END_DATADESC()
 
 IMPLEMENT_SERVERCLASS_ST( CFunc_ASW_Fade, DT_Func_ASW_Fade )
@@ -42,32 +44,92 @@ void CFunc_ASW_Fade::Spawn()
 	Assert( m_iCollideWithGrenades <= 2 );
 }
 
-void CFunc_ASW_Fade::DisableCollisionsWithGrenade( CBaseEntity *pGrenade )
+void CFunc_ASW_Fade::ApplyGrenadeCollisionRules( CBaseEntity* pGrenade )
 {
-	float flGrenadeZ = pGrenade->GetAbsOrigin().z;
-	string_t iszClassName = AllocPooledString( "func_asw_fade" );
+	const float flGrenadeZ = pGrenade->GetAbsOrigin().z;
+	const string_t iszClassName = AllocPooledString( "func_asw_fade" );
 
-	CFunc_ASW_Fade *pCeiling = NULL;
-	while ( ( pCeiling = assert_cast< CFunc_ASW_Fade * >( gEntList.FindEntityByClassnameFast( pCeiling, iszClassName ) ) ) != NULL )
+	CFunc_ASW_Fade* pCeiling = nullptr;
+	while ( ( pCeiling = assert_cast<CFunc_ASW_Fade*>(
+		gEntList.FindEntityByClassnameFast( pCeiling, iszClassName ) ) ) != nullptr )
 	{
-		if ( ( pCeiling->m_iCollideWithGrenades == 0 && pCeiling->GetAbsOrigin().z >= flGrenadeZ ) || pCeiling->m_iCollideWithGrenades == 2 )
+		const bool bShouldDisable =
+			( pCeiling->m_iCollideWithGrenades == 0 && pCeiling->GetAbsOrigin().z >= flGrenadeZ ) ||
+			( pCeiling->m_iCollideWithGrenades == 2 );
+
+		const bool bCurrentlyDisabled = PhysEntityCollisionsAreDisabled( pCeiling, pGrenade );
+
+		if ( bShouldDisable && !bCurrentlyDisabled )
 		{
 			PhysDisableEntityCollisions( pCeiling, pGrenade );
+		}
+		else if ( !bShouldDisable && bCurrentlyDisabled )
+		{
+			PhysEnableEntityCollisions( pCeiling, pGrenade );
 		}
 	}
 }
 
-void CFunc_ASW_Fade::DisableCollisionsWithMarine( CBaseEntity *pMarine )
+void CFunc_ASW_Fade::ApplyMarineCollisionRules( CBaseEntity* pMarine )
 {
-	string_t iszClassName = AllocPooledString( "func_asw_fade" );
+	const string_t iszClassName = AllocPooledString( "func_asw_fade" );
 
-	CFunc_ASW_Fade *pCeiling = NULL;
-	while ( ( pCeiling = assert_cast< CFunc_ASW_Fade * >( gEntList.FindEntityByClassnameFast( pCeiling, iszClassName ) ) ) != NULL )
+	CFunc_ASW_Fade* pCeiling = nullptr;
+	while ( ( pCeiling = assert_cast<CFunc_ASW_Fade*>(
+		gEntList.FindEntityByClassnameFast( pCeiling, iszClassName ) ) ) != nullptr )
 	{
-		if ( !pCeiling->m_bCollideWithMarines )
+		const bool bShouldDisable = !pCeiling->m_bCollideWithMarines;
+		const bool bCurrentlyDisabled = PhysEntityCollisionsAreDisabled( pCeiling, pMarine );
+
+		if ( bShouldDisable && !bCurrentlyDisabled )
 		{
 			PhysDisableEntityCollisions( pCeiling, pMarine );
 		}
+		else if ( !bShouldDisable && bCurrentlyDisabled )
+		{
+			PhysEnableEntityCollisions( pCeiling, pMarine );
+		}
+	}
+}
+
+void CFunc_ASW_Fade::SetGrenadeCollisionRules( inputdata_t& inputdata )
+{
+	m_iCollideWithGrenades = clamp( inputdata.value.Int(), 0, 2 );
+
+	static const char* pszExplosiveClasses[] = {
+		"asw_mine",
+		"npc_grenade_frag",
+		"asw_rocket",
+        "grenadespit",
+		"asw_missile_round",
+		"asw_grenade_cluster",
+		"asw_flare_projectile",
+		"asw_laser_mine",
+		"asw_grenade_vindicator",
+		"asw_gas_grenade_projectile",
+        "asw_bait",
+        "asw_grenade_prifle",
+		nullptr
+	};
+
+	for ( const char** pszClass = pszExplosiveClasses; *pszClass; ++pszClass )
+	{
+		CBaseEntity* pGrenade = NULL;
+		while ( ( pGrenade = gEntList.FindEntityByClassname( pGrenade, *pszClass ) ) != NULL )
+		{
+			ApplyGrenadeCollisionRules( pGrenade );
+		}
+	}
+}
+
+void CFunc_ASW_Fade::SetMarineCollisionRules( inputdata_t& inputdata )
+{
+	m_bCollideWithMarines = !!inputdata.value.Int();
+
+	CBaseEntity* pMarine = NULL;
+	while ( ( pMarine = gEntList.FindEntityByClassname( pMarine, "asw_marine" ) ) != NULL )
+	{
+		ApplyMarineCollisionRules( pMarine );
 	}
 }
 

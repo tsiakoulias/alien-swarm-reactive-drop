@@ -7,6 +7,7 @@
 #include "asw_shareddefs.h"
 #include "ai_senses.h"
 #include "asw_gamerules.h"
+#include "func_asw_fade.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -58,6 +59,7 @@ void CASW_Bait::Spawn( void )
 	
 	SetCollisionGroup( ASW_COLLISION_GROUP_IGNORE_NPCS );
 	//CreateVPhysics();
+	CFunc_ASW_Fade::ApplyGrenadeCollisionRules( this );
 
 	// Tumble in air
 	QAngle vecAngVelocity( 0, random->RandomFloat ( -100, -500 ), 0 );
