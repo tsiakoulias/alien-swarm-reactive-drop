@@ -26,6 +26,7 @@ IMPLEMENT_SERVERCLASS_ST( CFunc_ASW_Fade, DT_Func_ASW_Fade )
 	SendPropBool( SENDINFO( m_bCollideWithMarines ) ),
 	SendPropBool( SENDINFO( m_bAllowFade ) ),
 	SendPropBool( SENDINFO( m_bHasProxies ) ),
+	SendPropBool( SENDINFO( m_bCollideWithMarines ) ),
 END_SEND_TABLE()
 
 CFunc_ASW_Fade::CFunc_ASW_Fade()
