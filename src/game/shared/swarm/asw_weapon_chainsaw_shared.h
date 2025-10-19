@@ -36,6 +36,7 @@ public:
 	void	PrimaryAttack( void );
 	void	SecondaryAttack( void ) { PrimaryAttack(); }
 	virtual bool SecondaryAttackEqualsPrimary() { return true; }
+	virtual bool ShouldFireFromCameraInFirstPerson() const { return false; }
 
 	void	WeaponIdle( void );
 	bool	Holster( CBaseCombatWeapon *pSwitchingTo = NULL );
