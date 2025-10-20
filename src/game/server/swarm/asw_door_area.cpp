@@ -28,6 +28,26 @@ CASW_Door_Area::CASW_Door_Area()
 	m_fNextCutCheck = 0;
 }
 
+CASW_Door_Area::~CASW_Door_Area()
+{
+	CASW_Door *pDoor = GetDoor();
+	if ( pDoor )
+	{
+		pDoor->m_AttachedDoorAreas.FindAndRemove( this );
+	}
+}
+
+void CASW_Door_Area::Spawn( void )
+{
+	BaseClass::Spawn();
+	
+	CASW_Door *pDoor = GetDoor();
+	if ( pDoor )
+	{
+		pDoor->m_AttachedDoorAreas.AddToTail( this );
+	}
+}
+
 bool CASW_Door_Area::HasWelder( CASW_Marine *pMarine )
 {
 	CASW_Weapon *pExtra = pMarine->GetASWWeapon( ASW_INVENTORY_SLOT_EXTRA );
