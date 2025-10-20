@@ -139,7 +139,7 @@ BEGIN_ENT_SCRIPTDESC( CBaseTrigger, CBaseEntity, "Server-side trigger" )
 	DEFINE_SCRIPTFUNC( Disable, "Disable the trigger" )
 	DEFINE_SCRIPTFUNC( Enable, "Enable the trigger" )
 	DEFINE_SCRIPTFUNC_NAMED( ScriptIsTouching, "IsTouching", "Checks whether the passed entity is touching the trigger." )
-	DEFINE_SCRIPTFUNC( GetNumTouching, "GetNumTouching", "Gets the number of entities currently touching the trigger." )
+	DEFINE_SCRIPTFUNC( GetNumTouching, "Gets the number of entities currently touching the trigger." )
 	DEFINE_SCRIPTFUNC_NAMED( ScriptGetTouching, "GetTouching", "Gets the i'th entity currently touching the trigger." )
 END_SCRIPTDESC();
 
