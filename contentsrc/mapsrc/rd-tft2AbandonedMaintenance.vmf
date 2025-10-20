@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "1384"
+	"mapversion" "1385"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -68,7 +68,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "1384"
+	"mapversion" "1385"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -90498,7 +90498,7 @@ entity
 	"CanPlayerWeld" "1"
 	"currentsealtime" "0"
 	"CustomMaxHealth" "1800"
-	"disableshadows" "0"
+	"disableshadows" "1"
 	"distance" "125"
 	"DoBreachedShout" "1"
 	"DoCutShout" "0"
@@ -132061,8 +132061,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[-268.155 -1425.82 -717.626]"
-		"look" "[-442.294 -1245.22 -806.959]"
+		"position" "[-269.679 -1398.31 -693.735]"
+		"look" "[-452.238 -1216.74 -761.763]"
 	}
 }
 cordons
