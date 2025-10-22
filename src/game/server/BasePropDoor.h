@@ -173,6 +173,7 @@ private:
 	void OnEndBlocked( void );
 
 	// Input handlers
+	void InputDelayBeforeClose(inputdata_t &inputdata);
 	void InputClose(inputdata_t &inputdata);
 	void InputLock(inputdata_t &inputdata);
 	void InputOpen(inputdata_t &inputdata);

@@ -4008,6 +4008,7 @@ BEGIN_DATADESC(CBasePropDoor)
 	DEFINE_FIELD( m_bFirstBlocked, FIELD_BOOLEAN ),
 	//DEFINE_FIELD(m_hDoorList, FIELD_CLASSPTR),	// Reconstructed
 	
+	DEFINE_INPUTFUNC(FIELD_FLOAT, "DelayBeforeClose", InputDelayBeforeClose),
 	DEFINE_INPUTFUNC(FIELD_VOID, "Open", InputOpen),
 	DEFINE_INPUTFUNC(FIELD_STRING, "OpenAwayFrom", InputOpenAwayFrom),
 	DEFINE_INPUTFUNC(FIELD_VOID, "Close", InputClose),
@@ -4449,6 +4450,15 @@ void CBasePropDoor::OnUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TY
 	}
 }
 
+
+//-----------------------------------------------------------------------------
+// Purpose: Sets the door auto-return(auto-close) delay.
+//-----------------------------------------------------------------------------
+void CBasePropDoor::InputDelayBeforeClose( inputdata_t& inputdata )
+{
+	m_flAutoReturnDelay = inputdata.value.Float();
+}
+
 //-----------------------------------------------------------------------------
 // Purpose: Closes the door if it is not already closed.
 //-----------------------------------------------------------------------------
@@ -4461,7 +4471,6 @@ void CBasePropDoor::InputClose(inputdata_t &inputdata)
 	}
 }
 
-
 //-----------------------------------------------------------------------------
 // Purpose: Input handler that locks the door.
 //-----------------------------------------------------------------------------
@@ -4470,7 +4479,6 @@ void CBasePropDoor::InputLock(inputdata_t &inputdata)
 	Lock();
 }
 
-
 //-----------------------------------------------------------------------------
 // Purpose: Opens the door if it is not already open.
 //-----------------------------------------------------------------------------
@@ -4478,7 +4486,6 @@ void CBasePropDoor::InputOpen(inputdata_t &inputdata)
 {
 	OpenIfUnlocked(inputdata.pActivator, NULL);
 }
-
 
 //-----------------------------------------------------------------------------
 // Purpose: Opens the door away from a specified entity if it is not already open.

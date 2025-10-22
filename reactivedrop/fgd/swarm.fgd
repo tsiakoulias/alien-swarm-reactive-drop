@@ -3210,7 +3210,7 @@
 	soundopenoverride(sound) : "Fully Open Sound" : : "Sound played when the door has finished opening."
 	soundcloseoverride(sound) : "Fully Closed Sound" : "ASW_Door.Door2StopClose" : "Sound played when the door has finished closing."
 	soundmoveoverride(sound) : "Moving Sound" : "ASW_Door.Door2Open" : "Sound played when the door starts to move."
-	returndelay(integer) : "Delay Before close (-1 stay open)" : 5 : "Amount of time, in seconds, after the door has opened before it closes. If the value is set to -1, the door never closes itself."
+	returndelay(integer) : "Delay Before Close (-1 stay open)" : 5 : "Amount of time, in seconds, after the door has opened before it closes.  If the value is set to -1, the door never closes itself."
 	dmg(integer) : "Damage Inflicted When Blocked" : 0 : "Amount of damage done to entities that block the movement of this door, per frame."
 	
 	//soundlockedoverride(sound) : "Locked Sound" : : "Sound played when the player tries to open the door, and fails because it's locked."
@@ -3304,6 +3304,7 @@
 	output OnDestroyed(void) : "Fired when the door is knocked down."
 
 	// Inputs
+	input DelayBeforeClose(float) : "Amount of time, in seconds, after the door has opened before it closes.  If the value is set to -1, the door never closes itself."
 	input Open(void) : "Open the door, if it is not fully open."
 	input OpenAwayFrom(string) : "Open the door away from the specified entity."
 	input Close(void) : "Close the door, if it is not fully closed."
