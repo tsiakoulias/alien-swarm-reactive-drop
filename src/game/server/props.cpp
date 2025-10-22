@@ -4008,7 +4008,7 @@ BEGIN_DATADESC(CBasePropDoor)
 	DEFINE_FIELD( m_bFirstBlocked, FIELD_BOOLEAN ),
 	//DEFINE_FIELD(m_hDoorList, FIELD_CLASSPTR),	// Reconstructed
 	
-	DEFINE_INPUTFUNC(FIELD_FLOAT, "DelayBeforeClose", InputAutoReturnDelay),
+	DEFINE_INPUTFUNC(FIELD_FLOAT, "DelayBeforeClose", InputDelayBeforeClose),
 	DEFINE_INPUTFUNC(FIELD_VOID, "Open", InputOpen),
 	DEFINE_INPUTFUNC(FIELD_STRING, "OpenAwayFrom", InputOpenAwayFrom),
 	DEFINE_INPUTFUNC(FIELD_VOID, "Close", InputClose),
@@ -4454,7 +4454,7 @@ void CBasePropDoor::OnUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TY
 //-----------------------------------------------------------------------------
 // Purpose: Sets the door auto-return(auto-close) delay.
 //-----------------------------------------------------------------------------
-void CBasePropDoor::InputAutoReturnDelay( inputdata_t& inputdata )
+void CBasePropDoor::InputDelayBeforeClose( inputdata_t& inputdata )
 {
 	m_flAutoReturnDelay = inputdata.value.Float();
 }
