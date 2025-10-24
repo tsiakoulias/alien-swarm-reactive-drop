@@ -36,12 +36,6 @@ extern ConVar sv_gravity;
 int AE_ASW_ALIEN_START_JUMP;
 int AE_ASW_ALIEN_GLIDE;
 
-#define	ANTLION_JUMP_MIN			128.0f
-
-#define	ANTLION_JUMP_MAX_RISE		512.0f
-#define	ANTLION_JUMP_MAX			1024.0f
-
-
 enum
 {	
 	SQUAD_SLOT_ALIEN_JUMP = LAST_SHARED_SQUADSLOT,
@@ -49,6 +43,14 @@ enum
 
 int ACT_ASW_ALIEN_JUMP_START;
 int ACT_ASW_ALIEN_LAND;
+
+ConVar asw_alien_jump_max_speed( "asw_alien_jump_max_speed", "1024.0", FCVAR_CHEAT );
+ConVar asw_alien_jump_max_rise( "asw_alien_jump_max_rise", "512.0", FCVAR_CHEAT );
+ConVar asw_alien_jump_max_drop( "asw_alien_jump_max_drop", "512.0", FCVAR_CHEAT );
+ConVar asw_alien_jump_max_distance( "asw_alien_jump_max_distance", "1024.0", FCVAR_CHEAT );
+ConVar asw_alien_jump_min_distance( "asw_alien_jump_min_distance", "128.0", FCVAR_CHEAT );
+ConVar asw_alien_jump_min_distance_between_attempts( "asw_alien_jump_min_distance_between_attempts", "128.0", FCVAR_CHEAT );
+ConVar asw_alien_jump_min_predicted_distance( "asw_alien_jump_min_predicted_distance", "512.0", FCVAR_CHEAT );
 
 
 CASW_Alien_Jumper::CASW_Alien_Jumper()
@@ -275,20 +277,8 @@ void CASW_Alien_Jumper::RunTask( const Task_t *pTask )
 // Purpose: Returns true if a reasonable jumping distance
 bool CASW_Alien_Jumper::IsJumpLegal( const Vector &startPos, const Vector &apex, const Vector &endPos ) const
 {
-	const float MAX_JUMP_RISE		= 512;
-	//const float MIN_JUMP_RISE		= 16;
-	const float MAX_JUMP_DROP		= 512;
-	const float MAX_JUMP_DISTANCE	= 1024;
-	const float MIN_JUMP_DISTANCE   = 128;	
-
-	// make sure we don't do really flat jumps
-	//float fHeight = (apex.z - startPos.z);
-	//Msg("checking legality of jump with height %f\n", fHeight);
-	//if ((apex.z - startPos.z) < 10 || fHeight != 0) 
-		//return false;
-	
 	//Adrian: Don't try to jump if my destination is right next to me.
-	if ( ( endPos - GetAbsOrigin()).Length() < MIN_JUMP_DISTANCE ) 
+	if ( ( endPos - GetAbsOrigin()).Length() < asw_alien_jump_min_distance.GetFloat() ) 
 		 return false;
 
 	if ( HasSpawnFlags( SF_ANTLION_USE_GROUNDCHECKS ) )
@@ -316,9 +306,13 @@ bool CASW_Alien_Jumper::IsJumpLegal( const Vector &startPos, const Vector &apex,
 		}
 	}
 
-	return BaseClass::IsJumpLegal( startPos, apex, endPos, MAX_JUMP_RISE, MAX_JUMP_DROP, MAX_JUMP_DISTANCE );
+	return BaseClass::IsJumpLegal( startPos, apex, endPos, asw_alien_jump_max_rise.GetFloat(), asw_alien_jump_max_drop.GetFloat(), asw_alien_jump_max_distance.GetFloat() );
 }
 
+float CASW_Alien_Jumper::GetMaxJumpSpeed() const
+{
+	return asw_alien_jump_max_speed.GetFloat();
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -361,14 +355,14 @@ bool CASW_Alien_Jumper::ShouldJump( void )
 	UTIL_PredictedPosition( GetEnemy(), flDot * 2.5f, &vecPredictedPos );
 
 	// Don't jump if we're already near the target
-	if ( ( GetAbsOrigin() - vecPredictedPos ).LengthSqr() < (512*512) )
+	if ( ( GetAbsOrigin() - vecPredictedPos ).LengthSqr() < Square( asw_alien_jump_min_predicted_distance.GetFloat() ) )
 		return false;
 
 	//Don't retest if the target hasn't moved enough
 	//FIXME: Check your own distance from last attempt as well
-	if ( ( ( m_vecLastJumpAttempt - vecPredictedPos ).LengthSqr() ) < (128*128) )
+	if ( ( ( m_vecLastJumpAttempt - vecPredictedPos ).LengthSqr() ) < Square( asw_alien_jump_min_distance_between_attempts.GetFloat() ) )
 	{
-		m_flJumpTime = gpGlobals->curtime + random->RandomFloat( 1.0f, 2.0f );		
+		m_flJumpTime = gpGlobals->curtime + random->RandomFloat( 1.0f, 2.0f );
 		return false;
 	}
 
@@ -377,7 +371,7 @@ bool CASW_Alien_Jumper::ShouldJump( void )
 	float flDist = VectorNormalize( targetDir );
 
 	// don't jump at target it it's very close
-	if (flDist < ANTLION_JUMP_MIN)
+	if ( flDist < asw_alien_jump_min_distance.GetFloat() )
 		return false;
 
 	Vector	targetPos = vecPredictedPos + ( targetDir * (GetHullWidth()*4.0f) );
@@ -501,15 +495,6 @@ bool CASW_Alien_Jumper::CheckLanding( void )
 			CreateDust( false );
 			EmitSound( "ASW_Drone.Land" );
 
-			// asw todo: make the alien attack here?
-			//if ( GetEnemy() && GetEnemy()->IsPlayer()  )
-			//{
-				//CBasePlayer *pPlayer = ToBasePlayer( GetEnemy() );
-
-				//if ( pPlayer && pPlayer->IsInAVehicle() == false )
-					 //MeleeAttack( ANTLION_MELEE1_RANGE, sk_antlion_swipe_damage.GetFloat(), QAngle( 4.0f, 0.0f, 0.0f ), Vector( -250.0f, 1.0f, 1.0f ) );
-			//}
-
 			SetAbsVelocity( GetAbsVelocity() * 0.33f );
 			return false;
 		}
@@ -629,9 +614,6 @@ bool CASW_Alien_Jumper::DoJumpOffHead()
 	m_bDisableJump = false;
 	CapabilitiesAdd( bits_CAP_MOVE_JUMP );
 
-	//Vector vecDest = RandomVector(-1, 1);
-	//vecDest.z = 0;
-	//vecDest *= random->RandomFloat(30, 100);
 	Vector vecDest;
 	AngleVectors(GetAbsAngles(), &vecDest);
 	vecDest *= 200.0f;

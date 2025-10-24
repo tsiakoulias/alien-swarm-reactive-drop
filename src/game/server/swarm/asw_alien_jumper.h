@@ -34,7 +34,7 @@ public:
 	void BuildScheduleTestBits( void );
 	void PrescheduleThink();
 	bool		IsJumpLegal( const Vector &startPos, const Vector &apex, const Vector &endPos ) const;
-	float		GetMaxJumpSpeed() const { return 1024.0f; }
+	float		GetMaxJumpSpeed() const;
 	float		m_flNextJumpPushTime;
 	void	InputDisableJump( inputdata_t &inputdata );
 	void	InputEnableJump( inputdata_t &inputdata );
