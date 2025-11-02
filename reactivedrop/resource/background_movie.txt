@@ -44,11 +44,11 @@
 		"disabled"	"0" // implied
 		"weight"	"1" // implied
 	}
-	"BriefingDefault02"
-	{
-		"video"	"media/BGFX_02.bik"
-		"briefing"	"*"
-	}
+	//"BriefingDefault02"
+	//{
+	//	"video"	"media/BGFX_02.bik"
+	//	"briefing"	"*"
+	//}
 	"BriefingDefault03"
 	{
 		"video"	"media/BGFX_03.bik"
@@ -87,5 +87,43 @@
 		"video"	"media/groundwork.bik"
 		"audio"	"Misc.MainUI.GroundworkLabs"
 		"mainmenu"	"1"
+	}
+
+	// "new" for 2025
+	"LandingBay"
+	{
+		"image"	"landingbik"
+		"video"	"media/bg_01.bik"
+		"audio"	"Misc.MainUI.LandingBay"
+		"mainmenu"	"1"
+	}
+	"RydbergReactor"
+	{
+		"image"	"rydbergbik"
+		"video"	"media/bg_04.bik"
+		"audio"	"Misc.MainUI.RydbergReactor"
+		"mainmenu"	"1"
+	}
+	"SyntekResidential"
+	{
+		"image"	"residentialbik"
+		"video"	"media/residential.bik"
+		"audio"	"Misc.MainUI.SyntekResidential"
+		"mainmenu"	"1"
+	}
+	"BriefingInsertionPoint"
+	{
+		"video"	"media/insertionfx.bik"
+		"briefing"	"*"
+	}
+	"BriefingGroundworkLabs"
+	{
+		"video"	"media/groundworkfx.bik"
+		"briefing"	"*"
+	}
+	"BriefingSyntekResidential"
+	{
+		"video"	"media/residentialfx.bik"
+		"briefing"	"*"
 	}
 }
