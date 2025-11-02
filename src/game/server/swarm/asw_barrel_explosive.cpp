@@ -136,15 +136,19 @@ void CASW_Barrel_Explosive::ExplodeNow( const CTakeDamageInfo &info )
 
 void CASW_Barrel_Explosive::DoExplosion()
 {
-	// scorch the ground
-	trace_t		tr;
-	UTIL_TraceLine ( GetAbsOrigin(), GetAbsOrigin() + Vector( 0, 0, -80 ), MASK_SHOT, 
-		this, COLLISION_GROUP_NONE, &tr);
+	// scorch decals
+	Vector vecForward = GetAbsVelocity();
+	float flTraceDist = 80.0f;
+	if ( vecForward.LengthSqr() < 0.001f )
+		vecForward = Vector( 0, 0, -1 );
+	VectorNormalize( vecForward );
+	trace_t tr;
+	UTIL_TraceLine( GetAbsOrigin(), GetAbsOrigin() + flTraceDist * vecForward, MASK_SHOT_HULL | CONTENTS_TRANSLUCENT, this, COLLISION_GROUP_NONE, &tr );
 
-	if ((tr.m_pEnt != GetWorldEntity()) || (tr.hitbox != 0))
+	if ( ( tr.m_pEnt != GetWorldEntity() ) || ( tr.hitbox != 0 ) )
 	{
 		// non-world needs smaller decals
-		if( tr.m_pEnt && !tr.m_pEnt->IsNPC() )
+		if ( tr.m_pEnt )
 		{
 			UTIL_DecalTrace( &tr, "SmallScorch" );
 		}

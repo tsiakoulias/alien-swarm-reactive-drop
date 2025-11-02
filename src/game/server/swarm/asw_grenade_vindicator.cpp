@@ -257,19 +257,21 @@ void CASW_Grenade_Vindicator::Detonate()
 		m_flDamage );
 	*/
 
-	Vector vecForward = GetAbsVelocity();
-	VectorNormalize(vecForward);
-	trace_t		tr;
-	UTIL_TraceLine ( GetAbsOrigin(), GetAbsOrigin() + 60*vecForward, MASK_SHOT, 
-		this, COLLISION_GROUP_NONE, &tr);
-
-
+	// scorch decals
 	if (m_bMaster)
 	{
-		if ((tr.m_pEnt != GetWorldEntity()) || (tr.hitbox != 0))
+		Vector vecForward = GetAbsVelocity();
+		float flTraceDist = 60.0f;
+		if ( vecForward.LengthSqr() < 0.001f )
+			vecForward = Vector( 0, 0, -1 );
+		VectorNormalize( vecForward );
+		trace_t tr;
+		UTIL_TraceLine( GetAbsOrigin(), GetAbsOrigin() + flTraceDist * vecForward, MASK_SHOT_HULL | CONTENTS_TRANSLUCENT, this, COLLISION_GROUP_NONE, &tr );
+
+		if ( ( tr.m_pEnt != GetWorldEntity() ) || ( tr.hitbox != 0 ) )
 		{
 			// non-world needs smaller decals
-			if( tr.m_pEnt && !tr.m_pEnt->IsNPC() )
+			if ( tr.m_pEnt )
 			{
 				UTIL_DecalTrace( &tr, "SmallScorch" );
 			}
@@ -278,7 +280,7 @@ void CASW_Grenade_Vindicator::Detonate()
 		{
 			UTIL_DecalTrace( &tr, "Scorch" );
 		}
-
+		UTIL_DecalTrace( &tr, "Scorch" );
 		UTIL_ASW_ScreenShake( GetAbsOrigin(), 10.0, 150.0, 1.0, 750, SHAKE_START );
 	}
 
