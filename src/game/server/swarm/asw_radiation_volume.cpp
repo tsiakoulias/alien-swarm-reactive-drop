@@ -44,7 +44,7 @@ void CASW_Radiation_Volume::Spawn( void )
 	AddEffects(EF_NODRAW);
 	SetSolid( SOLID_BBOX );
 	float boxWidth = m_flBoxWidth;
-	UTIL_SetSize(this, Vector(-boxWidth,-boxWidth,0),Vector(boxWidth,boxWidth,boxWidth * 2));
+	UTIL_SetSize( this, Vector( -boxWidth, -boxWidth, 0 ), Vector( boxWidth, boxWidth, boxWidth ) );
 	SetCollisionGroup(ASW_COLLISION_GROUP_PASSABLE);	
 	AddSolidFlags(FSOLID_TRIGGER | FSOLID_NOT_SOLID);
 	SetTouch( &CASW_Radiation_Volume::RadTouch );
@@ -61,25 +61,52 @@ bool CASW_Radiation_Volume::IsValidRadTarget( CBaseEntity *pOther )
 	return pOther->IsNPC();
 }
 
-void CASW_Radiation_Volume::RadTouch( CBaseEntity *pOther )
+void CASW_Radiation_Volume::RadTouch( CBaseEntity* pOther )
 {
 	// if other is a valid entity to radiate, add it to our list
-	if (IsValidRadTarget(pOther) && m_hRadTouching.Find(pOther) == m_hRadTouching.InvalidIndex())
+	if ( !IsValidRadTarget( pOther ) )
+		return;
+
+	// Treat m_flBoxWidth as radius:
+	float flRadius = m_flBoxWidth;
+
+	// If entity has a collision prop, compute nearest point and test 3D distance (sphere)
+	if ( pOther->CollisionProp() )
 	{
-		m_hRadTouching.AddToTail(pOther);
-		if (GetNextThink() == TICK_NEVER_THINK)
+		Vector vecNearest;
+		pOther->CollisionProp()->CalcNearestPoint( GetAbsOrigin(), &vecNearest );
+
+		Vector vecDelta = vecNearest - GetAbsOrigin();
+		if ( vecDelta.Length() > flRadius )
+			return; // outside the sphere
+	}
+
+	if ( m_hRadTouching.Find( pOther ) == m_hRadTouching.InvalidIndex() )
+	{
+		m_hRadTouching.AddToTail( pOther );
+		if ( GetNextThink() == TICK_NEVER_THINK )
 			SetNextThink( gpGlobals->curtime );
 	}
 }
 
-bool CASW_Radiation_Volume::RadTouching(CBaseEntity *pEnt)
+bool CASW_Radiation_Volume::RadTouching( CBaseEntity* pEnt )
 {
-	if (!pEnt || !pEnt->CollisionProp() || !CollisionProp())
+	if ( !pEnt || !pEnt->CollisionProp() )
 		return false;
 
+	// Treat m_flBoxWidth as radius:
+	float flRadius = m_flBoxWidth;
+
+	// nearest point on the entity to our center
 	Vector vecNearest;
 	pEnt->CollisionProp()->CalcNearestPoint( GetAbsOrigin(), &vecNearest );
-	return CollisionProp()->IsPointInBounds(vecNearest);
+
+	// Sphere test (3D)
+	Vector vecDelta = vecNearest - GetAbsOrigin();
+	if ( vecDelta.Length() > flRadius )
+		return false; // outside the sphere
+
+	return true;
 }
 
 void CASW_Radiation_Volume::RadHurt(CBaseEntity *pEnt)
