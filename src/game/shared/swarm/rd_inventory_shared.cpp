@@ -3797,61 +3797,57 @@ namespace ReactiveDropInventory
 	{
 #ifdef CLIENT_DLL
 		if ( engine->IsPlayingDemo() )
-		{
 			return;
-		}
 #endif
-
 		CASW_Game_Resource *pGameResource = ASWGameResource();
 		if ( !pGameResource )
 			return;
 
+		if ( !pAttacker || !pTarget )
+			return;
+
 		if ( !ASWDeathmatchMode() )
 		{
-			if ( pTarget && pTarget->IsInhabitableNPC() && bKilled )
+			if ( bKilled && pWeapon
+				 && pAttacker->IsInhabitableNPC()
+				 && pTarget->IsAlien() )
 			{
-				s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( assert_cast< CASW_Inhabitable_NPC * >( pTarget ), 5007, 0, 0, false ); // Alien Kill Streak
-			}
-
-			if ( !pAttacker || !pAttacker->IsInhabitableNPC() )
-			{
-				if ( pAttacker && pTarget && pTarget->IsInhabitableNPC() && !V_stricmp( IGameSystem::MapName(), "rd-reduction2" ) && !V_strcmp( STRING( pAttacker->GetEntityName() ), "trigger_pitworm_hitbox" ) )
-				{
-					CASW_Inhabitable_NPC *pTargetNPC = assert_cast< CASW_Inhabitable_NPC * >( pTarget );
-
-#ifdef CLIENT_DLL
-					static bool s_bRequestedWormToucherMedal = false;
-					if ( !s_bRequestedWormToucherMedal && pTargetNPC->IsInhabited() && pTargetNPC->GetCommander() && pTargetNPC->GetCommander()->IsLocalPlayer() )
-					{
-						AddPromoItem( 42 );
-						s_bRequestedWormToucherMedal = true;
-					}
-#endif
-
-					s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( pTargetNPC, 42, 1 );
-				}
-
-				return;
-			}
-
-			CASW_Inhabitable_NPC *pInhabitableAttacker = assert_cast< CASW_Inhabitable_NPC * >( pAttacker );
-			if ( pTarget && pTarget->IsAlien() && bKilled )
-			{
+				CASW_Inhabitable_NPC* pInhabitableAttacker = assert_cast<CASW_Inhabitable_NPC*>( pAttacker );
 				s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5002, 1 ); // Aliens Killed
 				s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5007, 1 ); // Alien Kill Streak
 				s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5010, 1 ); // Aliens Killed (Twitch)
 			}
+
+			if ( !V_stricmp( IGameSystem::MapName(), "rd-reduction2" )
+				&& !pAttacker->IsInhabitableNPC()
+				&& !V_strcmp( STRING( pAttacker->GetEntityName() ), "trigger_pitworm_hitbox" )
+				&& pTarget->IsInhabitableNPC() )
+			{
+				CASW_Inhabitable_NPC *pTargetNPC = assert_cast< CASW_Inhabitable_NPC * >( pTarget );
+
+#ifdef CLIENT_DLL
+				static bool s_bRequestedWormToucherMedal = false;
+				if ( !s_bRequestedWormToucherMedal && pTargetNPC->IsInhabited() && pTargetNPC->GetCommander() && pTargetNPC->GetCommander()->IsLocalPlayer() )
+				{
+					AddPromoItem( 42 );
+					s_bRequestedWormToucherMedal = true;
+				}
+#endif
+				s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( pTargetNPC, 42, 1 );
+
+				return;
+			}
 		}
 		else
 		{
-			if ( pAttacker->IsInhabitableNPC() )
+			if ( bKilled && pWeapon
+				&& pAttacker != pTarget
+				&& pAttacker->IsInhabitableNPC()
+				&& pTarget->Classify() == (Class_T)CLASS_ASW_MARINE )
 			{
 				CASW_Inhabitable_NPC *pInhabitableAttacker = assert_cast<CASW_Inhabitable_NPC *>( pAttacker );
-				if ( pTarget && pTarget->Classify() == (Class_T)CLASS_ASW_MARINE && bKilled && pTarget != pInhabitableAttacker )
-				{
-					s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5009, 1 ); // Deathmatch Kills
-					s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5011, 1 ); // Deathmatch Kills (Twitch)
-				}
+				s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5009, 1 ); // Deathmatch Kills
+				s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5011, 1 ); // Deathmatch Kills (Twitch)
 			}
 		}
 	}
