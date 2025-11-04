@@ -67,20 +67,46 @@ void CASW_Radiation_Volume::RadTouch( CBaseEntity* pOther )
 	if ( !IsValidRadTarget( pOther ) )
 		return;
 
-	// Treat m_flBoxWidth as radius:
-	float flRadius = m_flBoxWidth;
+	// m_flBoxWidth used as radius:
+	const float flRadius = m_flBoxWidth;
+	const float flRadiusSqr = flRadius * flRadius;
 
-	// If entity has a collision prop, compute nearest point and test 3D distance (sphere)
-	if ( pOther->CollisionProp() )
+	const Vector vecCenter = GetAbsOrigin();
+	CCollisionProperty* pOtherColl = pOther->CollisionProp();	// cache
+	CCollisionProperty* pVolColl = CollisionProp();				// cache
+	if ( !pVolColl )
+		return;
+
+	// compute the nearest point on the other entity to our center (robust for large NPCs)
+	Vector vecNearest;
+	if ( pOtherColl )
+		pOtherColl->CalcNearestPoint( vecCenter, &vecNearest );
+	else
+		vecNearest = pOther->WorldSpaceCenter();
+
+	// If other is a marine, use CYLINDER test:
+	// - horizontal (XY) distance < radius
+	// - AND the nearest point must be within our cuboid bounds (so Z is constrained by the volume)
+	if ( pOther->Classify() == CLASS_ASW_MARINE )
 	{
-		Vector vecNearest;
-		pOther->CollisionProp()->CalcNearestPoint( GetAbsOrigin(), &vecNearest );
-
-		Vector vecDelta = vecNearest - GetAbsOrigin();
-		if ( vecDelta.Length() > flRadius )
-			return; // outside the sphere
+		// must be within our cuboid in Z (IsPointInBounds) and within horizontal radius
+		if ( pVolColl->IsPointInBounds( vecNearest ) )
+		{
+			// horizontal delta (XY)
+			Vector vecDelta = vecNearest - vecCenter;
+			// horizontal distance squared check (circle)
+			if ( ( vecDelta.x * vecDelta.x + vecDelta.y * vecDelta.y ) >= flRadiusSqr )
+				return;
+		}
+	}
+	else
+	{
+		// aliens: full cuboid check only
+		if ( !pVolColl->IsPointInBounds( vecNearest ) )
+			return;
 	}
 
+	// avoid duplicates
 	if ( m_hRadTouching.Find( pOther ) == m_hRadTouching.InvalidIndex() )
 	{
 		m_hRadTouching.AddToTail( pOther );
@@ -91,22 +117,45 @@ void CASW_Radiation_Volume::RadTouch( CBaseEntity* pOther )
 
 bool CASW_Radiation_Volume::RadTouching( CBaseEntity* pEnt )
 {
-	if ( !pEnt || !pEnt->CollisionProp() )
+	if ( !pEnt )
 		return false;
 
-	// Treat m_flBoxWidth as radius:
-	float flRadius = m_flBoxWidth;
+	// m_flBoxWidth used as radius:
+	const float flRadius = m_flBoxWidth;
+	const float flRadiusSqr = flRadius * flRadius;
 
-	// nearest point on the entity to our center
+	const Vector vecCenter = GetAbsOrigin();
+	CCollisionProperty* pEntColl = pEnt->CollisionProp();	// cache
+	CCollisionProperty* pVolColl = CollisionProp();			// cache
+	if ( !pVolColl )
+		return false;
+
+	// compute the nearest point on the other entity to our center (robust for large NPCs)
 	Vector vecNearest;
-	pEnt->CollisionProp()->CalcNearestPoint( GetAbsOrigin(), &vecNearest );
+	if ( pEntColl )
+		pEntColl->CalcNearestPoint( vecCenter, &vecNearest );
+	else
+		vecNearest = pEnt->WorldSpaceCenter();
 
-	// Sphere test (3D)
-	Vector vecDelta = vecNearest - GetAbsOrigin();
-	if ( vecDelta.Length() > flRadius )
-		return false; // outside the sphere
+	// If other is a marine, use CYLINDER test:
+	// - horizontal (XY) distance < radius
+	// - AND the nearest point must be within our cuboid bounds (so Z is constrained by the volume)
+	if ( pEnt->Classify() == CLASS_ASW_MARINE )
+	{
+		// must be inside vertical bounds (cuboid)
+		if ( !pVolColl->IsPointInBounds( vecNearest ) )
+			return false;
 
-	return true;
+		// horizontal delta (XY)
+		Vector vecDelta = vecNearest - vecCenter;
+		// horizontal distance squared check (circle)
+		if ( ( vecDelta.x * vecDelta.x + vecDelta.y * vecDelta.y ) >= flRadiusSqr )
+			return false;
+
+		return true;
+	}
+	// aliens: full cuboid
+	return pVolColl->IsPointInBounds( vecNearest );
 }
 
 void CASW_Radiation_Volume::RadHurt(CBaseEntity *pEnt)
