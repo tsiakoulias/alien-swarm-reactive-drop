@@ -50,6 +50,7 @@ public:
 	bool m_bIsSpawnLanded;
 	float m_flSpawnFlipStartTime;
 	float m_flSpawnFlipEndTime;
+	Vector m_vecSurfaceNormal;
 	Vector m_vecSpawnFlipStartPos;
 	Vector m_vecSpawnFlipEndPos;
 	QAngle m_angSpawnFlipEndAngle;

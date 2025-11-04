@@ -198,6 +198,8 @@ void CASW_Weapon_Laser_Mines::DelayedAttack( void )
 		RotationDelta( angFacing, angLaser, &angLaserOffset );
 
 		CASW_Laser_Mine *pMine = CASW_Laser_Mine::ASW_Laser_Mine_Create( tr.endpos, angFacing, angLaserOffset, pMarine, pParent, true, this );
+		pMine->m_vecSurfaceNormal = tr.plane.normal;
+		
 		IGameEvent * event = gameeventmanager->CreateEvent( "laser_mine_placed" );
 		if ( event )
 		{

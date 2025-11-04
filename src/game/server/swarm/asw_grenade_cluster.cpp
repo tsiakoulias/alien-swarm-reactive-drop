@@ -258,21 +258,25 @@ CASW_Grenade_Cluster* CASW_Grenade_Cluster::Cluster_Grenade_Create( float flDama
 
 void CASW_Grenade_Cluster::DoExplosion()
 {
-	// scorch the ground
-	trace_t		tr;
-	UTIL_TraceLine ( GetAbsOrigin(), GetAbsOrigin() + Vector( 0, 0, -80 ), MASK_SHOT, 
-		this, COLLISION_GROUP_NONE, &tr);
-
-	if (m_bMaster)
+	// scorch decals
+	//if (m_bMaster)
 	{
-		if ((tr.m_pEnt != GetWorldEntity()) || (tr.hitbox != 0))
+		Vector vecForward = GetAbsVelocity();
+        float flTraceDist = 60.0f;
+		if ( vecForward.LengthSqr() < 0.001f )
+			vecForward = Vector( 0, 0, -1 );
+		VectorNormalize( vecForward );
+		trace_t tr;
+		UTIL_TraceLine( GetAbsOrigin(), GetAbsOrigin() + flTraceDist * vecForward, MASK_SHOT_HULL | CONTENTS_TRANSLUCENT, this, COLLISION_GROUP_NONE, &tr );
+
+		if ( ( tr.m_pEnt != GetWorldEntity() ) || ( tr.hitbox != 0 ) )
 		{
 			// non-world needs smaller decals
-			if( tr.m_pEnt && !tr.m_pEnt->IsNPC() )
-			{
-				UTIL_DecalTrace( &tr, "SmallScorch" );
+			if ( tr.m_pEnt )
+				{
+					UTIL_DecalTrace( &tr, "SmallScorch" );
+				}
 			}
-		}
 		else
 		{
 			UTIL_DecalTrace( &tr, "Scorch" );

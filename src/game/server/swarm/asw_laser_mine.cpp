@@ -233,18 +233,14 @@ void CASW_Laser_Mine::SpawnFlipThink()
 
 void CASW_Laser_Mine::Explode( bool bRemove )
 {
-	// scorch the ground
-	trace_t		tr;
-	UTIL_TraceLine ( GetAbsOrigin(), GetAbsOrigin() + Vector( 0, 0, -80 ), MASK_SHOT, 
-		this, COLLISION_GROUP_NONE, &tr);
+    // scorch decal
+	trace_t tr;
+	UTIL_TraceLine( GetAbsOrigin() + m_vecSurfaceNormal * 32.0f, GetAbsOrigin() - m_vecSurfaceNormal * 80.0f, MASK_SHOT_HULL | CONTENTS_TRANSLUCENT, this, COLLISION_GROUP_NONE, &tr );
 
-	if ((tr.m_pEnt != GetWorldEntity()) || (tr.hitbox != 0))
+	if ( ( tr.m_pEnt != GetWorldEntity() ) || ( tr.hitbox != 0 ) )
 	{
-		// non-world needs smaller decals
-		if( tr.m_pEnt && !tr.m_pEnt->IsNPC() )
-		{
+		if ( tr.m_pEnt )
 			UTIL_DecalTrace( &tr, "SmallScorch" );
-		}
 	}
 	else
 	{
@@ -284,7 +280,9 @@ CASW_Laser_Mine* CASW_Laser_Mine::ASW_Laser_Mine_Create( const Vector &position,
 {
 	CASW_Laser_Mine *pMine = (CASW_Laser_Mine*)CreateEntityByName( "asw_laser_mine" );
 	pMine->SetLaserAngle( angLaserAim );
-	
+
+	AngleVectors( angles, nullptr, nullptr, &pMine->m_vecSurfaceNormal );
+
 	matrix3x4_t wallMatrix;
 	AngleMatrix( angles, wallMatrix );
 
