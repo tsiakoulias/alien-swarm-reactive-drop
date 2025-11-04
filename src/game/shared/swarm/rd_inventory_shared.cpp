@@ -3799,11 +3799,9 @@ namespace ReactiveDropInventory
 		if ( engine->IsPlayingDemo() )
 			return;
 #endif
-		CASW_Game_Resource *pGameResource = ASWGameResource();
-		if ( !pGameResource )
-			return;
-
-		if ( !pAttacker || !pTarget )
+		if ( !ASWGameResource()
+			|| !pAttacker
+			|| !pTarget )
 			return;
 
 		if ( !ASWDeathmatchMode() )
@@ -3824,6 +3822,7 @@ namespace ReactiveDropInventory
 				&& pTarget->IsInhabitableNPC() )
 			{
 				CASW_Inhabitable_NPC *pTargetNPC = assert_cast< CASW_Inhabitable_NPC * >( pTarget );
+				s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( pTargetNPC, 42, 1 );
 
 #ifdef CLIENT_DLL
 				static bool s_bRequestedWormToucherMedal = false;
@@ -3833,9 +3832,6 @@ namespace ReactiveDropInventory
 					s_bRequestedWormToucherMedal = true;
 				}
 #endif
-				s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( pTargetNPC, 42, 1 );
-
-				return;
 			}
 		}
 		else
