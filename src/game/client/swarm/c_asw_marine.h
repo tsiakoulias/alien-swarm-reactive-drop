@@ -304,6 +304,7 @@ public:
 	float m_fEmoteAnimeSmileTime;
 	float m_fEmoteQuestionTime;
 	float m_fEmoteThanksTime;
+	float m_fEmoteWeldTime;
 	CNetworkVar( float, m_flLastMedicCall );
 	CNetworkVar( float, m_flLastAmmoCall );
 

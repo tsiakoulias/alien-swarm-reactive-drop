@@ -68,7 +68,7 @@ public:
 	CPanelAnimationVarAliasType( int, m_nAnimeTexture, "AnimeEmoteTexture", "vgui/swarm/Emotes/EmoteAnime", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nQuestionTexture, "QuestionTexture", "vgui/swarm/Emotes/EmoteQuestion", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nThanksTexture, "ThanksTexture", "vgui/swarm/Emotes/EmoteThanks", "textureid" );
-
+	CPanelAnimationVarAliasType( int, m_nWeldEmoteTexture, "WeldEmoteTexture", "vgui/swarm/Emotes/EmoteWelder", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nWrenchTexture, "WrenchTexture", "vgui/swarm/ClassIcons/EngineerIcon", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nSentryUpTexture, "SentryUpTexture", "vgui/swarm/ClassIcons/SentryBuild", "textureid" );
 	CPanelAnimationVarAliasType( int, m_nSentryDnTexture, "SentryDnTexture", "vgui/swarm/ClassIcons/SentryDismantle", "textureid" );
@@ -148,6 +148,8 @@ void CASWHudEmotes::PaintEmotesFor( C_ASW_Marine *pMarine )
 		PaintEmote( pMarine, pMarine->m_fEmoteQuestionTime, m_nQuestionTexture );
 	if ( pMarine->m_iClientEmote & ( 1 << 14 ) )
 		PaintEmote( pMarine, pMarine->m_fEmoteThanksTime, m_nThanksTexture );
+	if (pMarine->m_iClientEmote & (1 << 15) )			
+		PaintEmote(pMarine, pMarine->m_fEmoteWeldTime, m_nWeldEmoteTexture);
 
 	bool bBuildingSentry = false;
 	bool bWelding = false;
