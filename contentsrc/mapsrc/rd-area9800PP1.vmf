@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "7397"
-	"mapversion" "825"
+	"mapversion" "827"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -50,7 +50,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "825"
+	"mapversion" "827"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -99115,7 +99115,7 @@ entity
 	"origin" "-3800 -28 264"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1000]"
@@ -101044,7 +101044,7 @@ entity
 	"origin" "-3744 -28 264"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1000]"
@@ -101058,7 +101058,7 @@ entity
 	"origin" "-3688 -28 264"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1000]"
@@ -101072,7 +101072,7 @@ entity
 	"origin" "-3800 16 264"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1000]"
@@ -104742,7 +104742,7 @@ entity
 	"origin" "-3744 16 264"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1000]"
@@ -104756,7 +104756,7 @@ entity
 	"origin" "-3688 16 264"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1000]"
@@ -104770,7 +104770,7 @@ entity
 	"origin" "-3692 68 264"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1000]"
@@ -104784,7 +104784,7 @@ entity
 	"origin" "-3744 68 264"
 	editor
 	{
-		"color" "0 255 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 1000]"
@@ -161039,12 +161039,12 @@ entity
 	"angles" "0 180 0"
 	"autoopen" "0"
 	"CanCloseToWeld" "0"
-	"CanPlayerWeld" "1"
+	"CanPlayerWeld" "0"
 	"CustomMaxHealth" "1800"
 	"disableshadows" "1"
 	"distance" "160"
 	"DoBreachedShout" "1"
-	"DoCutShout" "1"
+	"DoCutShout" "0"
 	"doortype" "2"
 	"forceclosed" "0"
 	"model" "models/prop_door9800/area_heavydoor_left.mdl"
@@ -161389,7 +161389,7 @@ entity
 	"angles" "0 180 0"
 	"autoopen" "0"
 	"CanCloseToWeld" "0"
-	"CanPlayerWeld" "1"
+	"CanPlayerWeld" "0"
 	"currentsealtime" "0"
 	"CustomMaxHealth" "1800"
 	"dentamount" "0"
@@ -161540,7 +161540,7 @@ entity
 	"angles" "0 180 0"
 	"autoopen" "0"
 	"CanCloseToWeld" "0"
-	"CanPlayerWeld" "1"
+	"CanPlayerWeld" "0"
 	"currentsealtime" "0"
 	"CustomMaxHealth" "1800"
 	"dentamount" "0"
@@ -164966,8 +164966,8 @@ cameras
 	}
 	camera
 	{
-		"position" "[-2183.62 1045.48 693.931]"
-		"look" "[-2183.44 1045.84 693.015]"
+		"position" "[-4000.25 1737.65 959.574]"
+		"look" "[-3999.54 1737.29 958.969]"
 	}
 }
 cordons
