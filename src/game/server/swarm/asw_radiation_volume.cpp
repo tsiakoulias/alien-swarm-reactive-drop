@@ -61,61 +61,8 @@ bool CASW_Radiation_Volume::IsValidRadTarget( CBaseEntity *pOther )
 	return pOther->IsNPC();
 }
 
-void CASW_Radiation_Volume::RadTouch( CBaseEntity* pOther )
-{
-	// if other is a valid entity to radiate, add it to our list
-	if ( !IsValidRadTarget( pOther ) )
-		return;
-
-	// m_flBoxWidth used as radius:
-	const float flRadius = m_flBoxWidth;
-	const float flRadiusSqr = flRadius * flRadius;
-
-	const Vector vecCenter = GetAbsOrigin();
-	CCollisionProperty* pOtherColl = pOther->CollisionProp();	// cache
-	CCollisionProperty* pVolColl = CollisionProp();				// cache
-	if ( !pVolColl )
-		return;
-
-	// compute the nearest point on the other entity to our center (robust for large NPCs)
-	Vector vecNearest;
-	if ( pOtherColl )
-		pOtherColl->CalcNearestPoint( vecCenter, &vecNearest );
-	else
-		vecNearest = pOther->WorldSpaceCenter();
-
-	// If other is a marine, use CYLINDER test:
-	// - horizontal (XY) distance < radius
-	// - AND the nearest point must be within our cuboid bounds (so Z is constrained by the volume)
-	if ( pOther->Classify() == CLASS_ASW_MARINE )
-	{
-		// must be within our cuboid in Z (IsPointInBounds) and within horizontal radius
-		if ( pVolColl->IsPointInBounds( vecNearest ) )
-		{
-			// horizontal delta (XY)
-			Vector vecDelta = vecNearest - vecCenter;
-			// horizontal distance squared check (circle)
-			if ( ( vecDelta.x * vecDelta.x + vecDelta.y * vecDelta.y ) >= flRadiusSqr )
-				return;
-		}
-	}
-	else
-	{
-		// aliens: full cuboid check only
-		if ( !pVolColl->IsPointInBounds( vecNearest ) )
-			return;
-	}
-
-	// avoid duplicates
-	if ( m_hRadTouching.Find( pOther ) == m_hRadTouching.InvalidIndex() )
-	{
-		m_hRadTouching.AddToTail( pOther );
-		if ( GetNextThink() == TICK_NEVER_THINK )
-			SetNextThink( gpGlobals->curtime );
-	}
-}
-
-bool CASW_Radiation_Volume::RadTouching( CBaseEntity* pEnt )
+// Helper centralizing detection logic used by RadTouch and RadTouching
+bool CASW_Radiation_Volume::IsInRadiationVolume( CBaseEntity *pEnt )
 {
 	if ( !pEnt )
 		return false;
@@ -125,8 +72,8 @@ bool CASW_Radiation_Volume::RadTouching( CBaseEntity* pEnt )
 	const float flRadiusSqr = flRadius * flRadius;
 
 	const Vector vecCenter = GetAbsOrigin();
-	CCollisionProperty* pEntColl = pEnt->CollisionProp();	// cache
-	CCollisionProperty* pVolColl = CollisionProp();			// cache
+	CCollisionProperty* pEntColl = pEnt->CollisionProp();
+	CCollisionProperty* pVolColl = CollisionProp();
 	if ( !pVolColl )
 		return false;
 
@@ -158,6 +105,25 @@ bool CASW_Radiation_Volume::RadTouching( CBaseEntity* pEnt )
 	return pVolColl->IsPointInBounds( vecNearest );
 }
 
+void CASW_Radiation_Volume::RadTouch( CBaseEntity* pOther )
+{
+	// if other is a valid entity to radiate, add it to our list
+	if ( !IsValidRadTarget( pOther )
+		|| m_hRadTouching.Find( pOther ) != m_hRadTouching.InvalidIndex()	// avoid duplicates
+		|| !IsInRadiationVolume( pOther ) )
+		return;
+
+	m_hRadTouching.AddToTail( pOther );
+	if ( GetNextThink() == TICK_NEVER_THINK )
+		SetNextThink( gpGlobals->curtime );
+}
+
+bool CASW_Radiation_Volume::RadTouching( CBaseEntity* pEnt )
+{
+	// simply reuse centralized detection
+	return IsInRadiationVolume( pEnt );
+}
+
 void CASW_Radiation_Volume::RadHurt(CBaseEntity *pEnt)
 {
 	if (!pEnt)
@@ -166,7 +132,7 @@ void CASW_Radiation_Volume::RadHurt(CBaseEntity *pEnt)
 	int iDamageType = DMG_RADIATION;
 
 	CBaseEntity *pAttacker = this;
-	if (m_hCreator.Get() && pEnt->Classify() != CLASS_ASW_MARINE)	// don't deal friendly fire damage from rad barrels
+	if (m_hCreator.Get() && pEnt->Classify() != CLASS_ASW_MARINE) 	// don't deal friendly fire damage from rad barrels
 		pAttacker = m_hCreator.Get();
 
 	CBaseEntity *pWeapon = NULL;
