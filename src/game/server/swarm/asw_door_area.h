@@ -10,6 +10,9 @@ class CASW_Door_Area : public CASW_Use_Area
 	DECLARE_CLASS( CASW_Door_Area, CASW_Use_Area );
 public:
 	CASW_Door_Area();
+	~CASW_Door_Area();
+
+	virtual void Spawn( void );
 	virtual void ActivateMultiTrigger( CBaseEntity *pActivator );
 
 	bool HasWelder( CASW_Marine *pMarine );

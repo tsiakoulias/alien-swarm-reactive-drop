@@ -58,7 +58,7 @@ public:
 
 	bool IsTouching( CBaseEntity *pOther );
 	bool ScriptIsTouching( HSCRIPT entity );
-	int ScriptGetNumTouching();
+	int GetNumTouching();
 	HSCRIPT ScriptGetTouching( int i );
 
 	CBaseEntity *GetTouchedEntityOfType( const char *sClassName );
