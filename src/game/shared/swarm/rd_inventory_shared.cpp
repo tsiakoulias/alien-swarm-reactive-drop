@@ -3811,9 +3811,12 @@ namespace ReactiveDropInventory
 				 && pTarget->IsAlien() )
 			{
 				CASW_Inhabitable_NPC* pInhabitableAttacker = assert_cast<CASW_Inhabitable_NPC*>( pAttacker );
-				s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5002, 1 ); // Aliens Killed
-				s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5007, 1 ); // Alien Kill Streak
-				s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5010, 1 ); // Aliens Killed (Twitch)
+				if ( pInhabitableAttacker->IsInhabited() )
+				{
+					s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5002, 1 ); // Aliens Killed
+					s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5007, 1 ); // Alien Kill Streak
+					s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5010, 1 ); // Aliens Killed (Twitch)
+				}
 			}
 
 			if ( !V_stricmp( IGameSystem::MapName(), "rd-reduction2" )
@@ -3822,16 +3825,18 @@ namespace ReactiveDropInventory
 				&& pTarget->IsInhabitableNPC() )
 			{
 				CASW_Inhabitable_NPC *pTargetNPC = assert_cast< CASW_Inhabitable_NPC * >( pTarget );
-				s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( pTargetNPC, 42, 1 );
-
-#ifdef CLIENT_DLL
-				static bool s_bRequestedWormToucherMedal = false;
-				if ( !s_bRequestedWormToucherMedal && pTargetNPC->IsInhabited() && pTargetNPC->GetCommander() && pTargetNPC->GetCommander()->IsLocalPlayer() )
+				if ( pTargetNPC->IsInhabited() )
 				{
-					AddPromoItem( 42 );
-					s_bRequestedWormToucherMedal = true;
-				}
+					s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( pTargetNPC, 42, 1 );
+#ifdef CLIENT_DLL
+					static bool s_bRequestedWormToucherMedal = false;
+					if ( !s_bRequestedWormToucherMedal && pTargetNPC->GetCommander() && pTargetNPC->GetCommander()->IsLocalPlayer() )
+					{
+						AddPromoItem( 42 );
+						s_bRequestedWormToucherMedal = true;
+					}
 #endif
+				}
 			}
 		}
 		else
