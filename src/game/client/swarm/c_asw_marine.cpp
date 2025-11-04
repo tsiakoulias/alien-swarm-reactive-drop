@@ -461,6 +461,7 @@ C_ASW_Marine::C_ASW_Marine() :
 	m_fEmoteAnimeSmileTime = 0;
 	m_fEmoteQuestionTime = 0;
 	m_fEmoteThanksTime = 0;
+	m_fEmoteWeldTime = 0;
 	m_flLastMedicCall = 0;
 	m_flLastAmmoCall = 0;
 

@@ -86,8 +86,8 @@ void CASW_Firewall_Piece::Spawn( void )
 	//pFire->SetAbsVelocity( vec3_origin );
 
 	trace_t tr;
-	UTIL_TraceHull( GetAbsOrigin() + Vector( 0.0f,0.0f, 5.0f), GetAbsOrigin() + Vector( 0.0f, 0.0f, -100.0f ), 
-					Vector( -30.0f, -30.0f, 0.0f ), Vector( 30.0f, 30.0f, 30.0f ), MASK_SOLID_BRUSHONLY, this, COLLISION_GROUP_NONE, &tr );
+	UTIL_TraceHull( GetAbsOrigin() + Vector( 0.0f,0.0f, 32.0f), GetAbsOrigin() + Vector( 0.0f, 0.0f, -1000.0f ), 
+					Vector( -30.0f, -30.0f, 0.0f ), Vector( 30.0f, 30.0f, 30.0f ), MASK_SHOT_HULL | CONTENTS_PLAYERCLIP | CONTENTS_MONSTERCLIP | CONTENTS_TRANSLUCENT, this, ASW_COLLISION_GROUP_IGNORE_NPCS, &tr );
 
 	int nFlags = ( SF_FIRE_START_ON | SF_FIRE_SMOKELESS );
 
@@ -100,6 +100,11 @@ void CASW_Firewall_Piece::Spawn( void )
 	if ( pFire )
 	{
 		pFire->m_bPlacedByMarine = m_bPlacedByMarine;
+
+		// scorch decals
+		trace_t tr2;
+		UTIL_TraceLine( tr.endpos + Vector( 0.0f, 0.0f, 32.0f ), tr.endpos + Vector( 0.0f, 0.0f, -60.0f ), MASK_SHOT_HULL | CONTENTS_TRANSLUCENT, this, ASW_COLLISION_GROUP_IGNORE_NPCS, &tr2 );
+		UTIL_DecalTrace( &tr2, "Scorch" );
 	}
 }
 
@@ -170,7 +175,7 @@ CASW_Firewall_Piece* CASW_Firewall_Piece::CreateAnotherPiece(bool bRight)
 		ang.y-=90;
 	AngleVectors(ang, &offset);
 	offset *= ASW_FIREWALL_SPACING;
-	Vector start = GetAbsOrigin() + Vector(0,0,20);
+	Vector start = GetAbsOrigin() + Vector(0,0,32);
 	Vector dest = start + offset;
 	//todo: trace from abs to dest
 	trace_t tr;
@@ -193,7 +198,7 @@ CASW_Firewall_Piece* CASW_Firewall_Piece::CreateAnotherPiece(bool bRight)
 		//if (GetOwnerEntity())
 			//Msg("Creating another firewall piece with owner %s\n", GetOwnerEntity()->GetClassname());
 		//UTIL_SetOrigin( pFirewall, GetAbsOrigin() + offset );
-		pFirewall->SetAbsOrigin( dest - Vector(0,0,20) );
+		pFirewall->SetAbsOrigin( dest - Vector(0,0,32) );
 		pFirewall->SetDuration(m_fFireDuration);
 		pFirewall->m_hCreatorWeapon = m_hCreatorWeapon;
 		pFirewall->m_bPlacedByMarine = m_bPlacedByMarine;

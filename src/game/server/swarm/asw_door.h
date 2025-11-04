@@ -3,6 +3,7 @@
 
 #include "entityblocker.h"
 #include "BasePropDoor.h"
+#include "asw_door_area.h"
 #include "asw_shareddefs.h"
 
 class CASW_Player;
@@ -151,6 +152,8 @@ public:
 	inline int GetDoorType() { return m_iDoorType; }
 
 	void UpdateDoorHealthOnMissionStart( int iDifficulty );
+
+	CUtlVector<CASW_Door_Area *> m_AttachedDoorAreas;
 
 private:
 

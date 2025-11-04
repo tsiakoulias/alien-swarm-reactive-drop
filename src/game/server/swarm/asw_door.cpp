@@ -605,6 +605,13 @@ bool CASW_Door::CheckDoorClear()
 		return false;
 	}
 
+	// dont try to close when an entity is standing inside any trigger_asw_door_area's that would make the door open
+	FOR_EACH_VEC( m_AttachedDoorAreas, i )
+	{
+		if ( m_AttachedDoorAreas[i]->GetNumTouching() != 0 )
+			return false;
+	}
+
 	if ( g_debug_doors.GetBool() )
 	{
 		NDebugOverlay::Box( vecClosed, m_vecBoundsMin, m_vecBoundsMax, 0, 255, 0, true, 10.0f );
