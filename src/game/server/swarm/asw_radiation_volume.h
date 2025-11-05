@@ -13,6 +13,8 @@ public:
 	void RadHurt(CBaseEntity *pEnt);
 	bool RadTouching(CBaseEntity *pEnt);
 	bool IsValidRadTarget( CBaseEntity *pOther );
+	// helper that centralizes the collision/volume checks used by RadTouch and RadTouching
+	bool IsInRadiationVolume( CBaseEntity *pEnt );
 	
 	DECLARE_DATADESC();
 	CUtlVector<EHANDLE> m_hRadTouching;	
