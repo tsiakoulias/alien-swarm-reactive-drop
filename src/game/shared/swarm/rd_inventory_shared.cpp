@@ -3808,7 +3808,7 @@ namespace ReactiveDropInventory
 			if ( bKilled && pTarget && pTarget->IsInhabitableNPC() )
 				s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( assert_cast<CASW_Inhabitable_NPC*>( pTarget ), 5007, 0, 0, false );
 
-			if ( !pAttacker && !pTarget )
+			if ( !pAttacker || !pTarget )
 				return;
 			
 			if ( bKilled && pWeapon

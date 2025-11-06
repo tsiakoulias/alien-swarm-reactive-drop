@@ -143,7 +143,7 @@ void CASW_Barrel_Explosive::DoExplosion()
 		vecForward = Vector( 0, 0, -1 );
 	VectorNormalize( vecForward );
 	trace_t tr;
-	UTIL_TraceLine( GetAbsOrigin(), GetAbsOrigin() + flTraceDist * vecForward, MASK_SHOT_HULL | CONTENTS_TRANSLUCENT, this, COLLISION_GROUP_NONE, &tr );
+	UTIL_TraceLine( GetAbsOrigin(), GetAbsOrigin() + flTraceDist * vecForward, MASK_SHOT_HULL, this, COLLISION_GROUP_NONE, &tr );
 
 	if ( ( tr.m_pEnt != GetWorldEntity() ) || ( tr.hitbox != 0 ) )
 	{

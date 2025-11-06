@@ -103,7 +103,7 @@ void CASW_Firewall_Piece::Spawn( void )
 
 		// scorch decals
 		trace_t tr2;
-		UTIL_TraceLine( tr.endpos + Vector( 0.0f, 0.0f, 32.0f ), tr.endpos + Vector( 0.0f, 0.0f, -60.0f ), MASK_SHOT_HULL | CONTENTS_TRANSLUCENT, this, ASW_COLLISION_GROUP_IGNORE_NPCS, &tr2 );
+		UTIL_TraceLine( tr.endpos + Vector( 0.0f, 0.0f, 32.0f ), tr.endpos + Vector( 0.0f, 0.0f, -80.0f ), MASK_SHOT_HULL, this, ASW_COLLISION_GROUP_IGNORE_NPCS, &tr2 );
 		UTIL_DecalTrace( &tr2, "Scorch" );
 	}
 }
