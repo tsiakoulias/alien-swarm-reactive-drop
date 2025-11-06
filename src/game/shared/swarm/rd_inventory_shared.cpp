@@ -3799,13 +3799,18 @@ namespace ReactiveDropInventory
 		if ( engine->IsPlayingDemo() )
 			return;
 #endif
-		if ( !ASWGameResource()
-			|| !pAttacker
-			|| !pTarget )
+		if ( !ASWGameResource() )
 			return;
 
 		if ( !ASWDeathmatchMode() )
 		{
+			// Alien Kill Streak reset after marine death
+			if ( bKilled && pTarget && pTarget->IsInhabitableNPC() )
+				s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( assert_cast<CASW_Inhabitable_NPC*>( pTarget ), 5007, 0, 0, false );
+
+			if ( !pAttacker && !pTarget )
+				return;
+			
 			if ( bKilled && pWeapon
 				 && pAttacker->IsInhabitableNPC()
 				 && pTarget->IsAlien() )
@@ -3842,6 +3847,7 @@ namespace ReactiveDropInventory
 		else
 		{
 			if ( bKilled && pWeapon
+				&& pAttacker && pTarget
 				&& pAttacker != pTarget
 				&& pAttacker->IsInhabitableNPC()
 				&& pTarget->Classify() == (Class_T)CLASS_ASW_MARINE )
