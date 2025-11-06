@@ -235,7 +235,7 @@ void CASW_Laser_Mine::Explode( bool bRemove )
 {
     // scorch decal
 	trace_t tr;
-	UTIL_TraceLine( GetAbsOrigin() + m_vecSurfaceNormal * 32.0f, GetAbsOrigin() - m_vecSurfaceNormal * 80.0f, MASK_SHOT_HULL | CONTENTS_TRANSLUCENT, this, COLLISION_GROUP_NONE, &tr );
+	UTIL_TraceLine( GetAbsOrigin() + m_vecSurfaceNormal * 32.0f, GetAbsOrigin() - m_vecSurfaceNormal * 80.0f, MASK_SHOT_HULL, this, COLLISION_GROUP_NONE, &tr );
 
 	if ( ( tr.m_pEnt != GetWorldEntity() ) || ( tr.hitbox != 0 ) )
 	{

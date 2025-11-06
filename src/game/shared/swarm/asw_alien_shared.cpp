@@ -158,7 +158,7 @@ void CASW_Alien::DoBloodDecal( float flDamage, const Vector &vecPos, const Vecto
 		vecTraceDir.z += random->RandomFloat( -flNoise, flNoise );
 
 		// Don't bleed on grates.
-		UTIL_TraceLine( vecPos, vecPos + vecTraceDir * -flTraceDist, MASK_SHOT_HULL | CONTENTS_TRANSLUCENT, this, COLLISION_GROUP_NONE, &Bloodtr);
+		UTIL_TraceLine( vecPos, vecPos + vecTraceDir * -flTraceDist, MASK_SHOT_HULL & ~CONTENTS_GRATE, this, COLLISION_GROUP_NONE, &Bloodtr);
 
 		if ( Bloodtr.fraction != 1.0 )
 		{

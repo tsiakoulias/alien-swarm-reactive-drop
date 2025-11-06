@@ -261,12 +261,12 @@ void CASW_Grenade_Vindicator::Detonate()
 	if (m_bMaster)
 	{
 		Vector vecForward = GetAbsVelocity();
-		float flTraceDist = 60.0f;
+		float flTraceDist = 80.0f;
 		if ( vecForward.LengthSqr() < 0.001f )
 			vecForward = Vector( 0, 0, -1 );
 		VectorNormalize( vecForward );
 		trace_t tr;
-		UTIL_TraceLine( GetAbsOrigin(), GetAbsOrigin() + flTraceDist * vecForward, MASK_SHOT_HULL | CONTENTS_TRANSLUCENT, this, COLLISION_GROUP_NONE, &tr );
+		UTIL_TraceLine( GetAbsOrigin(), GetAbsOrigin() + flTraceDist * vecForward, MASK_SHOT_HULL, this, COLLISION_GROUP_NONE, &tr );
 
 		if ( ( tr.m_pEnt != GetWorldEntity() ) || ( tr.hitbox != 0 ) )
 		{
