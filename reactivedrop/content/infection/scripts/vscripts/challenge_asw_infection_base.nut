@@ -215,7 +215,7 @@ function Update()
 			if (hMarine && hMarine in g_teamHuman && !(hMarine in g_lastHuman))
 			{
 				local nButtons = NetProps.GetPropInt( hPlayer, "m_nButtons" );
-				if (nButtons & 16384)
+				if (nButtons & 278528)
 				{
 					UseLastStand(hMarine);
 				}
