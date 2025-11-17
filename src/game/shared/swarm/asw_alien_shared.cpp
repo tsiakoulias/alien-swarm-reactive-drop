@@ -110,7 +110,7 @@ void CASW_Alien::DoBloodDecal( float flDamage, const Vector &vecPos, const Vecto
 		return;
 
 	// make blood decal on the wall!
-	trace_t Bloodtr;
+	trace_t Bloodtr, Bloodtr2;
 	Vector vecTraceDir;
 	float flNoise;
 	int cCount;
@@ -157,12 +157,17 @@ void CASW_Alien::DoBloodDecal( float flDamage, const Vector &vecPos, const Vecto
 		vecTraceDir.y += random->RandomFloat( -flNoise, flNoise );
 		vecTraceDir.z += random->RandomFloat( -flNoise, flNoise );
 
-		// Don't bleed on grates.
+		// Bleed on and behind the grates.
 		UTIL_TraceLine( vecPos, vecPos + vecTraceDir * -flTraceDist, MASK_SHOT_HULL & ~CONTENTS_GRATE, this, COLLISION_GROUP_NONE, &Bloodtr);
+		UTIL_TraceLine( vecPos, vecPos + vecTraceDir * -flTraceDist, MASK_SHOT_HULL, this, COLLISION_GROUP_NONE, &Bloodtr2 );
 
 		if ( Bloodtr.fraction != 1.0 )
 		{
 			UTIL_BloodDecalTrace( &Bloodtr, BloodColor() );
+		}
+		if ( Bloodtr2.fraction != 1.0 && Bloodtr.endpos != Bloodtr2.endpos )
+		{
+			UTIL_BloodDecalTrace( &Bloodtr2, BloodColor() );
 		}
 	}
 }

@@ -891,7 +891,7 @@ void UTIL_BloodDecalTrace( trace_t *pTrace, int bloodColor )
 			return;
 		}
 #endif
-		else if (bloodColor == BLOOD_COLOR_BRIGHTGREEN)
+		else if (bloodColor == BLOOD_COLOR_BRIGHTGREEN || bloodColor == BLOOD_COLOR_GREEN )
 		{				
 			UTIL_DecalTrace( pTrace, "GreenBlood" );
 		}
