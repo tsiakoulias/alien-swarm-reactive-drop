@@ -204,6 +204,13 @@ float4 main( PS_INPUT i ) : COLOR
 	
 	float4 baseColor = tex2Dsrgb( BaseTextureSampler, i.baseTexCoordDetailTexCoord.xy );
 
+#if HSV
+	float3 baseColorHSV = rgb2hsv(baseColor.rgb);
+	baseColorHSV.x = fmod(baseColorHSV.x + g_HsvParams.x, 1.0);
+	baseColorHSV.yz = clamp(baseColorHSV.yz * g_HsvParams.yz, 0.0, 1.0);
+	baseColor.xyz = lerp(baseColor.xyz, hsv2rgb(baseColorHSV), saturate(baseColor.a + g_fInverseBlendTintByBaseAlpha));
+#endif
+	
 	float flWrinkleAmount, flStretchAmount, flTextureAmount;
 	#if ( WRINKLEMAP )
 	{
@@ -378,13 +385,6 @@ float4 main( PS_INPUT i ) : COLOR
 
 	// Optionally use basealpha to blend in the diffuse modulation (saturated add of g_fInverseBlendTintByBaseAlpha turns this on/off)
 	diffuseLighting *= lerp( float3( 1.0f, 1.0f, 1.0f ), g_DiffuseModulation.rgb, saturate( baseColor.a + g_fInverseBlendTintByBaseAlpha ) );
-
-#if HSV
-	float3 albedoHSV = rgb2hsv(albedo.rgb);
-	albedoHSV.x = fmod(albedoHSV.x + g_HsvParams.x, 1.0);
-	albedoHSV.yz = clamp(albedoHSV.yz * g_HsvParams.yz, 0.0, 1.0);
-	albedo.xyz = lerp(albedo.xyz, hsv2rgb(albedoHSV), saturate(baseColor.a + g_fInverseBlendTintByBaseAlpha));
-#endif
 
 	float3 diffuseComponent = albedo * diffuseLighting;
 
