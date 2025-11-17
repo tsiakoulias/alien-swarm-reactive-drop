@@ -213,7 +213,7 @@ GameRulesConVarSkill( s_ASWMarineSkillsConVars, AMSC_HEALING_MEDKIT_HPS, asw_ski
 GameRulesConVarSkill( s_ASWMarineSkillsConVars, AMSC_HEALING_GRENADE, asw_skill_healing_grenade, 120, 30, "", ASW_MARINE_SKILL_HEALING, ASW_MARINE_SUBSKILL_HEAL_GRENADE_HEAL_AMOUNT );
 GameRulesConVarSkill( s_ASWMarineSkillsConVars, AMSC_HEALING_GUN_CHARGES, asw_skill_healing_gun_charges, 40, 10, "", ASW_MARINE_SKILL_HEALING, ASW_MARINE_SUBSKILL_HEAL_GUN_CHARGES );
 GameRulesConVarSkill( s_ASWMarineSkillsConVars, AMSC_HEALING_GUN, asw_skill_healing_gun, 5, 1, "", ASW_MARINE_SKILL_HEALING, ASW_MARINE_SUBSKILL_HEAL_GUN_HEAL_AMOUNT );
-GameRulesConVarSkill( s_ASWMarineSkillsConVars, AMSC_HEALING_AMP_GUN_CHARGES, asw_skill_healing_amp_gun_charges, 20, 5, "", ASW_MARINE_SKILL_HEALING, ASW_MARINE_SUBSKILL_HEALAMP_GUN_CHARGES );
+GameRulesConVarSkill( s_ASWMarineSkillsConVars, AMSC_HEALING_AMP_GUN_CHARGES, asw_skill_healing_amp_gun_charges, 15, 10, "", ASW_MARINE_SKILL_HEALING, ASW_MARINE_SUBSKILL_HEALAMP_GUN_CHARGES );
 GameRulesConVarSkill( s_ASWMarineSkillsConVars, AMSC_HEALING_MEDRIFLE_HEALING_CHARGES, asw_skill_healing_medrifle_healing_charges, 50, 0, "", ASW_MARINE_SKILL_HEALING, ASW_MARINE_SUBSKILL_MEDRIFLE_HEALING_CHARGES );
 
 // Infestation Curing (Medic)
