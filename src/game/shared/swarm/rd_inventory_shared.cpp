@@ -3808,9 +3808,10 @@ namespace ReactiveDropInventory
 				return;
 
 			// Reset the Alien Kill Streak of the player inhabiting this NPC when that NPC dies, regardless of the source of damage
-			if ( pTarget->IsInhabitableNPC() && bKilled )
+			if ( bKilled && pTarget->IsInhabitableNPC() )
 			{
 				CASW_Inhabitable_NPC *pInhabitableTarget = assert_cast<CASW_Inhabitable_NPC *>( pTarget );
+				// only for player-controlled characters
 				if ( pInhabitableTarget->IsInhabited() )
 					s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( pInhabitableTarget, 5007, 0, 0, false );
 			}
@@ -3825,6 +3826,7 @@ namespace ReactiveDropInventory
 				)
 			{
 				CASW_Inhabitable_NPC *pInhabitableAttacker = assert_cast<CASW_Inhabitable_NPC *>( pAttacker );
+				// only for player-controlled characters
 				if ( pInhabitableAttacker->IsInhabited() )
 				{
 					s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5002, 1 ); // Aliens Killed
@@ -3839,6 +3841,7 @@ namespace ReactiveDropInventory
 				&& !V_strcmp( STRING( pAttacker->GetEntityName() ), "trigger_pitworm_hitbox" ) )
 			{
 				CASW_Inhabitable_NPC *pInhabitableTarget = assert_cast<CASW_Inhabitable_NPC *>( pTarget );
+				// only for player-controlled characters
 				if ( pInhabitableTarget->IsInhabited() )
 				{
 					s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( pInhabitableTarget, 42, 1 );
@@ -3863,6 +3866,7 @@ namespace ReactiveDropInventory
 			{
 				CASW_Inhabitable_NPC *pInhabitableAttacker = assert_cast<CASW_Inhabitable_NPC *>( pAttacker );
 				CASW_Inhabitable_NPC *pInhabitableTarget = assert_cast<CASW_Inhabitable_NPC *>( pTarget );
+				// only for player-controlled characters
 				if ( pInhabitableAttacker->IsInhabited() && pInhabitableTarget->IsInhabited() )
 				{
 					s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5009, 1 ); // Deathmatch Kills
