@@ -248,6 +248,8 @@ void DrawCharacter_DX9( CBaseVSShader *pShader, IMaterialVar **params, IShaderDy
 	CCharacter_DX9_Context *pContextData = reinterpret_cast< CCharacter_DX9_Context * > ( *pContextDataPtr );
 
 	bool bHasFlashlight = pShader->UsingFlashlight( params );
+	//bool bNoCull = IS_FLAG_SET( MATERIAL_VAR_NOCULL );
+	bool bFlashlightNoLambert = ( info.m_nFlashlightNoLambert != -1 ) && ( params[ info.m_nFlashlightNoLambert ]->GetIntValue() != 0 );
 	bool bIsDecal = IS_FLAG_SET( MATERIAL_VAR_DECAL );
 	bool bIsAlphaTested = IS_FLAG_SET( MATERIAL_VAR_ALPHATEST ) != 0;
 	BlendType_t nBlendType = pShader->EvaluateBlendRequirements( info.m_nBaseTexture, true );
@@ -844,7 +846,7 @@ void DrawCharacter_DX9( CBaseVSShader *pShader, IMaterialVar **params, IShaderDy
 				state.m_nDepthTweakConstant = PSREG_ENVMAP_TINT__SHADOW_TWEAKS; // NOTE: Reg 43 not available on < ps3.0!
 				state.m_nScreenScaleConstant = PSREG_FLASHLIGHT_SCREEN_SCALE;
 				state.m_nWorldToTextureConstant = PSREG_FLASHLIGHT_TO_WORLD_TEXTURE;
-				state.m_bFlashlightNoLambert = false;
+				state.m_bFlashlightNoLambert = bFlashlightNoLambert;
 				state.m_bSinglePassFlashlight = false;
 				pContextData->m_SemiStaticCmdsOut.SetPixelShaderFlashlightState( state );
 
