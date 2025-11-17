@@ -3804,18 +3804,27 @@ namespace ReactiveDropInventory
 
 		if ( !ASWDeathmatchMode() )
 		{
-			// Alien Kill Streak reset after marine death
-			if ( bKilled && pTarget && pTarget->IsInhabitableNPC() )
-				s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( assert_cast<CASW_Inhabitable_NPC*>( pTarget ), 5007, 0, 0, false );
-
-			if ( !pAttacker || !pTarget )
+			if ( !pTarget )
 				return;
-			
-			if ( bKilled && pWeapon
-				 && pAttacker->IsInhabitableNPC()
-				 && pTarget->IsAlien() )
+
+			// Reset the Alien Kill Streak of the player inhabiting this NPC when that NPC dies, regardless of the source of damage
+			if ( pTarget->IsInhabitableNPC() && bKilled )
 			{
-				CASW_Inhabitable_NPC* pInhabitableAttacker = assert_cast<CASW_Inhabitable_NPC*>( pAttacker );
+				CASW_Inhabitable_NPC *pInhabitableTarget = assert_cast<CASW_Inhabitable_NPC *>( pTarget );
+				if ( pInhabitableTarget->IsInhabited() )
+					s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( pInhabitableTarget, 5007, 0, 0, false );
+			}
+
+			if ( !pAttacker )
+				return;
+
+			if ( bKilled && pWeapon
+				&& pTarget->IsAlien()
+				&& pAttacker->IsInhabitableNPC()
+				&& pAttacker != pTarget
+				)
+			{
+				CASW_Inhabitable_NPC *pInhabitableAttacker = assert_cast<CASW_Inhabitable_NPC *>( pAttacker );
 				if ( pInhabitableAttacker->IsInhabited() )
 				{
 					s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5002, 1 ); // Aliens Killed
@@ -3824,18 +3833,18 @@ namespace ReactiveDropInventory
 				}
 			}
 
-			if ( !V_stricmp( IGameSystem::MapName(), "rd-reduction2" )
-				&& !pAttacker->IsInhabitableNPC()
-				&& !V_strcmp( STRING( pAttacker->GetEntityName() ), "trigger_pitworm_hitbox" )
-				&& pTarget->IsInhabitableNPC() )
+			if ( !pAttacker->IsInhabitableNPC()
+				&& pTarget->IsInhabitableNPC()
+				&& !V_stricmp( IGameSystem::MapName(), "rd-reduction2" )
+				&& !V_strcmp( STRING( pAttacker->GetEntityName() ), "trigger_pitworm_hitbox" ) )
 			{
-				CASW_Inhabitable_NPC *pTargetNPC = assert_cast< CASW_Inhabitable_NPC * >( pTarget );
-				if ( pTargetNPC->IsInhabited() )
+				CASW_Inhabitable_NPC *pInhabitableTarget = assert_cast<CASW_Inhabitable_NPC *>( pTarget );
+				if ( pInhabitableTarget->IsInhabited() )
 				{
-					s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( pTargetNPC, 42, 1 );
+					s_RD_Inventory_Manager.IncrementStrangePropertyOnEquippedItems( pInhabitableTarget, 42, 1 );
 #ifdef CLIENT_DLL
 					static bool s_bRequestedWormToucherMedal = false;
-					if ( !s_bRequestedWormToucherMedal && pTargetNPC->GetCommander() && pTargetNPC->GetCommander()->IsLocalPlayer() )
+					if ( !s_bRequestedWormToucherMedal && pInhabitableTarget->GetCommander() && pInhabitableTarget->GetCommander()->IsLocalPlayer() )
 					{
 						AddPromoItem( 42 );
 						s_bRequestedWormToucherMedal = true;
@@ -3850,11 +3859,15 @@ namespace ReactiveDropInventory
 				&& pAttacker && pTarget
 				&& pAttacker != pTarget
 				&& pAttacker->IsInhabitableNPC()
-				&& pTarget->Classify() == (Class_T)CLASS_ASW_MARINE )
+				&& pTarget->IsInhabitableNPC() )
 			{
 				CASW_Inhabitable_NPC *pInhabitableAttacker = assert_cast<CASW_Inhabitable_NPC *>( pAttacker );
-				s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5009, 1 ); // Deathmatch Kills
-				s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5011, 1 ); // Deathmatch Kills (Twitch)
+				CASW_Inhabitable_NPC *pInhabitableTarget = assert_cast<CASW_Inhabitable_NPC *>( pTarget );
+				if ( pInhabitableAttacker->IsInhabited() && pInhabitableTarget->IsInhabited() )
+				{
+					s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5009, 1 ); // Deathmatch Kills
+					s_RD_Inventory_Manager.IncrementStrangePropertiesForWeapon( pInhabitableAttacker, pWeapon, 5011, 1 ); // Deathmatch Kills (Twitch)
+				}
 			}
 		}
 	}
