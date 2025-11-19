@@ -7279,7 +7279,20 @@ void CBaseEntity::InputRunScriptFile( inputdata_t& inputdata )
 //---------------------------------------------------------
 void CBaseEntity::InputRunScript( inputdata_t& inputdata )
 {
-	RunScript( inputdata.value.String(), "InputRunScript" );
+	const char *pszRawScriptCode = inputdata.value.String();
+
+	const int nRawScriptCodeLen = V_strlen( pszRawScriptCode );
+	const int nRawScriptCodeSize = nRawScriptCodeLen + 1;
+
+	CUtlString szScriptCode;
+	szScriptCode.SetLength( nRawScriptCodeLen );
+	if ( V_StrSubst( inputdata.value.String(), "`", "\"", szScriptCode.Get(), nRawScriptCodeSize, true ) )
+	{
+		RunScript( szScriptCode.Get(), "InputRunScript" );
+		return;
+	}
+	
+	RunScript( pszRawScriptCode, "InputRunScript" );
 }
 
 //---------------------------------------------------------
