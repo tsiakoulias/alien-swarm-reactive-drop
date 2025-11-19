@@ -1424,7 +1424,7 @@ int CASW_Marine::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 			{
     			return 0;
 			}			
-else
+		else
 		{
 			if ( newInfo.GetDamageType() & DMG_CLUB )
 			{
