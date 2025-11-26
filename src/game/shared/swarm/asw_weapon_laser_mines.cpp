@@ -189,7 +189,7 @@ void CASW_Weapon_Laser_Mines::DelayedAttack( void )
 				Vector vecPerpendicular;
 				VectorRotate( vecAiming, QAngle( 0, 90, 0 ), vecPerpendicular );
 				Vector vecNewDest = vecDest + vecPerpendicular * ( ( i == 0 ) ? 32 : -32 );
-				UTIL_TraceLine( vecDest, vecNewDest, MASK_SOLID, pMarine, COLLISION_GROUP_NONE, &tr );		// trace out to the sides
+				UTIL_TraceLine( vecDest, vecNewDest, MASK_SOLID, pMarine, COLLISION_GROUP_DEBRIS, &tr );		// trace out to the sides
 				if ( tr.startsolid )
 					continue;
 
@@ -197,12 +197,12 @@ void CASW_Weapon_Laser_Mines::DelayedAttack( void )
 				{
 					// trace down again
 					vecDest = vecNewDest;
-					UTIL_TraceLine( vecDest, vecDest - Vector( 0, 0, 128 ), MASK_SOLID, pMarine, COLLISION_GROUP_NONE, &tr );
+					UTIL_TraceLine( vecDest, vecDest - Vector( 0, 0, 128 ), MASK_SOLID, pMarine, COLLISION_GROUP_DEBRIS, &tr );
 				}
 			}
 			else
 			{
-				UTIL_TraceLine( vecDest, vecDest - Vector( 0, 0, 128 ), MASK_SOLID, pMarine, COLLISION_GROUP_NONE, &tr );
+				UTIL_TraceLine( vecDest, vecDest - Vector( 0, 0, 128 ), MASK_SOLID, pMarine, COLLISION_GROUP_DEBRIS, &tr );
 			}
 			if ( tr.startsolid )
 				continue;
@@ -213,13 +213,13 @@ void CASW_Weapon_Laser_Mines::DelayedAttack( void )
 		}
 		else
 		{					
-			UTIL_TraceLine( vecSrc, vecSrc + vecMineAiming * flDeployDistance, MASK_SOLID, pMarine, COLLISION_GROUP_NONE, &tr );
+			UTIL_TraceLine( vecSrc, vecSrc + vecMineAiming * flDeployDistance, MASK_SOLID, pMarine, COLLISION_GROUP_DEBRIS, &tr );
 
 			if ( tr.startsolid )		// if we started in solid, trace again from the marine's center
 			{
 				vecSrc.x = pMarine->WorldSpaceCenter().x;
 				vecSrc.y = pMarine->WorldSpaceCenter().y;
-				UTIL_TraceLine( vecSrc, vecSrc + vecMineAiming * flDeployDistance, MASK_SOLID, pMarine, COLLISION_GROUP_NONE, &tr );
+				UTIL_TraceLine( vecSrc, vecSrc + vecMineAiming * flDeployDistance, MASK_SOLID, pMarine, COLLISION_GROUP_DEBRIS, &tr );
 				if ( tr.startsolid )
 					continue;
 			}
@@ -232,7 +232,7 @@ void CASW_Weapon_Laser_Mines::DelayedAttack( void )
 				if ( vecDest.DistTo( vecSrc ) > flDeployDistance )
 				{
 					trace_t tr2;
-					UTIL_TraceLine( tr.endpos, tr.endpos + Vector( 0, 0, -128 ), MASK_SOLID, pMarine, COLLISION_GROUP_NONE, &tr2 );
+					UTIL_TraceLine( tr.endpos, tr.endpos + Vector( 0, 0, -128 ), MASK_SOLID, pMarine, COLLISION_GROUP_DEBRIS, &tr2 );
 					tr = tr2;
 				}
 				else
@@ -244,7 +244,7 @@ void CASW_Weapon_Laser_Mines::DelayedAttack( void )
 						Vector vecPerpendicular;
 						VectorRotate( vecAiming, QAngle( 0, 90, 0 ), vecPerpendicular );
 						Vector vecNewDest = vecDest + vecPerpendicular * ( ( i == 0 ) ? 32 : -32 );
-						UTIL_TraceLine( vecDest, vecNewDest, MASK_SOLID, pMarine, COLLISION_GROUP_NONE, &tr );		// trace out to the sides
+						UTIL_TraceLine( vecDest, vecNewDest, MASK_SOLID, pMarine, COLLISION_GROUP_DEBRIS, &tr );		// trace out to the sides
 						if ( tr.startsolid )
 							continue;
 
@@ -252,12 +252,12 @@ void CASW_Weapon_Laser_Mines::DelayedAttack( void )
 						{
 							// trace down again
 							vecDest = vecNewDest;
-							UTIL_TraceLine( vecDest, vecDest - Vector( 0, 0, 128 ), MASK_SOLID, pMarine, COLLISION_GROUP_NONE, &tr );
+							UTIL_TraceLine( vecDest, vecDest - Vector( 0, 0, 128 ), MASK_SOLID, pMarine, COLLISION_GROUP_DEBRIS, &tr );
 						}
 					}
 					else
 					{
-						UTIL_TraceLine( vecDest, vecDest - Vector( 0, 0, 128 ), MASK_SOLID, pMarine, COLLISION_GROUP_NONE, &tr );
+						UTIL_TraceLine( vecDest, vecDest - Vector( 0, 0, 128 ), MASK_SOLID, pMarine, COLLISION_GROUP_DEBRIS, &tr );
 					}
 				}
 				
