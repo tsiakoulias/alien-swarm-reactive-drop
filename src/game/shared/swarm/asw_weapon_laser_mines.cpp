@@ -111,12 +111,10 @@ void CASW_Weapon_Laser_Mines::PrimaryAttack( void )
 	{
 #ifdef CLIENT_DLL
 		if ( !prediction->InPrediction() || prediction->IsFirstTimePredicted() )
+#endif
 		{
 			pMarine->DoAnimationEvent( PLAYERANIMEVENT_THROW_GRENADE );
 		}
-#else
-		pMarine->DoAnimationEvent( PLAYERANIMEVENT_THROW_GRENADE );
-#endif
 
 		// start our delayed attack
 		m_bShotDelayed = true;
