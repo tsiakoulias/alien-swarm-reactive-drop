@@ -188,8 +188,8 @@ void CASW_Laser_Mine::SpawnFlipThink()
 	{
 		if ( !m_bIsSpawnLanded )
 		{
-			Vector vecVelStop( 0,0,0 );
-			SetAbsVelocity( vecVelStop );
+			CBaseEntity *pParent = GetMoveParent();
+			SetAbsVelocity( pParent ? pParent->GetAbsVelocity() : Vector( 0, 0, 0 ) );
 
 			SetAbsOrigin( m_vecSpawnFlipEndPos );
 
