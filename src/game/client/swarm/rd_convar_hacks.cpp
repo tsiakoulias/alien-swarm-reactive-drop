@@ -190,3 +190,89 @@ public:
 		pConVar->SetValue( szNewDefault );
 	}
 } s_RD_Convar_Hacks;
+
+
+
+static bool ConCommandBaseSortFunc( const ConCommandBase* const &hLeftCMD, const ConCommandBase* const &hRightCMD )
+{ 
+	const char* szLeftCMDName = hLeftCMD->GetName();
+	const char* szRightCMDName = hRightCMD->GetName();
+
+	if ( *szLeftCMDName == '-' || *szLeftCMDName == '+' )
+		szLeftCMDName++;
+	if ( *szRightCMDName == '-' || *szRightCMDName == '+' )
+		szRightCMDName++;
+
+	return ( Q_stricmp( szLeftCMDName, szRightCMDName ) < 0 );
+}
+
+CON_COMMAND( cvarlist_rd, "Prints a list of all cvars, with correct values (unlike normal cvarlist)." )
+{
+	ConMsg( "cvar list\n--------------\n" );
+
+	const ConCommandBase* pCMD;
+	ICvar::Iterator cvariterator( g_pCVar );
+	CUtlRBTree< const ConCommandBase* > cvarsorted( 0, 0, ConCommandBaseSortFunc );
+
+	for ( cvariterator.SetFirst(); cvariterator.IsValid(); cvariterator.Next() )
+	{  
+		pCMD = cvariterator.Get();
+
+		if ( pCMD->IsFlagSet( FCVAR_HIDDEN ) || pCMD->IsFlagSet( FCVAR_DEVELOPMENTONLY ) )
+			continue;
+
+		cvarsorted.Insert( pCMD );
+	}
+
+	for ( int i = cvarsorted.FirstInorder(); i != cvarsorted.InvalidIndex(); i = cvarsorted.NextInorder( i ) )
+    {
+        pCMD = cvarsorted[ i ];
+        if ( pCMD->IsCommand() )
+        {
+			char tempbuff[512]{};
+			ConMsg( "%-40s : %-8s : %-16s : %s\n", pCMD->GetName(), "cmd", "", pCMD->GetHelpText() );
+        }
+        else
+        {
+			char szFullFlags[128]{};
+
+			constexpr static const char* s_szFlagDesc[] =
+			{
+				"",
+				"",
+				"sv",
+				"cl",
+				"",
+				"prot",
+				"sp",
+				"a",
+				"nf",
+				"user",
+				"print",
+				"log",
+				"numeric",
+				"rep",
+				"cheat",
+				"",
+				"demo",
+				"norecord",
+			};
+
+			for ( int c = 2; c < ARRAYSIZE( s_szFlagDesc ); ++c )
+			{
+				char szFlag[32]{};
+
+				if ( pCMD->IsFlagSet( 1<<c ) && sizeof( s_szFlagDesc[c] ) != sizeof( "" ) )
+				{
+					Q_snprintf( szFlag, sizeof( szFlag ), ", %s", s_szFlagDesc[c] );
+					Q_strncat( szFullFlags, szFlag, sizeof( szFullFlags ), COPY_ALL_CHARACTERS );
+				}
+			}
+			
+			char tempbuff[512]{};
+			ConMsg( "%-40s : %-8s : %-16s : %s\n", pCMD->GetName(), dynamic_cast< const ConVar* >( pCMD )->GetString(), szFullFlags, pCMD->GetHelpText() );
+        }
+    }
+
+	ConMsg("--------------\n%3i total convars/concommands\n", cvarsorted.Count() );
+}
