@@ -599,6 +599,9 @@ CBaseEntity *CGlobalEntityList::FindEntityByClassname( CBaseEntity *pStartEntity
 			continue;
 		}
 
+		if ( pEntity->IsMarkedForDeletion() )
+			continue;
+
 		if ( pEntity->ClassMatches(szName) )
 			return pEntity;
 	}
@@ -727,6 +730,9 @@ CBaseEntity *CGlobalEntityList::FindEntityByName( CBaseEntity *pStartEntity, con
 			continue;
 		}
 
+		if ( ent->IsMarkedForDeletion() )
+			continue;
+
 		if ( !ent->m_iName.Get() )
 			continue;
 
@@ -788,6 +794,9 @@ CBaseEntity *CGlobalEntityList::FindEntityByModel( CBaseEntity *pStartEntity, co
 			continue;
 		}
 
+		if ( ent->IsMarkedForDeletion() )
+			continue;
+
 		if ( !ent->edict() || !ent->GetModelName() )
 			continue;
 
@@ -817,6 +826,9 @@ CBaseEntity	*CGlobalEntityList::FindEntityByTarget( CBaseEntity *pStartEntity, c
 			DevWarning( "NULL entity in global entity list!\n" );
 			continue;
 		}
+
+		if ( ent->IsMarkedForDeletion() )
+			continue;
 
 		if ( !ent->m_target )
 			continue;
@@ -889,6 +901,9 @@ CBaseEntity *CGlobalEntityList::FindEntityInSphere( CBaseEntity *pStartEntity, c
 			DevWarning( "NULL entity in global entity list!\n" );
 			continue;
 		}
+
+		if ( ent->IsMarkedForDeletion() )
+			continue;
 
 		if ( !ent->edict() )
 			continue;
