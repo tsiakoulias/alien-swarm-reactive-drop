@@ -188,11 +188,8 @@ void CASW_Laser_Mine::SpawnFlipThink()
 	{
 		if ( !m_bIsSpawnLanded )
 		{
-			Vector vecVelStop( 0,0,0 );
-			SetAbsVelocity( vecVelStop );
-
+			SetLocalVelocity( vec3_origin );
 			SetAbsOrigin( m_vecSpawnFlipEndPos );
-
 
 			QAngle angVel( 0, 0, 0 );
 			SetLocalAngularVelocity( angVel );
