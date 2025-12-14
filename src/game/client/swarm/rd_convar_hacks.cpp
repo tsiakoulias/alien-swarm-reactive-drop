@@ -270,7 +270,7 @@ CON_COMMAND( cvarlist_rd, "Prints a list of all cvars, with correct values (unli
 			}
 			
 			char tempbuff[512]{};
-			ConMsg( "%-40s : %-8s : %-16s : %s\n", pCMD->GetName(), dynamic_cast< const ConVar* >( pCMD )->GetString(), szFullFlags, pCMD->GetHelpText() );
+			ConMsg( "%-40s : %-8s : %-16s : %s\n", pCMD->GetName(), static_cast< const ConVar* >( pCMD )->GetDefault(), szFullFlags, pCMD->GetHelpText() );
         }
     }
 
