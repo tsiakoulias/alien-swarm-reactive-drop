@@ -3476,13 +3476,13 @@ void CASW_Marine::ScriptGiveAmmo( int iCount, int iAmmoIndex )
 	GiveAmmo( iCount, iAmmoIndex, false );
 }
 
-void CASW_Marine::ScriptGiveWeapon( const char *pszName, int slot )
+HSCRIPT CASW_Marine::ScriptGiveWeapon( const char *pszName, int slot )
 {
 	CASW_Weapon* pWeapon = dynamic_cast<CASW_Weapon*>(Weapon_Create(pszName));
 	if ( !pWeapon )
 	{
 		Msg( "NULL Ent in GiveWeapon!\n" );
-		return;
+		return NULL;
 	}
 
 	int weaponIndex = GetWeaponPositionForPickup( pWeapon->GetClassname(), pWeapon->m_bIsTemporaryPickup );
@@ -3505,6 +3505,8 @@ void CASW_Marine::ScriptGiveWeapon( const char *pszName, int slot )
 		int iClips = GetAmmoDef()->MaxCarry( pWeapon->GetPrimaryAmmoType(), this );
 		GiveAmmo( iClips, pWeapon->GetPrimaryAmmoType(), true );
 	}
+
+	return ToHScript( pWeapon );
 }
 
 bool CASW_Marine::ScriptDropWeapon( int iWeaponIndex )
