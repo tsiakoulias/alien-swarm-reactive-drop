@@ -214,7 +214,9 @@ namespace
 		"rd-bonus_mission6",
 		"rd-bonus_mission7",
 		"rd-bonus10_sewrev",
+		"rd-bonus11_synrev",
 		"rd-bonus12_rydrev",
+		"rd-bonus13_deimrev",
 		"rd-bonus14_cargrev",
 		"rd-bonus15_landrev",
 	};
@@ -239,7 +241,9 @@ namespace
 		"rd-bonus_mission6",
 		"rd-bonus_mission7",
 		"rd-bonus10_sewrev",
+		"rd-bonus11_synrev",
 		"rd-bonus12_rydrev",
+		"rd-bonus13_deimrev",
 		"rd-bonus14_cargrev",
 		"rd-bonus15_landrev",
 	};
