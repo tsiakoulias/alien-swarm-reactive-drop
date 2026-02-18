@@ -1061,10 +1061,11 @@ public:
 
 		if ( iTierBefore < iTierAfter && pNPC && pOwner )
 		{
+			int64_t iCountForTierAfter = CountForStrangeTier(iTierAfter);
 #ifdef CLIENT_DLL
 			if ( CASWHud3DMarineNames *pMarineNames = assert_cast< CASWHud3DMarineNames * >( GetHud().FindElement( "ASWHud3DMarineNames" ) ) )
 			{
-				pMarineNames->OnStrangeDeviceTierNotification( pOwner, pNPC, instance.m_iItemDefID, iAccessoryID, iPropertyIndex, iCounterAfter );
+				pMarineNames->OnStrangeDeviceTierNotification( pOwner, pNPC, instance.m_iItemDefID, iAccessoryID, iPropertyIndex, iCountForTierAfter );
 			}
 #else
 			CReliableBroadcastRecipientFilter filter;
@@ -1075,7 +1076,7 @@ public:
 				WRITE_UBITLONG( instance.m_iItemDefID, RD_ITEM_ID_BITS );
 				WRITE_UBITLONG( iAccessoryID, RD_ITEM_ACCESSORY_BITS );
 				WRITE_UBITLONG( iPropertyIndex, 2 ); // 1 extra bit for possible future use
-				WRITE_BITS( &iCounterAfter, 64 );
+				WRITE_BITS( &iCountForTierAfter, 64 );
 			MessageEnd();
 #endif
 		}
