@@ -8,11 +8,82 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+static ConVar rd_debug_amd_shadow_workaround("rd_debug_amd_shadow_workaround", "-1", FCVAR_NONE, "Disables some video crashes on specific AMD GPUs [0 = disable (possibly crash), 1 = enable, -1 auto detect] ");
+
+inline bool IsAffectedByAmdShadowBug()
+{
+	if (rd_debug_amd_shadow_workaround.GetInt() == -1) {
+
+		MaterialAdapterInfo_t info;
+		g_pMaterialSystem->GetDisplayAdapterInfo(0, info);
+
+		// XXX: debug
+		//const char* driverName = "AMD Radeon RX 7900 XTX";
+		const char* driverName = info.m_pDriverName;
+
+		DevMsg("Detected GPU: %s\n", info.m_pDriverName);
+
+		// if AMD
+		if (info.m_VendorID == 0x1002) {
+			// navi 32
+			if (strstr(driverName, "7700")) return true;
+			if (strstr(driverName, "7800")) return true;
+			if (strstr(driverName, "7900")) return true;
+			// navi 48
+			if (strstr(driverName, "9070")) return true;
+			// navi 48 pro
+			if (strstr(driverName, "R9600")) return true;
+			if (strstr(driverName, "R9700")) return true;
+		}
+
+		return false;
+	}
+
+	return rd_debug_amd_shadow_workaround.GetBool();
+}
+
+inline void DebugAmdShadowCrash()
+{
+	DevWarning("Enabling settings to reproduce crash on AMD GPUs...\n");
+
+	DevMsg("Disabling workaround..\n");
+	rd_debug_amd_shadow_workaround.SetValue(0);
+
+	DevMsg("Setting [rd_env_projectedtexture_enabled] to 1\n");
+	ConVarRef rd_env_projectedtexture_enabled("rd_env_projectedtexture_enabled");
+	rd_env_projectedtexture_enabled.SetValue(1);
+
+	DevMsg("Setting [rd_flashlightshadows] to 1\n");
+	ConVarRef rd_flashlightshadows("rd_flashlightshadows");
+	rd_flashlightshadows.SetValue(1);
+
+	DevMsg("Conditions set, now load a game or lobby to trigger the crash.\n");
+}
+
+static ConCommand rd_debug_amd_shadow_crash("rd_debug_amd_shadow_crash", DebugAmdShadowCrash, "Forces the game to set exact conditions to test the AMD shadow crash. Debug only", FCVAR_NONE);
+
+
 static class CRD_VideoConfigVariableListHack : public CAutoGameSystem
 {
 public:
 	CRD_VideoConfigVariableListHack() : CAutoGameSystem{ "CRD_VideoConfigVariableListHack" }
 	{
+	}
+
+	virtual bool Init() override
+	{
+		if (IsAffectedByAmdShadowBug()) {
+			Warning("Your GPU is affected by a shadow bug, disabling some video options to prevent a crash..\n");
+
+			DevMsg("Setting [rd_env_projectedtexture_enabled] to 0\n");
+			ConVarRef rd_env_projectedtexture_enabled("rd_env_projectedtexture_enabled");
+			rd_env_projectedtexture_enabled.SetValue(0);
+
+			DevMsg("Setting [rd_flashlightshadows] to 0\n");
+			ConVarRef rd_flashlightshadows("rd_flashlightshadows");
+			rd_flashlightshadows.SetValue(0);
+		}
+		return true;
 	}
 
 	void PostInit() override
@@ -206,6 +277,8 @@ static void GenerateWindowedModes( CUtlVector< vmode_t > &windowedModes, int nCo
 CRD_VGUI_Settings_Video::CRD_VGUI_Settings_Video( vgui::Panel *parent, const char *panelName ) :
 	BaseClass( parent, panelName )
 {
+	bool amdBugAffectedGpu = IsAffectedByAmdShadowBug();
+
 	m_pSettingScreenResolution = new CRD_VGUI_Option( this, "SettingScreenResolution", "#rd_video_screen_resolution", CRD_VGUI_Option::MODE_DROPDOWN );
 	m_pSettingScreenResolution->AddActionSignalTarget( this );
 	m_pSettingDisplayMode = new CRD_VGUI_Option( this, "SettingDisplayMode", "#rd_video_display_mode", CRD_VGUI_Option::MODE_DROPDOWN );
@@ -295,13 +368,21 @@ CRD_VGUI_Settings_Video::CRD_VGUI_Settings_Video( vgui::Panel *parent, const cha
 	m_pSettingBloomScale->SetDefaultHint( "#rd_video_bloom_scale_hint" );
 	m_pSettingBloomScale->LinkToConVar( "mat_bloom_scalefactor_scalar", false );
 	m_pSettingProjectedTextures = new CRD_VGUI_Option( this, "SettingProjectedTextures", "#rd_video_projected_textures", CRD_VGUI_Option::MODE_DROPDOWN );
-	m_pSettingProjectedTextures->AddOption( 0, "#rd_video_effect_disabled", "#rd_video_projected_textures_hint" );
-	m_pSettingProjectedTextures->AddOption( 1, "#rd_video_effect_enabled", "#rd_video_projected_textures_hint" );
+	m_pSettingProjectedTextures->AddOption(0, "#rd_video_effect_disabled", "#rd_video_projected_textures_hint");
+
+	if (!amdBugAffectedGpu) {
+		m_pSettingProjectedTextures->AddOption(1, "#rd_video_effect_enabled", "#rd_video_projected_textures_hint");
+	}
+
 	m_pSettingProjectedTextures->SetDefaultHint( "#rd_video_projected_textures_hint" );
 	m_pSettingProjectedTextures->LinkToConVar( "rd_env_projectedtexture_enabled", false );
 	m_pSettingFlashlightShadows = new CRD_VGUI_Option( this, "SettingFlashlightShadows", "#rd_video_flashlight_shadows", CRD_VGUI_Option::MODE_DROPDOWN );
 	m_pSettingFlashlightShadows->AddOption( 0, "#rd_video_effect_disabled", "#rd_video_flashlight_shadows_hint" );
-	m_pSettingFlashlightShadows->AddOption( 1, "#rd_video_effect_enabled", "#rd_video_flashlight_shadows_hint" );
+	
+	if (!amdBugAffectedGpu) {
+		m_pSettingFlashlightShadows->AddOption(1, "#rd_video_effect_enabled", "#rd_video_flashlight_shadows_hint");
+	}
+
 	m_pSettingFlashlightShadows->SetDefaultHint( "#rd_video_flashlight_shadows_hint" );
 	m_pSettingFlashlightShadows->LinkToConVar( "rd_flashlightshadows", false );
 	m_pSettingFlashlightLightSpill = new CRD_VGUI_Option( this, "SettingFlashlightLightSpill", "#rd_video_flashlight_light_spill", CRD_VGUI_Option::MODE_DROPDOWN );
