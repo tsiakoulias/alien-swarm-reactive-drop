@@ -26,14 +26,14 @@ inline bool IsAffectedByAmdShadowBug()
 		// if AMD
 		if (info.m_VendorID == 0x1002) {
 			// navi 32
-			if (strstr(driverName, "7700") != null) return true;
-			if (strstr(driverName, "7800") != null) return true;
-			if (strstr(driverName, "7900") != null) return true;
+			if (strstr(driverName, "7700")) return true;
+			if (strstr(driverName, "7800")) return true;
+			if (strstr(driverName, "7900")) return true;
 			// navi 48
-			if (strstr(driverName, "9070") != null) return true;
+			if (strstr(driverName, "9070")) return true;
 			// navi 48 pro
-			if (strstr(driverName, "R9600") != null) return true;
-			if (strstr(driverName, "R9700") != null) return true;
+			if (strstr(driverName, "R9600")) return true;
+			if (strstr(driverName, "R9700")) return true;
 		}
 
 		return false;
