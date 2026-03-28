@@ -1061,7 +1061,7 @@ public:
 
 		if ( iTierBefore < iTierAfter && pNPC && pOwner )
 		{
-			int64_t iCountForTierAfter = CountForStrangeTier(iTierAfter);
+			const int64_t iCountForTierAfter = pAccessoryDef->CountForStrangeTier(iTierAfter);
 #ifdef CLIENT_DLL
 			if ( CASWHud3DMarineNames *pMarineNames = assert_cast< CASWHud3DMarineNames * >( GetHud().FindElement( "ASWHud3DMarineNames" ) ) )
 			{
