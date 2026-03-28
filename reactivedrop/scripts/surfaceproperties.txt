@@ -562,7 +562,8 @@
 "gravel"
 {
 	"base"		"rock"
-	"friction"	"0.4"
+// asrd no sliding, feels horrible
+// "friction"	"0.4"
 	"stepleft"	"Gravel.StepLeft"
 	"stepright""Gravel.StepRight"
 }
