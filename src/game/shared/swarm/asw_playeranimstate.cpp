@@ -191,6 +191,7 @@ private:
 	int m_iReloadSequence;
 	float m_flReloadBlendOut, m_flReloadBlendIn;
 	float m_fReloadPlaybackRate;
+	float m_fReloadAnimTime;
 
 	bool m_bWeaponSwitching;
 	float m_flWeaponSwitchCycle;
@@ -340,15 +341,17 @@ void CASWPlayerAnimState::DoAnimationEvent( PlayerAnimEvent_t event )
 				fReloadTime *= MarineSkills()->GetSkillBasedValueByMarine( pMarine, ASW_MARINE_SKILL_RELOADING, ASW_MARINE_SUBSKILL_RELOADING_SPEED_SCALE );
 			}
 
-			// calc playback rate needed to play the whole anim in this time
+			// calc playback time needed to play the whole anim
 			// normal weapon reload anim is 48fps and 105 frames = 2.1875 seconds
 			// normal weapon reload time in script is 2.2 seconds
 			// pistol weapon reload anim is 38fps and 38 frames = 1 second
 			// pistol weapon reload time in script is 1.0 seconds
 			if (bShortReloadAnim)
-				m_fReloadPlaybackRate = 1.0f / fReloadTime; //38.0f / (fReloadTime * 38.0f);
+				m_fReloadAnimTime = 1.0f; // 38.0f / 38.0f;
 			else
-				m_fReloadPlaybackRate = 105.6f / (fReloadTime * 48.0f);
+				m_fReloadAnimTime = 105.6f / 48.0f;
+
+			m_fReloadPlaybackRate = m_fReloadAnimTime / fReloadTime;
 
 			m_bReloading = true;
 			m_flReloadCycle = 0;
