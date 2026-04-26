@@ -370,6 +370,18 @@ void CASWPlayerAnimState::DoAnimationEvent( PlayerAnimEvent_t event )
 	}
 	else if ( event == PLAYERANIMEVENT_RELOAD_FAIL )
 	{
+		if ( m_bReloading == true && m_flReloadCycle < 1.0f )
+		{
+			// readjust animation speed to match new attack delay
+			const float fFailReloadMinDelay = 2.0f;
+
+			CASW_Marine *pOuter = CASW_Marine::AsMarine( GetOuter() );
+			CASW_Weapon *pWeapon = pOuter ? pOuter->GetActiveASWWeapon() : NULL;
+			const float fFailReloadTime = pWeapon ? pWeapon->GetReloadFailTime() : fFailReloadMinDelay;
+
+			const float fRemainingCycle = 1.0f - m_flReloadCycle;
+			m_fReloadPlaybackRate = m_fReloadAnimTime * fRemainingCycle / fFailReloadTime;
+		}
 	}
 	else if ( event == PLAYERANIMEVENT_DROP_MAGAZINE_GIB )
 	{
