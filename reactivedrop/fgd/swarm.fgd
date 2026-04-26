@@ -3002,6 +3002,7 @@
 		1 : "Special Weapons"
 		2 : "Medic"
 		3 : "Tech"
+		999 : "Any"
 	]
 ]
 
