@@ -3000,9 +3000,9 @@ bool CASW_Marine::TakeWeaponPickup( CASW_Weapon *pWeapon )
 	// check we're allowed to take this item
 	bool bAllowed = true;
 	if (pOldWeapon)	// we're swapping with an existing weapon
-		bAllowed = ASWGameRules()->MarineCanPickup(GetMarineResource(), pWeapon->GetClassname(), pOldWeapon->GetClassname());
+		bAllowed = ASWGameRules()->MarineCanPickup(GetMarineResource(), pWeapon->GetClassname(), pOldWeapon->GetClassname(), pWeapon->m_iClassRequirementOverride);
 	else	// we're putting it into an empty slot
-		bAllowed = ASWGameRules()->MarineCanPickup(GetMarineResource(), pWeapon->GetClassname());
+		bAllowed = ASWGameRules()->MarineCanPickup(GetMarineResource(), pWeapon->GetClassname(), NULL, pWeapon->m_iClassRequirementOverride);
 	if (!bAllowed)
 		return false;
 
@@ -3096,11 +3096,11 @@ bool CASW_Marine::TakeWeaponPickup(CASW_Pickup_Weapon* pPickup)
 	bool bAllowed = true;
 	if ( pWeapon )	// we're swapping with an existing weapon
 	{
-		bAllowed = ASWGameRules()->MarineCanPickup( GetMarineResource(), pPickup->GetWeaponClass(), pWeapon->GetClassname() );
+		bAllowed = ASWGameRules()->MarineCanPickup( GetMarineResource(), pPickup->GetWeaponClass(), pWeapon->GetClassname(), pPickup->m_iClassRequirementOverride );
 	}
 	else	// we're putting it into an empty slot
 	{
-		bAllowed = ASWGameRules()->MarineCanPickup( GetMarineResource(), pPickup->GetWeaponClass() );
+		bAllowed = ASWGameRules()->MarineCanPickup( GetMarineResource(), pPickup->GetWeaponClass(), NULL, pPickup->m_iClassRequirementOverride );
 	}
 
 	if ( !bAllowed )
