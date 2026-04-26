@@ -357,6 +357,12 @@ void CASWPlayerAnimState::DoAnimationEvent( PlayerAnimEvent_t event )
 			m_flReloadCycle = 0;
 		}
 	}
+	else if ( event == PLAYERANIMEVENT_RELOAD_SUCCEED )
+	{
+	}
+	else if ( event == PLAYERANIMEVENT_RELOAD_FAIL )
+	{
+	}
 	else if ( event == PLAYERANIMEVENT_DROP_MAGAZINE_GIB )
 	{
 #ifdef CLIENT_DLL

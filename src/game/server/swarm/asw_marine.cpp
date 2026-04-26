@@ -504,6 +504,8 @@ void CASW_Marine::DoAnimationEvent( PlayerAnimEvent_t event )
 {
 	if (gpGlobals->maxClients > 1 && 
 				(event == PLAYERANIMEVENT_RELOAD || event == PLAYERANIMEVENT_JUMP || event == PLAYERANIMEVENT_WEAPON_SWITCH
+				|| event == PLAYERANIMEVENT_RELOAD_SUCCEED
+				|| event == PLAYERANIMEVENT_RELOAD_FAIL
 				|| event == PLAYERANIMEVENT_HEAL || event == PLAYERANIMEVENT_KICK || event == PLAYERANIMEVENT_THROW_GRENADE
 				|| event == PLAYERANIMEVENT_BAYONET || event == PLAYERANIMEVENT_PICKUP
 				|| ( event >= PLAYERANIMEVENT_MELEE && event <= PLAYERANIMEVENT_MELEE_LAST )
