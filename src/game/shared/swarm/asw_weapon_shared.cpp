@@ -181,7 +181,6 @@ void CASW_Weapon::ItemBusyFrame( void )
 				pMarine->DoAnimationEvent( PLAYERANIMEVENT_RELOAD_SUCCEED );
 
 				DispatchParticleEffect( "fast_reload", PATTACH_POINT_FOLLOW, this, "muzzle" );
-				pMarine->m_flPreventLaserSightTime = gpGlobals->curtime + 2.5f;
 
 #ifdef GAME_DLL
 				pMarine->m_nFastReloadsInARow++;
