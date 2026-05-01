@@ -132,7 +132,6 @@ void CASW_Grenade_Cluster::Spawn( void )
 		SetThink( &CASW_Grenade_Cluster::CheckNearbyDrones );
 		SetNextThink( gpGlobals->curtime + asw_cluster_grenade_radius_check_interval.GetFloat() );
 	}
-	m_CreatorWeaponClass = (Class_T)CLASS_ASW_UNKNOWN;
 
 	m_bTeslaAmped = false;
 
