@@ -1700,7 +1700,7 @@ bool CASW_Weapon::AllowedToPickup( CASW_Inhabitable_NPC *pNPC )
 	const char *szSwappingClass = pWeapon ? pWeapon->GetClassname() : "";
 
 	// first check if the gamerules will allow it
-	bool bAllowed = ASWGameRules()->MarineCanPickup( pMarine->GetMarineResource(), GetClassname(), szSwappingClass );
+	bool bAllowed = ASWGameRules()->MarineCanPickup( pMarine->GetMarineResource(), GetClassname(), szSwappingClass, m_iClassRequirementOverride );
 #ifdef CLIENT_DLL
 	m_bSwappingWeapon = ( pWeapon != NULL );
 #endif
