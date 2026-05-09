@@ -126,6 +126,8 @@ ConVar rd_drop_magazine_spin( "rd_drop_magazine_spin", "1000", FCVAR_NONE, "Amou
 ConVar rd_drop_magazine_lifetime( "rd_drop_magazine_lifetime", "4", FCVAR_NONE, "Time before a dropped magazine fades" );
 ConVar rd_strange_device_model( "rd_strange_device_model", "0", FCVAR_NONE, "Should items with strange devices attached display them in the world?" );
 
+ConVar rd_autoaim_weapons("rd_autoaim_weapons", "1", FCVAR_NONE, "Enable auto-aim bonus for selected weapons (autogun, prifle)");
+
 extern ConVar asw_use_particle_tracers;
 extern ConVar muzzleflash_light;
 extern ConVar rd_show_others_laser_pointer;

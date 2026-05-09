@@ -23,7 +23,11 @@ public:
 	void Precache();
 
 	virtual const float GetAutoAimAmount() { return 0.26f; }
+#ifdef CLIENT_DLL
+	virtual const float GetAutoAimRadiusScale() { return rd_autoaim_weapons.GetBool() ? 1.5f : 1.0f; }
+#else
 	virtual const float GetAutoAimRadiusScale() { return 1.5f; }
+#endif // CLIENT_DLL
 	virtual float GetFireRate();
 	virtual float GetWeaponBaseDamageOverride();
 	virtual int GetWeaponSkillId();
