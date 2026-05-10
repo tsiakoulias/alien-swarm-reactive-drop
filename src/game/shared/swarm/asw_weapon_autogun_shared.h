@@ -28,7 +28,11 @@ public:
 	//float	GetFireRate( void ) { return 0.1f; }
 
 	virtual const float GetAutoAimAmount() { return 0.36f; }	
+#ifdef CLIENT_DLL
+	virtual const float GetAutoAimRadiusScale() { return rd_autoaim_weapons.GetBool() ? 1.5f : 1.0f; }
+#else
 	virtual const float GetAutoAimRadiusScale() { return 1.5f; }
+#endif // CLIENT_DLL
 	virtual bool ShouldFlareAutoaim() { return true; }
 	virtual const Vector& GetBulletSpread( void );
 

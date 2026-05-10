@@ -17,6 +17,8 @@ class C_BreakableProp;
 class CASW_EquipItem;
 class C_RD_Weapon_Accessory;
 
+extern ConVar rd_autoaim_weapons;
+
 extern ConVar rd_ground_shooting;
 
 class C_ASW_Weapon : public C_BaseCombatWeapon, public IASW_Client_Usable_Entity
