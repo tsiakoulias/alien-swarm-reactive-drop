@@ -60,6 +60,18 @@ public:
 		"cl_cmdrate",
 	};
 
+	constexpr static const char *s_szAddDevelopmentOnly[] =
+	{
+		// Prevent plugin management commands from being used in configs on the client.
+		"plugin_print",
+		"plugin_load",
+		"plugin_unload",
+		"plugin_pause",
+		"plugin_unpause",
+		"plugin_pause_all",
+		"plugin_unpause_all",
+	};
+
 	virtual bool Init() override
 	{
 		Assert( g_pCVar );
@@ -116,6 +128,16 @@ public:
 				continue;
 
 			pCmd->RemoveFlags( FCVAR_ARCHIVE );
+		}
+
+		for ( int i = 0; i < NELEMS( s_szAddDevelopmentOnly ); i++ )
+		{
+			ConCommandBase *pCmd = g_pCVar->FindCommandBase( s_szAddDevelopmentOnly[i] );
+			Assert( pCmd );
+			if ( !pCmd )
+				continue;
+
+			pCmd->AddFlags( FCVAR_DEVELOPMENTONLY );
 		}
 
 		return true;
